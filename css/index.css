@@ -1,0 +1,28 @@
+body { 
+    font-family: 'Poppins', sans-serif; 
+    margin: 0; 
+    padding: 0;
+    background-color: #f3f4f6; /* Soft light grey */
+    /* color: #333; */
+}
+
+nav{
+    background-color: #191414;
+}
+
+
+/* .navbar-brand, .nav-item, .nav-link.active {
+    color: #1DB954;
+} */
+
+.navbar-brand, .nav-item, .nav-item.nav-link.active {
+    color: #1DB954;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #191414;
+    color: #1DB954;
+    margin-top: 2rem;
+}
