@@ -5,32 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/weather.css">
     <title>Moodsic</title>
 </head>
 <body>
     <div id="navbar"></div>
     <!-- CODE STARTS HERE -->
 
-    <h1>World City Weather Checker</h1>
+   
+    <div class="container text-center"> <!-- Container to center the content -->
+        <h1>World City Weather Checker</h1>
 
-    City Name:
-    <input type="text" id="city" value="Yakutsk">
-    <br><br>
+        <div class="mb-3"> <!-- Centering the input field and button -->
+            <label for="city" class="form-label">City Name:</label>
+            <input type="text" id="city" value="Yakutsk" class="form-control d-inline-block w-auto">
+            <br><br>
+            <button onclick="check_weather()" class="btn btn-primary">Check Weather</button>
+        </div>
 
-    <button onclick="check_weather()">
-        Check Weather
-    </button>
+        <h2>Weather</h2>
+        <div id="weather_images">
+            <div class="d-flex justify-content-center">
+                <img src="/mnt/data/30350f6d-0e70-408e-abce-9818c7f91e51.png" width="150px" class="mx-2">
+                <img src="/mnt/data/54d33c80-bda5-403c-b7db-e951e41517ad.png" width="150px" class="mx-2">
+            </div>
+        </div>
 
-     <h2>Weather</h2>
-    <div id="weather_images">
-        <p><img src="img/weather/question.jpg" width="150px"></p>
-        <p><img src="img/weather/question.jpg" width="150px"></p>
+        <hr>
+
+        <h2>Temperature</h2>
+        <div class="d-flex justify-content-center">
+            <img id="temperature_image" src="img/weather/question.jpg" width="150px">
+        </div>
     </div>
-    
-    <hr>
-    <h2>Temperature</h2>
-    <img id="temperature_image" src="img/weather/question.jpg" width="150px">
-
 
     <!-- CODE ENDS HERE -->
     <div id="footer"></div>

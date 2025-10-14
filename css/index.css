@@ -2,9 +2,8 @@ body {
     font-family: 'Poppins', sans-serif; 
     margin: 0; 
     padding: 0;
-    /* background-color: #f3f4f6; Soft light grey */
-    background-color: black;
-    color: #FFFFFF;
+    background-color: #f3f4f6; /* Soft light grey*/
+    /* color: #FFFFFF; */
     /* color: #333; */
 }
 
@@ -24,7 +23,7 @@ nav{
 footer {
     text-align: center;
     padding: 20px;
-    background-color: #191414;
-    color: #1DB954;
+    background-color: #A77799;
+    color: #FFFFFF;
     margin-top: 2rem;
 }
