@@ -9,12 +9,6 @@ const weather_type_images = {
     "Thunderstorm": "img/weather/thunderstorm.jpg"
 };
 
-const temp_images = {
-    "Hot": "img/weather/hot.jpg",   // Celsius > 25
-    "Okay": "img/weather/okay.jpg", // Celsius 5-25
-    "Cold": "img/weather/cold.jpg"  // Celsius < 5
-};
-
 function check_weather() {
     console.log("=== [START] check_weather() ===");
     const weather_api_key = 'bbc23dde07349494203ae99ffadebca4';
@@ -30,7 +24,6 @@ function check_weather() {
                 const longitude = position.coords.longitude;
                 console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 
-                // Modify API endpoint to use lat & lon
                 let api_endpoint = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weather_api_key}&units=metric`;
 
                 // Fetch weather data using lat & lon
@@ -38,29 +31,28 @@ function check_weather() {
                 .then(response => {
                     console.log(response.data);
 
-                    // 1) Retrieve weather info "Rain"
-                    let weather_images = [];
                     let weather_info_array = response.data.weather;
                     console.log(weather_info_array);
-                    for (weather_object of weather_info_array) {
+
+                    let weather_description = '';
+                    let weather_image = '';
+
+                    for (let weather_object of weather_info_array) {
                         let weather_info = weather_object.main;
-
-                        let weather_image = weather_type_images[weather_info];
-                        weather_images.push(weather_image);
+                        weather_description = weather_info;
+                        weather_image = weather_type_images[weather_description];
                     }
-                    console.log(weather_images);
 
-                    // 3) JavaScript DOM - Weather
-                    let weather_images_div = document.getElementById('weather_images');
-                    weather_images_div.innerHTML = '';
-                    for (image of weather_images) {
-                        let para = document.createElement('p');
-                        let img = document.createElement('img');
-                        img.setAttribute("src", image);
-                        para.appendChild(img);
-                        weather_images_div.appendChild(para);
-                    }
-                    
+                    console.log(weather_description, weather_image);
+
+                    let weather_text = document.getElementById('weather_text');
+                    let weather_image_div = document.getElementById('weather_images');
+                    let temp = document.getElementById('temp');
+
+                    weather_text.innerHTML = `<h2>The weather right now is...</h2><h3>${weather_description}</h3>`;
+                    weather_image_div.innerHTML = `<img src="${weather_image}" alt="${weather_description}" class="weather-icon">`;
+                    temp.style.display = 'none'
+
                 })
                 .catch(error => {
                     console.log(error.message);
@@ -80,4 +72,5 @@ function check_weather() {
     }
 
     console.log("=== [END] check_weather() ===");
+
 }

@@ -14,15 +14,17 @@
     <div id="navbar"></div>
     <!-- CODE STARTS HERE -->
     <div class="container"> 
-        <div id="weather_images">
-            <div class="weather-icon"><img src="img/weather/sun_icon.png" alt="Sunny"></div>
-            <div class="weather-icon"><img src="img/weather/cloud_icon.png" alt="Cloudy"></div>
-            <div class="weather-icon"><img src="img/weather/thunder_icon.png" alt="Stormy"></div>
+        <div id="weather_description" class="text-center">
+            <div id="weather_text"></div>
+            <div id="weather_images">
+                <div class="weather-icon"><img src="img/weather/sun_icon.png" alt="Sunny"></div>
+                <div class="weather-icon"><img src="img/weather/cloud_icon.png" alt="Cloudy"></div>
+                <div class="weather-icon"><img src="img/weather/thunder_icon.png" alt="Stormy"></div>
+            </div>
         </div>
 
-        <h1>The weather in your area right now is...</h1>
-
-        <div class="mb-3">
+        <div class="mb-3 text-center" id ="temp">
+            <h1>The weather in your area right now is...</h1>
             <button onclick="check_weather()" class="btn btn-primary sync-button">Sync now!</button>
         </div>
     </div>
