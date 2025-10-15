@@ -9,12 +9,8 @@ body {
 
 nav{
     background-color: #A77799;
+    margin-bottom: 20px;
 }
-
-
-/* .navbar-brand, .nav-item, .nav-link.active {
-    color: #1DB954;
-} */
 
 .navbar-brand, .nav-item, .nav-item.nav-link.active {
     color: #FFFFFF;

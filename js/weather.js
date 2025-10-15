@@ -37,12 +37,13 @@ function check_weather() {
         // 1) Retrieve weather info "Rain"
         let weather_images = [];
         let weather_info_array = response.data.weather
+        console.log(weather_info_array)
         for(weather_object of weather_info_array) {
             let weather_info = weather_object.main;
-            console.log(weather_info); // "Rain"
+            // console.log(weather_info); // "Rain"
 
             let weather_image = weather_type_images[weather_info];
-            console.log(weather_image);
+            // console.log(weather_image);
             weather_images.push(weather_image);
         }
         console.log(weather_images);
@@ -55,15 +56,12 @@ function check_weather() {
         let temp_label = '';
         if( temperature_info > 25 ) {
             temp_label = "Hot";
-            // console.log("I am Hot");
         }
         else if (temperature_info >= 5) {
             temp_label = "Okay";
-            // console.log("I am Okay");
         }
         else {
             temp_label = "Cold";
-            // console.log("I am Cold");
         }
 
         let temp_image = temp_images[temp_label];
@@ -85,8 +83,25 @@ function check_weather() {
         let temperature_image = document.getElementById('temperature_image');
         temperature_image.setAttribute("src", temp_image);
 
-
-
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+            },
+            (error) => {
+                console.error("Error getting location:", error.message);
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            }
+        );
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
         
     })
     .catch(error => {
