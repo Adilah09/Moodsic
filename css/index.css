@@ -1,15 +1,13 @@
 body { 
-    font-family: 'Poppins', sans-serif; 
+    font-family: "Alexandria", sans-serif;
+    color: white; 
     margin: 0; 
     padding: 0;
-    background-color: #f3f4f6; /* Soft light grey*/
-    /* color: #FFFFFF; */
-    /* color: #333; */
+    background-color: black;
 }
 
 nav{
-    background-color: #A77799;
-    margin-bottom: 20px;
+    background-color: #00b76c;
 }
 
 .navbar-brand, .nav-item, .nav-item.nav-link.active {
@@ -18,8 +16,8 @@ nav{
 
 footer {
     text-align: center;
-    padding: 20px;
-    background-color: #A77799;
+    padding: 10px;
+    background-color: #00b76c;
     color: #FFFFFF;
     margin-top: 2rem;
 }
