@@ -15,73 +15,13 @@ const temp_images = {
     "Cold": "img/weather/cold.jpg"  // Celsius < 5
 };
 
-
-// DO NOT CHANGE THE FUNCTION SIGNATURE
 function check_weather() {
-
     console.log("=== [START] check_weather() ===");
     const weather_api_key = 'bbc23dde07349494203ae99ffadebca4';
 
-    // const city = 'Singapore'; // Default value, you need to replace this string with actual user input
-    let city = document.getElementsByTagName("input")[0].value
-    console.log(city)
-
-    // DO NOT MODIFY THIS
-    let api_endpoint = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weather_api_key}&units=metric`;
-
-
-    axios.get(api_endpoint)
-    .then(response => {
-        console.log(response.data);
-        
-        // 1) Retrieve weather info "Rain"
-        let weather_images = [];
-        let weather_info_array = response.data.weather
-        console.log(weather_info_array)
-        for(weather_object of weather_info_array) {
-            let weather_info = weather_object.main;
-            // console.log(weather_info); // "Rain"
-
-            let weather_image = weather_type_images[weather_info];
-            // console.log(weather_image);
-            weather_images.push(weather_image);
-        }
-        console.log(weather_images);
-
-
-        // 2) Retrieve temperature (Celsius)
-        let temperature_info = response.data.main.temp;
-        console.log(temperature_info); // 30.xx (metric)
-
-        let temp_label = '';
-        if( temperature_info > 25 ) {
-            temp_label = "Hot";
-        }
-        else if (temperature_info >= 5) {
-            temp_label = "Okay";
-        }
-        else {
-            temp_label = "Cold";
-        }
-
-        let temp_image = temp_images[temp_label];
-        console.log(temp_label);
-        console.log(temp_image);
-
-        // 3) JavaScript DOM - Weather
-        let weather_images_div = document.getElementById('weather_images');
-        weather_images_div.innerHTML = '';
-        for(image of weather_images) {
-            let para = document.createElement('p');
-            let img = document.createElement('img');
-            img.setAttribute("src", image);
-            para.appendChild(img);
-            weather_images_div.appendChild(para);
-        }
-
-        // 4) JavaScript DOM - Temperature
-        let temperature_image = document.getElementById('temperature_image');
-        temperature_image.setAttribute("src", temp_image);
+    // Remove city input as we will use geolocation
+    // let city = document.getElementsByTagName("input")[0].value;
+    // console.log(city);
 
     if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
@@ -89,6 +29,42 @@ function check_weather() {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
                 console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
+                // Modify API endpoint to use lat & lon
+                let api_endpoint = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weather_api_key}&units=metric`;
+
+                // Fetch weather data using lat & lon
+                axios.get(api_endpoint)
+                .then(response => {
+                    console.log(response.data);
+
+                    // 1) Retrieve weather info "Rain"
+                    let weather_images = [];
+                    let weather_info_array = response.data.weather;
+                    console.log(weather_info_array);
+                    for (weather_object of weather_info_array) {
+                        let weather_info = weather_object.main;
+
+                        let weather_image = weather_type_images[weather_info];
+                        weather_images.push(weather_image);
+                    }
+                    console.log(weather_images);
+
+                    // 3) JavaScript DOM - Weather
+                    let weather_images_div = document.getElementById('weather_images');
+                    weather_images_div.innerHTML = '';
+                    for (image of weather_images) {
+                        let para = document.createElement('p');
+                        let img = document.createElement('img');
+                        img.setAttribute("src", image);
+                        para.appendChild(img);
+                        weather_images_div.appendChild(para);
+                    }
+                    
+                })
+                .catch(error => {
+                    console.log(error.message);
+                });
             },
             (error) => {
                 console.error("Error getting location:", error.message);
@@ -102,11 +78,6 @@ function check_weather() {
     } else {
         console.log("Geolocation is not supported by this browser.");
     }
-        
-    })
-    .catch(error => {
-        console.log(error.message);
-    })
-    
+
     console.log("=== [END] check_weather() ===");
 }

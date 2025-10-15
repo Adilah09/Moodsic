@@ -8,6 +8,7 @@ body {
 
 nav{
     background-color: #00b76c;
+    margin-bottom: 20px;
 }
 
 .navbar-brand, .nav-item, .nav-item.nav-link.active {
@@ -15,9 +16,16 @@ nav{
 }
 
 footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
     text-align: center;
-    padding: 10px;
+    width: 100%;
+    padding: 1rem;
     background-color: #00b76c;
-    color: #FFFFFF;
-    margin-top: 2rem;
+    color: white;
+}
+
+footer p{
+    margin: 0;
 }
