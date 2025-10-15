@@ -15,6 +15,15 @@ nav{
     color: #FFFFFF;
 }
 
+.btn{
+    background-color: #00b76c;
+    color: white;
+}
+
+.btn:hover{
+    background-color: #00b76c;
+}
+
 footer {
     position: fixed;
     bottom: 0;
