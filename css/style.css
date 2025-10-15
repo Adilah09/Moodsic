@@ -1,0 +1,255 @@
+/* RESET & FONT */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+  color: white;
+  transition: background 0.5s;
+}
+
+/* NAVBAR */
+.navbar {
+  background-color: #a17ba9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 2rem;
+}
+.logo {
+  background-color: #e5c7eb;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: black;
+}
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  position: relative;
+}
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+.nav-links a:hover {
+  color: #f3d2ff;
+}
+.profile {
+  background-color: #e5c7eb;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: black;
+}
+
+/* DROPDOWN */
+.nav-links li {
+  position: relative;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 10px 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  min-width: 140px;
+  z-index: 100;
+}
+.dropdown-content a {
+  display: block;
+  color: #6a4c93;
+  text-decoration: none;
+  padding: 8px 16px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+.dropdown-content a:hover {
+  background-color: #f3e2ff;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropbtn {
+  color: #6a4c93;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s;
+}
+.dropbtn:hover {
+  color: #b37cd2;
+}
+
+/* BUTTON */
+.login-btn {
+  background-color: black;
+  color: white;
+  border-radius: 20px;
+  border: 1px solid white;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.login-btn:hover {
+  background-color: #6a4c93;
+  border-color: #e5c7eb;
+}
+
+/* MAIN LOGIN SECTION */
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+.login-container, .homepage-container {
+  width: 500px;
+  max-width: 90%;
+  border-radius: 15px;
+  padding: 2.5rem 3rem;
+  text-align: center;
+  transition: 0.3s;
+}
+
+/* LOGIN STYLES */
+.login-container {
+  background-color: #121212;
+}
+.login-container h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.login-container h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+input[type="text"], input[type="password"] {
+  width: 100%;
+  padding: 0.7rem;
+  border: none;
+  border-radius: 20px;
+  background-color: #d3d3d3;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+.signup-link {
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* HOMEPAGE STYLES */
+.homepage-container {
+  display: none; /* hidden initially */
+  background: linear-gradient(135deg, #1b0f2b, #3d1f4d);
+  border-radius: 20px;
+  padding: 40px 30px;
+  color: #e5c7eb;
+  animation: fadeIn 0.5s ease forwards;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.95);}
+  to {opacity: 1; transform: scale(1);}
+}
+.homepage-container .greeting {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  transition: 0.3s;
+}
+.homepage-container .subtitle {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: #d3d3d3;
+  transition: 0.3s;
+}
+.mood-box {
+  background-color: #2b153f;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  transition: 0.3s;
+}
+.mood-box h3 {
+  margin-bottom: 10px;
+}
+.mood-input {
+  width: 80%;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: none;
+  text-align: center;
+  font-size: 1rem;
+  background-color: #e5c7eb;
+  color: black;
+  transition: 0.2s;
+}
+.mood-input:focus {
+  outline: 2px solid #b37cd2;
+}
+
+/* PLAYLIST CARDS */
+.playlist-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+.playlist-card {
+  background-color: #2b153f;
+  border-radius: 20px;
+  padding: 15px;
+  width: 150px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.playlist-card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(255, 192, 255, 0.5);
+}
+.playlist-card img {
+  width: 100%;
+  border-radius: 15px;
+}
+.playlist-card p {
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #e5c7eb;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 10px 0 20px 0;
+  font-size: 0.85rem;
+  color: #e5c7eb;
+  opacity: 0.8;
+}

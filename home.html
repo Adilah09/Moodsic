@@ -1,28 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/index.css">
-    <title>Moodsic</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moodsic</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="navbar"></div>
-    <!-- CODE STARTS HERE -->
-    <div class="jumbotron">
-        <h1 class="display-4">Hello, world!</h1>
-        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-        <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-        </p>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">🎵 Moodsic</div>
+
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Personality Quiz</a></li>
+    <!-- Dropdown Menu for MoodMatch -->
+    <li class="dropdown">
+      <a href="#" class="dropbtn">MoodMatch ▼</a>
+      <div class="dropdown-content">
+        <a href="#">Mood Input</a>
+        <a href="#">Word Cloud</a>
+      </div>
+    </li>
+    <li><a href="#">Weather</a></li>
+    <li><a href="#">My Playlists</a></li>
+  </ul>
+
+  <div class="profile" id="profileName">melodysohhh</div>
+</nav>
+
+
+<main>
+  <!-- LOGIN -->
+  <div class="login-container" id="loginContainer">
+    <h1 id="greeting">Good afternoon,</h1>
+    <h2>Please log into your account</h2>
+    <form>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password">
+      <button class="login-btn" id="loginBtn">Login</button>
+      <p style="margin-top: 1rem;">
+        Don't have an account? <span class="signup-link">Sign up</span>
+      </p>
+    </form>
+  </div>
+
+  <!-- HOMEPAGE -->
+  <div class="homepage-container" id="homepageContainer">
+    <div class="greeting" id="userGreeting">Hi, user!</div>
+    <div class="subtitle">discover your vibe today 🎧</div>
+
+    <div class="mood-box">
+      <h3>how are you feeling right now?</h3>
+      <input type="text" class="mood-input" id="moodInput" placeholder="e.g. happy, chill, tired">
     </div>
 
-    <!-- CODE ENDS HERE -->
-    <div id="footer"></div>
-    <script src="js/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <div class="section-title">✨ featured playlists</div>
+    <div class="playlist-grid" id="playlistGrid">
+      <div class="playlist-card">
+        <img src="https://i.scdn.co/image/ab67706f000000032c176d2a1b51b7f9e6d2c56b" alt="">
+        <p>Hot Hits 🌸</p>
+      </div>
+      <div class="playlist-card">
+        <img src="https://i.scdn.co/image/ab67616d00001e022f3c4a50ce2db0a1db0a3ff3" alt="">
+        <p>Rap Caviar 🎤</p>
+      </div>
+      <div class="playlist-card">
+        <img src="https://i.scdn.co/image/ab67706f0000000310c08920ef3c2edb86d9b2d1" alt="">
+        <p>Hot Country 🤠</p>
+      </div>
+      <div class="playlist-card">
+        <img src="https://i.scdn.co/image/ab67706f000000032bcd2b7720a8e7a945239f0b" alt="">
+        <p>Mint 💿</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>© 2025 Moodsic • made with love 💜</footer>
+<script src="script.js"></script>
 </body>
 </html>
