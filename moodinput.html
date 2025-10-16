@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moodsic | Mood Input</title>
+
+  <!-- Bootstrap & Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/index.css"> <!-- your main navbar styles -->
+  <link rel="stylesheet" href="css/moodinput.css"> <!-- page-specific styles -->
+</head>
+
+<body>
+  <!-- Navbar (use your exact existing navbar code) -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="home.html">
+        <img src="img/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="home.html">Home</a>
+          <a class="nav-item nav-link" href="#">Personality Quiz</a>
+
+          <li class="nav-item dropdown">
+            <a class="nav-item nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink"
+              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              MoodMatch
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="moodinput.html">Mood Input</a></li>
+              <li><a class="dropdown-item" href="#">Word Cloud</a></li>
+            </ul>
+          </li>
+
+          <a class="nav-item nav-link" href="weather.html">Weather</a>
+          <a class="nav-item nav-link" href="#">My Playlists</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mood Input Section -->
+  <div class="mood-wrapper">
+    <div class="mood-card">
+      <h1>💗 how are you feeling right now?</h1>
+      <p class="subtitle">tell us your vibe of the day 🎧</p>
+      <input type="text" id="mood-input" placeholder="e.g. happy, calm, tired" />
+      <button id="submit-btn">Match My Mood</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+    <script src="js/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
