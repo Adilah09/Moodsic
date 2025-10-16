@@ -9,10 +9,10 @@ body {
 }
 
 /* Navbar stays at the top in pink */
-.navbar {
+/* .navbar {
   background-color:#dc478a !important;
   font-weight: 500;
-}
+} */
 
 /* Center content below navbar more precisely */
 .mood-wrapper {
