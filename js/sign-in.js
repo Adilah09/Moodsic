@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (user) {
                 alert("Login successful!");
                 // Redirect to home page or dashboard
-                window.location.href = "weather.html"; 
+                window.location.href = "homeLogIn.html"; 
             } else {
                 alert("Invalid username or password. Please try again.");
             }
