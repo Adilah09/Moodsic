@@ -2,15 +2,18 @@
   "users": [
     {
       "username": "alex123",
-      "password": "password123"
+      "password": "password123",
+      "name": "Alex"
     },
     {
       "username": "jamie",
-      "password": "musiclover"
+      "password": "musiclover",
+      "name": "Jamie"
     },
     {
       "username": "admin",
-      "password": "admin123"
+      "password": "admin123",
+      "name": "Admin"
     }
   ]
 }

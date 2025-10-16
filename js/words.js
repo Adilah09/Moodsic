@@ -9,5 +9,5 @@ const words = [
     "Excited",
     "Awesome",
     "Cute",
-    "Sustainability"
+    "Creative"
   ];  
