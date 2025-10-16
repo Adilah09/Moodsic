@@ -30,7 +30,7 @@ button {
     margin-top: 20px;
     width: 100%;
     padding: 12px;
-    background-color: #00b76c;
+    background-color: #dc478a;
     color: white;
     font-size: 1rem;
     border: none;
@@ -41,7 +41,7 @@ button {
 }
 
 button:hover {
-    background-color: #00b76c;
+    background-color: #dc478a;
 }
 
 .login-link {
