@@ -1,0 +1,110 @@
+body {
+  margin: 0;
+  font-family: 'Alexandria', sans-serif;
+  background-color: #000;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar stays at the top in pink */
+.navbar {
+  background-color:#dc478a !important;
+  font-weight: 500;
+}
+
+/* Center content below navbar more precisely */
+.mood-wrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0; /* remove top margin to center properly */
+  padding: 40px 0; /* optional padding for breathing room */
+}
+
+/* Optional: make the card slightly taller if needed */
+.mood-card {
+  background: linear-gradient(180deg, rgba(255, 182, 193, 0.18), rgba(255, 105, 180, 0.15));
+  backdrop-filter: blur(15px);
+  border-radius: 35px;
+  padding: 100px 90px; /* increased top/bottom padding for height */
+  box-shadow: 0 10px 50px rgba(255, 105, 180, 0.4);
+  width: 700px;
+  max-width: 90%; /* ensures it stays responsive on smaller screens */
+  transition: 0.4s ease;
+}
+
+
+.mood-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 40px rgba(255, 182, 193, 0.7);
+}
+
+/* Text */
+.mood-card h1 {
+  font-weight: 700;
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #ffe5f2;
+}
+
+.subtitle {
+  color: #ffb6d5;
+  font-size: 17px;
+  margin-bottom: 40px;
+}
+
+/* Input */
+#mood-input {
+  width: 85%;
+  padding: 18px 25px;
+  border: none;
+  border-radius: 40px;
+  outline: none;
+  font-size: 16px;
+  color: #333;
+  background-color: #f8f8f8;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(255, 182, 193, 0.4);
+  transition: all 0.3s ease;
+}
+
+#mood-input::placeholder {
+  color: #888;
+}
+
+#mood-input:focus {
+  background-color: #fff;
+  box-shadow: 0 0 25px rgba(255, 105, 180, 0.5);
+}
+
+/* Button */
+#submit-btn {
+  margin-top: 35px;
+  background: linear-gradient(135deg, #ff8ccf, #ff4fa7);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 25px rgba(255, 105, 180, 0.5);
+}
+
+#submit-btn:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 35px rgba(255, 192, 203, 0.9);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  color: #ffb6d5;
+}

@@ -7,7 +7,7 @@ body {
 }
 
 nav{
-    background-color: #e03b85;
+    background-color: #dc478a;
     margin-bottom: 20px;
 }
 
@@ -30,9 +30,11 @@ footer {
     left: 0;
     text-align: center;
     width: 100%;
-    padding: 1rem;
-    background-color: #e03b85;
+    padding: 20px;
+    /* background-color: #dc478a; */
     color: white;
+    font-size: 13px;
+    color: #ffb6d5;
 }
 
 footer p{
