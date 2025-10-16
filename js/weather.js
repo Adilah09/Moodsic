@@ -49,8 +49,8 @@ function check_weather() {
                     let weather_image_div = document.getElementById('weather_images');
                     let temp = document.getElementById('temp');
 
-                    // weather_text.innerHTML = `<h2>The weather right now is...</h2><h3>${weather_description}</h3>`;
-                    weather_text.innerHTML = `<h2>The weather right now is...</h2>`;
+                    weather_text.innerHTML = `<h2>The weather right now is...</h2><h3>${weather_description}</h3>`;
+                    // weather_text.innerHTML = `<h2>The weather right now is...</h2>`;
                     weather_image_div.innerHTML = `<img src="${weather_image}" alt="${weather_description}" class="weather-icon">`;
                     temp.style.display = 'none'
 
