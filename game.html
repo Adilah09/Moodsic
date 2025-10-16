@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Font style -->
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/sign.css">
+    <title>The Dessert Journey</title>
+
+     
+    <style>
+        :root {
+            --bg: #000;
+            --card: #111;
+            --accent: #e03b85;
+            --accent2: #e03b85;
+            --muted: #ccc;
+        }
+    
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Alexandria', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+            color: #fff;
+            background: radial-gradient(circle at top, #0a0a0a 0%, #000 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+    
+        header {
+            padding: 28px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+    
+        .logo {
+            width: 64px; height: 64px; border-radius: 14px;
+            background: linear-gradient(135deg, var(--accent), #ff99c9);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; color: white; font-size: 18px;
+            box-shadow: 0 0 20px rgba(224, 59, 133, 0.5);
+            transition: all 0.3s ease;
+        }
+        .logo:hover {
+            transform: rotate(10deg) scale(1.1);
+            box-shadow: 0 0 30px rgba(224, 59, 133, 0.7);
+        }
+    
+        .hero {
+            padding: 16px 20px 36px;
+            max-width: 680px;
+            margin: auto;
+            text-align: center;
+        }
+    
+        .title {
+            font-size: 34px;
+            margin: 10px 0;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent), #ff99c9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    
+        .subtitle { color: var(--muted); margin: 0; font-size: 17px; }
+    
+        main {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+    
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 0 25px rgba(224, 59, 133, 0.25), 0 0 40px rgba(224, 59, 133, 0.15);
+            transform: translateY(-4px);
+        }
+    
+        .story-intro {
+            background: linear-gradient(135deg, #1b1b1b, #0d0d0d);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            color: #f3f3f3;
+            line-height: 1.6;
+            box-shadow: inset 0 0 10px rgba(224, 59, 133, 0.15);
+        }
+    
+        .quiz { display: flex; flex-direction: column; gap: 18px; }
+    
+        .question {
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background-color: #151515;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .question:hover {
+            box-shadow: 0 0 15px rgba(224, 59, 133, 0.2);
+            transform: translateY(-2px);
+        }
+    
+        .question strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 16px;
+            color: #fff;
+        }
+    
+        .choices { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+    
+        .choice {
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            background: #1c1c1c;
+            color: #fff;
+            cursor: pointer;
+            transition: all .2s;
+            user-select: none;
+        }
+        .choice:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+            box-shadow: 0 0 10px rgba(224, 59, 133, 0.3);
+        }
+        .choice.selected {
+            border-color: var(--accent);
+            box-shadow: 0 0 18px rgba(224, 59, 133, 0.4);
+            background: linear-gradient(135deg, #2b0b1b, #3a1225);
+        }
+    
+        .controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 12px;
+        }
+    
+        button {
+            background: var(--accent);
+            border: none;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: linear-gradient(90deg, var(--accent), #ff99c9);
+            box-shadow: 0 0 15px rgba(224, 59, 133, 0.4);
+            transform: translateY(-2px);
+        }
+    
+        button.ghost {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid rgba(224, 59, 133, 0.3);
+        }
+        button.ghost:hover {
+            color: #ff99c9;
+            border-color: rgba(224, 59, 133, 0.5);
+            box-shadow: 0 0 10px rgba(224, 59, 133, 0.2);
+        }
+    
+        aside .card { position: sticky; top: 24px; }
+        .preview { display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; }
+        .preview img { width: 100%; border-radius: 12px; max-height: 200px; object-fit: cover; }
+    
+        .result { display: none; flex-direction: column; gap: 12px; align-items: center; }
+        .result.show { display: flex; }
+        .result h3 { margin: 0; font-size: 22px; color: #fff; text-shadow: 0 0 8px rgba(224, 59, 133, 0.6); }
+        .result p { color: var(--muted); }
+    
+        footer { padding: 28px 20px; text-align: center; color: var(--muted); font-size: 14px; }
+    
+        @media (max-width:950px) {
+            main { grid-template-columns: 1fr; }
+            .hero { padding-bottom: 8px; }
+        }
+    </style>
+    
+    
+    
+</head>
+<body>
+    <div id="navbar"></div>
+
+    <header>
+        <div class="logo">🍰</div>
+            <div>
+                <div style="font-weight:700;font-size:18px">The Dessert Journey</div>
+                <div style="color:var(--muted);font-size:13px">A personality adventure told through sweets</div>
+            </div>
+    </header>
+
+    <section class="hero">
+        <h1 class="title">Discover Your Dessert Destiny</h1>
+        <p class="subtitle">Step into a whimsical world where every choice shapes your dessert identity. Follow the story and see which sweet soul you truly are.</p>
+    </section>
+
+    <main>
+        <div class="card">
+        <div class="story-intro">
+            The sun rises over the **Sugar Valley**, and you awaken in the quaint village of **Confecta**. Today’s festival decides your fate — will you be crowned the Dessert of the Year? 🍮 Answer these story moments to uncover your destiny!
+        </div>
+
+        <form id="quiz" class="quiz" autocomplete="off">
+            <!-- Story question 1 -->
+            <div class="question" data-q="1">
+            <strong>1) You stroll through the candy market. What draws you in first?</strong>
+            <div class="choices">
+                <div class="choice" data-score="3">The rich scent of cocoa truffles</div>
+                <div class="choice" data-score="1">A stand of colorful berry tarts</div>
+                <div class="choice" data-score="2">A creamy milkshake bar</div>
+                <div class="choice" data-score="4">A florist selling rose macarons</div>
+            </div>
+            </div>
+
+            <!-- Story question 2 -->
+            <div class="question" data-q="2">
+            <strong>2) You’re invited to the Sweetmaker’s Workshop. What do you create?</strong>
+            <div class="choices">
+                <div class="choice" data-score="3">A triple-layer chocolate masterpiece</div>
+                <div class="choice" data-score="1">Fruit tartlets that shimmer like jewels</div>
+                <div class="choice" data-score="2">A soft cheesecake infused with lemon</div>
+                <div class="choice" data-score="4">Tiny lavender éclairs, perfectly piped</div>
+            </div>
+            </div>
+
+            <!-- Story question 3 -->
+            <div class="question" data-q="3">
+            <strong>3) The Dessert Parade begins. What’s your role?</strong>
+            <div class="choices">
+                <div class="choice" data-score="1">Waving from a float of sugared fruits</div>
+                <div class="choice" data-score="2">Serving smooth custards to guests</div>
+                <div class="choice" data-score="3">Leading the march with a chocolate drum</div>
+                <div class="choice" data-score="4">Sprinkling edible glitter on pastries</div>
+            </div>
+            </div>
+
+            <!-- Story question 4 -->
+            <div class="question" data-q="4">
+            <strong>4) Evening falls and the Queen of Creams offers you a drink.</strong>
+            <div class="choices">
+                <div class="choice" data-score="2">A silky espresso blend</div>
+                <div class="choice" data-score="3">Hot cocoa with cinnamon</div>
+                <div class="choice" data-score="1">Sparkling strawberry punch</div>
+                <div class="choice" data-score="4">Delicate rose tea</div>
+            </div>
+            </div>
+
+            <!-- Story question 5 -->
+            <div class="question" data-q="5">
+            <strong>5) The final dessert ceremony begins. How do you make your grand entrance?</strong>
+            <div class="choices">
+                <div class="choice" data-score="3">Confidently carrying a molten cake</div>
+                <div class="choice" data-score="1">Dancing with fresh fruit confetti</div>
+                <div class="choice" data-score="2">Gliding in with a creamy dessert tray</div>
+                <div class="choice" data-score="4">Gracefully balancing a tower of pastel macarons</div>
+            </div>
+            </div>
+
+            <div class="controls">
+            <button type="button" id="getResult">Reveal My Dessert Destiny</button>
+            <button type="button" id="reset" class="ghost">Restart Journey</button>
+            <div style="margin-left:auto;color:var(--muted);font-size:13px">🍬 The festival awaits...</div>
+            </div>
+        </form>
+
+        <div id="resultCard" class="card" style="margin-top:14px;display:none">
+            <div class="result" id="result">
+            <img id="resultImg" alt="Dessert result image" style="width:220px;height:140px;object-fit:cover;border-radius:10px">
+            <h3 id="resultTitle"></h3>
+            <p id="resultDesc" style="color:var(--muted);max-width:52ch"></p>
+            <button id="share" style="margin-top:6px">Generate Playlists</button>
+            </div>
+        </div>
+        </div>
+
+        <aside>
+        <div class="card">
+            <div class="preview">
+            <img src="Moodsic Game/desserts.jpg" alt="dessert preview">
+            <div style="font-weight:700">Destinies Await</div>
+            <div style="color:var(--muted);font-size:13px">Possible fates: Chocolate Cake, Tiramisu, Cheesecake, Ice Cream, Macaron, Fruit Tart</div>
+            </div>
+        </div>
+        </aside>
+    </main>
+
+    <div id="footer"></div>
+
+    <script>
+        const choices = document.querySelectorAll('.choice');
+        choices.forEach(ch=>ch.addEventListener('click', ()=>{
+        const parent = ch.closest('.choices');
+        parent.querySelectorAll('.choice').forEach(s=>s.classList.remove('selected'));
+        ch.classList.add('selected');
+        }));
+
+        function computeResult(){
+        const selected = document.querySelectorAll('.choice.selected');
+        if(selected.length < 5) return null;
+        let score = 0; selected.forEach(s=>score += parseInt(s.dataset.score||0));
+        if(score >= 14) return 'Chocolate Cake';
+        if(score >= 11) return 'Tiramisu';
+        if(score >= 9) return 'Cheesecake';
+        if(score >= 7) return 'Ice Cream';
+        if(score >= 5) return 'Macaron';
+        return 'Fruit Tart';
+        }
+
+        const data = {
+        'Chocolate Cake':{
+            img:'Moodsic Game/chocolatecake.jpg',
+            desc:'As the crowd cheers, you stand tall — the embodiment of warmth and richness. The Queen of Creams crowns you **Chocolate Cake**, symbol of comfort and indulgence. You rule the festival with laughter and generosity.'
+        },
+        'Tiramisu':{
+            img:'Moodsic Game/tiramisu.jpg',
+            desc:'Your charm and mystery captivate all. With each soft layer, you reveal depth and sophistication. The court whispers: “The Tiramisu has returned — timeless, confident, unforgettable.”'
+        },
+        'Cheesecake':{
+            img:'Moodsic Game/cheesecake.jpg',
+            desc:'Smooth and poised, you bring calm amidst the sugar storm. You are crowned **Cheesecake**, master of balance and delight. The festival slows to admire your quiet brilliance.'
+        },
+        'Ice Cream':{
+            img:'Moodsic Game/icecream.jpg',
+            desc:'You melt hearts wherever you go — joyful, refreshing, and spontaneous. The children chase your laughter as you’re named **Ice Cream**, the spirit of endless summer.'
+        },
+        'Macaron':{
+            img:'Moodsic Game/macaron.jpg',
+            desc:'Graceful and intricate, you embody art itself. Crowned **Macaron**, you dazzle with colour, precision, and a whisper of rebellion beneath your sweetness.'
+        },
+        'Fruit Tart':{
+            img:'Moodsic Game/fruittart.jpg',
+            desc:'Bright and joyful, you bring everyone together. The Queen names you **Fruit Tart**, symbol of friendship and light. You dance under a rain of petals as music fills the air.'
+        }
+        };
+
+        document.getElementById('getResult').addEventListener('click', ()=>{
+        const res = computeResult();
+        if(!res){
+            alert('Your story is unfinished! Answer all 5 choices to reveal your dessert destiny.');
+            return;
+        }
+        const card = document.getElementById('resultCard');
+        const result = document.getElementById('result');
+        const title = document.getElementById('resultTitle');
+        const desc = document.getElementById('resultDesc');
+        const img = document.getElementById('resultImg');
+        title.textContent = res;
+        desc.innerHTML = data[res].desc;
+        img.src = data[res].img;
+        card.style.display = 'block';
+        result.classList.add('show');
+        card.scrollIntoView({behavior:'smooth',block:'center'});
+        });
+
+        document.getElementById('reset').addEventListener('click', ()=>{
+        document.querySelectorAll('.choice.selected').forEach(s=>s.classList.remove('selected'));
+        document.getElementById('resultCard').style.display = 'none';
+        });
+
+        document.getElementById('share').addEventListener('click', ()=>{
+        const res = document.getElementById('resultTitle').textContent;
+        if(!res) return;
+        // 🎵 Go to playlist page with dessert name in URL
+        window.location.href = 'gameplaylists.html';
+        });
+
+    </script>
+    <script src="js/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
+
