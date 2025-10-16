@@ -1,0 +1,66 @@
+.wordcloudalign {
+    font-family: "Segoe UI", Arial, sans-serif;
+    text-align: center;
+    padding: 50px;
+  }
+  
+  h1 {
+    margin-bottom: 40px;
+  }
+  
+  #wordCloud {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px 40px;
+    width: 60%;
+    margin: 0 auto;
+  }
+  
+  .word {
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: transform 0.2s, color 0.2s, background-color 0.2s;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+  
+  .word:hover {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .word.selected {
+    color: black;
+    background-color: white;
+  }
+  
+  #submitBtn {
+    margin-top: 30px;
+    padding: 10px 25px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #e03b85;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  #submitBtn:hover {
+    background-color: pink;
+  }
+  
+  #selectedWords {
+    margin-top: 40px;
+    font-size: 1.4rem;
+  }
+  
+  #selectedWords span {
+    display: inline-block;
+    margin: 6px;
+    padding: 5px 10px;
+    /* border: 1px solid white;
+    border-radius: 5px; */
+  }
+  
