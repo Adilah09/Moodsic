@@ -4,7 +4,8 @@ moodsic/
 ├── backend/         ← Node/Express app (with .env ignored)
 └── README.md
 
-open 2 terminal, run:
+
+open 2 terminals, run:
 cd backend
 npm install
 # create .env from .env.example
@@ -23,5 +24,5 @@ npm start
 
 ** impt **
 Do not commit .env — it contains spotify secret keys.
-(i alr put in .gitignore in frontend directory but do check b4 u push)
+(i alr put in .gitignore but do check b4 u push)
 Only commit code and .env.example.
