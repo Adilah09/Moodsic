@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  font-family: 'Alexandria', sans-serif;
+  background-color: #000;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.mood-wrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 0;
+}
+
+.app-container {
+  max-width: 1200px;  /* or adjust to desired width */
+  margin: 0 auto;     /* centers horizontally */
+  padding: 0 40px;    /* ~5cm padding left & right */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

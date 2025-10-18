@@ -1,0 +1,14 @@
+footer {
+    position: relative;       /* sticks to bottom */
+    bottom: 0;             /* at the very bottom */
+    left: 0;               /* full width start */
+    text-align: center;    /* center text */
+    width: 100%;           /* spans full page */
+    padding: 20px;         /* spacing inside */
+    /* background-color: #dc478a; */ /* commented out, so same as body */
+    color: #ffb6d5;        /* text color */
+    font-size: 13px;
+}
+footer p {
+    margin: 0;             /* removes default margin for <p> */
+}

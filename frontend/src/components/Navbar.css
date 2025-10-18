@@ -1,0 +1,67 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 20px;
+  background-color: #dc478a;
+  border-radius: 20px;
+  position: sticky; /* stays on top when scrolling */
+  top: 10px;        /* optional: slightly below top for rounded effect */
+  z-index: 100;
+  backdrop-filter: blur(8px); /* subtle glass effect */
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  margin-bottom: 20px;
+}
+
+.navbar-left .logo-img {
+  height: 30px;
+  width: auto;
+}
+
+.navbar-links a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navbar-links a:hover {
+  color: #ffe5f2;
+}
+
+.navbar-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: rgba(255,255,255,0.1);
+  padding: 4px 10px;
+  border-radius: 30px;
+}
+
+.navbar-profile span {
+  color: #fff;
+  font-weight: 500;
+}
+
+.navbar-profile a {
+  color: #fff;           /* white text instead of blue */
+  text-decoration: none;  /* remove underline */
+  font-weight: 500;
+}
+
+.navbar-profile a:hover {
+  color: #ffe5f2;        /* optional hover color */
+}
+
+.navbar-profile:hover {
+  background-color: rgba(255,255,255,0.15);
+  transition: 0.2s;
+}
+
+.profile-img {
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
