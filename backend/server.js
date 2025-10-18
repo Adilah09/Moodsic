@@ -6,11 +6,6 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 
-const playlistsFile = path.join(__dirname, 'savedPlaylists.json');
-
-// helper: ensure saved file exists
-if (!fs.existsSync(playlistsFile)) fs.writeFileSync(playlistsFile, '[]', 'utf8');
-
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const app = express();
