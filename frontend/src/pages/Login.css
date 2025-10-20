@@ -1,0 +1,32 @@
+.landing-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.spotify-login-btn {
+  margin-top: 30px;
+  padding: 14px 50px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #1DB954, #1ed760);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.spotify-login-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 25px rgba(30, 215, 96, 0.6);
+}

@@ -2,24 +2,44 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 20px;
-  background-color: #dc478a;
-  border-radius: 20px;
-  position: sticky; /* stays on top when scrolling */
-  top: 10px;        /* optional: slightly below top for rounded effect */
+  padding: 6px 16px;
+  background-color: rgba(220, 71, 138, 0.85);
+  border-radius: 18px;
+  position: sticky;
+  top: 8px;
   z-index: 100;
-  backdrop-filter: blur(8px); /* subtle glass effect */
-  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-  margin-bottom: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  margin-bottom: 15px;
+  transition: transform 0.4s ease, opacity 0.4s ease,
+              box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
+.navbar--hidden {
+  transform: translateY(-120%);
+  opacity: 0;
+}
+
+.navbar--visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* soft shadow + background fade */
+.navbar--visible.scrolled {
+  background-color: rgba(220, 71, 138, 0.95); /* slightly more opaque */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);   /* softer shadow when scrolling */
+}
+
+/* logo */
 .navbar-left .logo-img {
-  height: 30px;
+  height: 28px; /* slightly smaller */
   width: auto;
 }
 
+/* links */
 .navbar-links a {
-  margin-left: 20px;
+  margin-left: 16px; /* closer together */
   text-decoration: none;
   color: #fff;
   font-weight: 500;
@@ -27,41 +47,39 @@
 }
 
 .navbar-links a:hover {
-  color: #ffe5f2;
+  color: #642444;
 }
 
+/* profile */
 .navbar-profile {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px; /* tighter spacing */
   background-color: rgba(255,255,255,0.1);
-  padding: 4px 10px;
-  border-radius: 30px;
-}
-
-.navbar-profile span {
-  color: #fff;
-  font-weight: 500;
-}
-
-.navbar-profile a {
-  color: #fff;           /* white text instead of blue */
-  text-decoration: none;  /* remove underline */
-  font-weight: 500;
-}
-
-.navbar-profile a:hover {
-  color: #ffe5f2;        /* optional hover color */
+  padding: 3px 8px; /* slimmer bubble */
+  border-radius: 28px;
+  transition: background-color 0.2s;
 }
 
 .navbar-profile:hover {
   background-color: rgba(255,255,255,0.15);
-  transition: 0.2s;
+}
+
+.navbar-profile span,
+.navbar-profile a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 14px; /* slightly smaller font */
+}
+
+.navbar-profile a:hover {
+  color: #ffe5f2;
 }
 
 .profile-img {
-  height: 35px;
-  width: 35px;
+  height: 32px; /* slightly smaller */
+  width: 32px;
   border-radius: 50%;
   object-fit: cover;
 }

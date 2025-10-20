@@ -43,6 +43,53 @@ app.get('/api/token', async (req, res) => {
   }
 });
 
+// Endpoint to get weather data
+app.get("/api/weather", async (req, res) => {
+  const { lat, lon } = req.query;
+
+  if (!lat || !lon) {
+    return res.status(400).json({ error: "Latitude and longitude required" });
+  }
+
+  try {
+    const response = await axios.get(
+      "https://api.openweathermap.org/data/2.5/weather",
+      {
+        params: {
+          lat,
+          lon,
+          appid: process.env.WEATHER_API_KEY,
+          units: "metric",
+        },
+      }
+    );
+
+    const weatherTypeImages = {
+      Clear: "/img/weather/clear.jpg",
+      Clouds: "/img/weather/clouds.jpg",
+      Haze: "/img/weather/haze.jpg",
+      Mist: "/img/weather/mist.jpg",
+      Rain: "/img/weather/rain.jpg",
+      Smoke: "/img/weather/smoke.jpg",
+      Snow: "/img/weather/snow.jpg",
+      Thunderstorm: "/img/weather/thunderstorm.jpg",
+    };
+
+    const weatherMain = response.data.weather[0].main;
+    const images = weatherTypeImages[weatherMain] ? [weatherTypeImages[weatherMain]] : [];
+
+    res.json({
+      temp: response.data.main.temp,
+      description: response.data.weather[0].description,
+      main: weatherMain,
+      images,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch weather" });
+  }
+});
+
 
 const PORT = 8888;
 app.listen(PORT, () => console.log(`Backend running on http://127.0.0.1:${PORT}`));

@@ -1,32 +1,46 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
-import Home from './pages/Home';
-import MyMoods from './pages/MyMoods';
-import PersonalityQuiz from './pages/PersonalityQuiz';
-import Chart from './pages/Chart';
-import Profile from './pages/Profile';
+import Login from './pages/Login.jsx';
+import Home from './pages/Home.jsx';
+import MyPlaylists from './pages/MyPlaylists.jsx';
+import PersonalityQuiz from './pages/PersonalityQuiz.jsx';
+import Chart from './pages/Chart.jsx';
+import Profile from './pages/Profile.jsx';
 
 import './index.css';
 
-function App() {
+// wrapper component to handle conditional navbar
+function AppWrapper() {
+  const location = useLocation();
+  const showNavbar = location.pathname !== "/"; // hide navbar on login
+
   return (
-    <Router>
+    <>
       <div className="app-container">
-        <Navbar />
+        {showNavbar && <Navbar />}
         <div className="mood-wrapper">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/my-moods" element={<MyMoods />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/personality-quiz" element={<PersonalityQuiz />} />
+            <Route path="/my-playlists" element={<MyPlaylists />} />
             <Route path="/chart" element={<Chart />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>
         <Footer />
       </div>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppWrapper />
     </Router>
   );
 }

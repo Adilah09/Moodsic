@@ -104,3 +104,24 @@
     width: 90%;
   }
 }
+
+.mood-btn.active {
+  background-color: #ff4fa7;
+  box-shadow: 0 6px 25px rgba(255, 105, 180, 0.8);
+  transform: scale(1.07);
+}
+
+.optional-toggles {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 25px;
+  font-size: 14px;
+  color: #ffb6d5;
+}
+
+.optional-toggles input {
+  margin-right: 6px;
+  accent-color: #ff4fa7; /* nice pink checkbox */
+}
+
