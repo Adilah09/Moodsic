@@ -17,6 +17,10 @@ function Login({ onLogin }) {
       <button className="spotify-login-btn" onClick={handleLogin}>
         Login with Spotify
       </button>
+
+      <button className="skip">
+        <a href="/home">Skip for now</a>
+      </button>
     </div>
   );
 }

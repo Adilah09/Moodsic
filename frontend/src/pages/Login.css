@@ -1,5 +1,5 @@
 .landing-wrapper {
-  height: 100vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,4 +29,21 @@
 .spotify-login-btn:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 25px rgba(30, 215, 96, 0.6);
+}
+
+.skip {
+  margin-top: 20px;
+  padding: 10px 30px;
+  border-radius: 50px;
+  background: transparent;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid white;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.skip a {
+  color: white;
+  text-decoration: none;
 }
