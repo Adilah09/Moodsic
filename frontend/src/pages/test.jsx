@@ -3,28 +3,13 @@ import axios from "axios";
 import "./Home.css";
 
 function Home() {
-  const [selectedMood, setSelectedMood] = useState(null);
   const [weatherData, setWeatherData] = useState(null); // Store weather data
-  const [useWeather, setWeather] = useState(false);
-  const [usePersonality, setUsePersonality] = useState(false);
   const [locationError, setLocationError] = useState(null);
   const [selectedWords, setSelectedWords] = useState([]); // Store selected words from word cloud
 
-  const moods = [
-    { label: "😎 Chill", value: "chill" },
-    { label: "😃 Happy", value: "happy" },
-    { label: "😢 Sad", value: "sad" },
-    { label: "🔥 Energetic", value: "energetic" },
-    { label: "💤 Lazy", value: "lazy" },
-  ];
-
   const words = [
-    "Joy", "Sadness", "Excitement", "Chill", "Energy", "Peace", "Anger", "Happiness", "Motivation", "Relax",
-    "Adventure", "Calm", "Fun", "Vibes", "Love", "Surprise", "Surreal", "Excitement", "Fear", "Inspiration"
+    "Anger", "Chill", "Vibes", "Surreal", "Sadness", "Peace", "Excitement", "Motivation", "Fear", "Inspiration"
   ];
-
-
-  const handleMoodClick = (mood) => setSelectedMood(mood);
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -53,13 +38,6 @@ function Home() {
     }
   }, []);
 
-  const handleGenerate = async () => {
-  console.log("Mood:", selectedMood);
-  console.log("Use Personality Quiz:", usePersonality);
-  // pass mood + weatherData + personality vector to your AI
-  console.log("Selected Words:", selectedWords);
-  };
-
   // Word Cloud Functions
   const getRandomWords = (wordList, count = 10) => {
     const shuffled = [...wordList].sort(() => 0.5 - Math.random());
@@ -78,70 +56,18 @@ function Home() {
 
   const displayWords = getRandomWords(words);
 
+  const handleGenerate = () => {
+    console.log("Selected Words:", selectedWords);
+    // Add additional actions here, such as generating playlists or passing data to an AI.
+  };
+
   return (
     <div className="mood-wrapper">
       <div className="mood-card">
         <h1>What's your vibe today?</h1>
-        <p className="subtitle">Tap your current mood or choose a surprise!</p>
+        <p className="subtitle">Tap a word below that fits your mood!</p>
 
-        {/* Mood input grid */}
-        <div className="mood-grid">
-          {moods.map((mood) => (
-            <button
-              key={mood.value}
-              className={`mood-btn ${selectedMood === mood.value ? "active" : ""}`}
-              onClick={() => handleMoodClick(mood.value)}
-            >
-              {mood.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Optional Toggles */}
-        <div className="optional-toggles">
-          <label>
-            <input
-              type="checkbox"
-              checked={useWeather}
-              onChange={() => setWeather(!useWeather)}
-            />
-            Use Weather
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={usePersonality}
-              onChange={() => setUsePersonality(!usePersonality)}
-            />
-            Personality Quiz
-          </label>
-        </div>
-
-        {/* Mood Options
-        <div className="mood-options">
-          <button className="option-btn" onClick={() => console.log("Surprise Me!")}>
-            Use my Spotify Data
-          </button>
-          <button
-            className="option-btn"
-            onClick={() => console.log("Based on My Vibe!")}
-          >
-            Fresh Moods
-          </button>
-        </div> */}
-
-        {/* Generate Playlist */}
-        <button
-          id="submit-btn"
-          disabled={!selectedMood}
-          onClick={handleGenerate}
-        >
-          Generate My Vibe 🎶
-        </button>
-        <br />
-        <br />
-
-         {/* Word Cloud */}
+        {/* Word Cloud */}
         <div className="wordcloudalign">
           <h2>Select Words</h2>
           <div id="wordCloudContainer">
@@ -171,10 +97,11 @@ function Home() {
         </div>
 
         {/* Weather Display */}
-        <div>
+        <div className="weather-container">
           {locationError && <p>{locationError}</p>}
           {weatherData ? (
             <div>
+              <h3>Current Weather</h3>
               <p>Temperature: {weatherData.main.temp}°C</p>
               <p>Description: {weatherData.weather[0].description}</p>
               <img
@@ -186,7 +113,6 @@ function Home() {
             <p>Loading weather...</p>
           )}
         </div>
-
       </div>
     </div>
   );
