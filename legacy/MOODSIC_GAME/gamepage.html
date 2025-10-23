@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enchanted Patisserie Personality Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+        
+        body {
+            background-color: #ffe6f2;
+            color: #5a3921;
+            line-height: 1.6;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23ffe6f2"/><path d="M30,30 Q50,10 70,30 T90,50 T70,70 T50,90 T30,70 T10,50 T30,30 Z" fill="%23ffcce6" opacity="0.5"/></svg>');
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .page {
+            display: none;
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(224, 59, 133, 0.2);
+            margin-bottom: 20px;
+            border: 1px solid #ffcce6;
+        }
+        
+        .active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            color: #e03b85;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: #e03b85;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        h3 {
+            color: #e03b85;
+            margin: 20px 0 15px;
+            font-size: 1.4rem;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .story-text {
+            font-style: italic;
+            background-color: #fff0f7;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #e03b85;
+            margin-bottom: 25px;
+        }
+        
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .story-image {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(224, 59, 133, 0.3);
+            height: 250px;
+            object-fit: cover;
+            border: 3px solid #ffcce6;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .option {
+            background-color: #fff0f7;
+            border: 2px solid #ffcce6;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .option:hover {
+            background-color: #ffe6f2;
+            border-color: #e03b85;
+            transform: translateY(-2px);
+        }
+        
+        .option.selected {
+            background-color: #ffd9ec;
+            border-color: #e03b85;
+            box-shadow: 0 3px 8px rgba(224, 59, 133, 0.2);
+        }
+        
+        .option-letter {
+            display: inline-block;
+            background-color: #e03b85;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            margin-right: 12px;
+            flex-shrink: 0;
+            margin-top: -2px;
+        }
+        
+        .btn {
+            background-color: #e03b85;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 20px auto 0;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background-color: #c42d75;
+        }
+        
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #ffcce6;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #e03b85;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .result {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .result-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 20px auto;
+            border: 5px solid #ffcce6;
+            box-shadow: 0 4px 8px rgba(224, 59, 133, 0.3);
+        }
+        
+        .result-title {
+            color: #e03b85;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .result-description {
+            text-align: left;
+            background-color: #fff0f7;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #e03b85;
+        }
+        
+        .restart-btn {
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .option-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 15px;
+            flex-shrink: 0;
+            border: 2px solid #ffcce6;
+        }
+        
+        .option-content {
+            flex-grow: 1;
+        }
+        
+        .extra-info {
+            margin-top: 30px;
+            text-align: left;
+        }
+        
+        .info-box {
+            background-color: #fff0f7;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e03b85;
+        }
+        
+        .info-box h3 {
+            color: #e03b85;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-box h3:before {
+            content: "✦";
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .song-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .song-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #ffcce6;
+        }
+        
+        .song-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .comment-bubble {
+            background-color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 10px 0;
+            border: 2px solid #ffcce6;
+            position: relative;
+        }
+        
+        .comment-bubble:before {
+            content: "";
+            position: absolute;
+            left: -10px;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid #ffcce6;
+        }
+        
+        .comment-bubble:after {
+            content: "";
+            position: absolute;
+            left: -7px;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid white;
+        }
+        
+        .comment-author {
+            font-weight: bold;
+            color: #e03b85;
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .page {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .option {
+                flex-direction: column;
+            }
+            
+            .option-image {
+                width: 100%;
+                height: 120px;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .story-image {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <!-- Introduction Page -->
+        <div class="page active" id="page-0">
+            <h1>The Enchanted Patisserie</h1>
+            <div class="image-container">
+                <img src="patisserie.jpg" alt="Enchanted Patisserie" class="story-image">
+            </div>
+            <div class="story-text">
+                <p>Welcome, brave adventurer, to the doorstep of the legendary Enchanted Patisserie! It is said that the mystical pastry chefs within can craft a dessert that perfectly captures the essence of your soul. But first, you must prove your worth. The door creaks open, inviting you into a world of sweet wonders and hidden challenges. Your journey to discover your true dessert spirit begins now...</p>
+            </div>
+            <button class="btn" id="start-btn">Begin Your Journey</button>
+        </div>
+        
+        <!-- Page 1: The Entrance Hall -->
+        <div class="page" id="page-1">
+            <h2>The Entrance Hall</h2>
+            <div class="image-container">
+                <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Entrance Hall with three doors" class="story-image">
+            </div>
+            <div class="story-text">
+                <p>The air is thick with the scent of sugar, vanilla, and something magical. Standing before you are three grand, ornate doors, each leading to a different section of the patisserie.</p>
+            </div>
+            <h3>Question 1: Which door do you enter first?</h3>
+            <div class="options">
+                <div class="option" data-value="A">
+                    <img src="conservatory.jpg" alt="Crystal Conservatory" class="option-image">
+                    <div class="option-content">
+                        <span class="option-letter">A</span>
+                        <strong>The Crystal Conservatory.</strong> You hear the gentle trickle of a fountain and see glistening, delicate pastries through the glass. It feels refined and elegant.
+                    </div>
+                </div>
+                <div class="option" data-value="B">
+                    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Cozy Hearth Kitchen" class="option-image">
+                    <div class="option-content">
+                        <span class="option-letter">B</span>
+                        <strong>The Cozy Hearth Kitchen.</strong> A warm, comforting glow and the smell of baking bread and cinnamon spill from this doorway. It feels like a hug.
+                    </div>
+                </div>
+                <div class="option" data-value="C">
+                    <img src="pastrychef.png" alt="Alchemist's Laboratory" class="option-image">
+                    <div class="option-content">
+                        <span class="option-letter">C</span>
+                        <strong>The Alchemist's Laboratory.</strong> Pops of color, bubbling beakers (of syrup?), and the sound of sizzling caramel greet you. It feels exciting and unpredictable.
+                    </div>
+                </div>
+            </div>
+            <button class="btn" id="next-btn-1" disabled>Continue</button>
+        </div>
+        
+        <!-- Page 2: The First Challenge -->
+        <div class="page" id="page-2">
+            <h2>The First Challenge</h2>
+            <div class="image-container">
+                <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Floating whisk with ingredients" class="story-image">
+            </div>
+            <div class="story-text">
+                <p>You pass through your chosen door and find yourself in a large, kitchen-like chamber. A tiny, floating whisk with googly eyes zips up to you and presents you with your first test.</p>
+            </div>
+            <h3>Question 2: The floating whisk demands you choose one essential baking ingredient. Which do you grab?</h3>
+            <div class="options">
+                <div class="option" data-value="A">
+                    <img src="vanillabean.jpg" alt="Vanilla Bean" class="option-image">
+                    <div class="option-content">
+                        <span class="option-letter">A</span>
+                        <strong>A Vanilla Bean.</strong> Classic, aromatic, and the foundation of countless exquisite flavors.
+                    </div>
+                </div>
+                <div class="option" data-value="B">
+                    <img src="butter.jpg" alt="Butter" class="option-image">
+                    <div class="option-content">
+                        <span class="option-letter">B</span>
+                        <strong>Rich, Creamy Butter.</strong> The heart of comfort baking, making everything richer and more satisfying.
+                    </div>
+                </div>
+                <div class="option" data-value="C">
+                    <img src="ghostpepper.jpg" alt="Ghost Pepper" class="option-image">
+                    <div class="option-content">
+                        <span class="option-letter">C</span>
+                        <strong>A Ghost Pepper.</strong> Wait, what? It's definitely not standard, but you're drawn to the challenge of creating something unforgettable and bold.
+                    </div>
+                </div>
+            </div>
+            <button class="btn" id="next-btn-2" disabled>Continue</button>
+        </div>
+        
+        <!-- Page 3: A Magical Encounter -->
+        <div class="page" id="page-3">
+            <h2>A Magical Encounter</h2>
+            <div class="image-container">
+                <img src="pastry.jpg" alt="Pastry Mage with croissant hat" class="story-image">
+            </div>
+            <div class="story-text">
+                <p>As you hand the ingredient to the whisk, a puff of flour erupts, and in its place stands the Head Pastry Mage, a kind-eyed woman with a hat shaped like a croissant.</p>
+            </div>
+            <h3>Question 3: She smiles and says, "To see your soul, I must see how you handle pressure. A cake is about to collapse! What's your first instinct?"</h3>
+            <div class="options">
+                <div class="option" data-value="A">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Structural cake support" class="option-image">
+                    <div class="option-content">
+                        <span class="option-letter">A</span>
+                        <strong>Analyze and Support.</strong> Quickly find the structural weakness and strategically insert a skewer or support. Precision is key.
+                    </div>
+                </div>
+                <div class="option" data-value="B">
+                    <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Frosting and berries" class="option-image">
+                    <div class="option-content">
+                        <span class="option-letter">B</span>
+                        <strong>Cover it in Love (and Frosting).</strong> Don't panic! A thick layer of delicious frosting and some beautiful berries can hide any flaw. It's about the overall feeling, not perfection.
+                    </div>
+                </div>
+                <div class="option" data-value="C">
+                    <img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Deconstructed dessert" class="option-image">
+                    <div class="option-content">
+                        <span class="option-letter">C</span>
+                        <strong>Turn it into Something New.</strong> Let it collapse! Now it's a deconstructed "trifle" or "cake pop" mixture. A problem is just a chance for innovation.
+                    </div>
+                </div>
+            </div>
+            <button class="btn" id="next-btn-3" disabled>Continue</button>
+        </div>
+        
+        <!-- Page 4: The Final Choice -->
+        <div class="page" id="page-4">
+            <h2>The Final Choice</h2>
+            <div class="image-container">
+                <img src="https://images.unsplash.com/photo-1550617931-e17a7b70dce2?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Table with three desserts" class="story-image">
+            </div>
+            <div class="story-text">
+                <p>The Mage nods, impressed. "You have a strong spirit. But one final question remains." She leads you to a table with three magnificent, finished desserts.</p>
+            </div>
+            <h3>Question 4: "Which of these final masterpieces calls to you?"</h3>
+            <div class="options">
+                <div class="option" data-value="A">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Mirror Glaze Cake" class="option-image">
+                    <div class="option-content">
+                        <span class="option-letter">A</span>
+                        <strong>A Mirror Glaze Cake.</strong> Impeccably smooth, shimmering with a deep, cosmic blue glaze, decorated with a single, delicate gold leaf. It's a work of art.
+                    </div>
+                </div>
+                <div class="option" data-value="B">
+                    <img src="applecobbler.jpeg" alt="Warm Apple Cobbler" class="option-image">
+                    <div class="option-content">
+                        <span class="option-letter">B</span>
+                        <strong>A Warm Apple Cobbler.</strong> Served in a rustic ceramic dish with a crunchy, sugary top, steam rising to mingle with the melting vanilla bean ice cream on top.
+                    </div>
+                </div>
+                <div class="option" data-value="C">
+                    <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Deconstructed Lemon Meringue Pie" class="option-image">
+                    <div class="option-content">
+                        <span class="option-letter">C</span>
+                        <strong>A Deconstructed Lemon Meringue Pie.</strong> A modern arrangement of sharp lemon curd, torched meringue peaks, and crumbled ginger snap "soil." It's playful and intriguing.
+                    </div>
+                </div>
+            </div>
+            <button class="btn" id="next-btn-4" disabled>Discover Your Dessert Spirit</button>
+        </div>
+        
+        <!-- Results Page -->
+        <div class="page" id="results">
+            <div class="result">
+                <h2 class="result-title" id="result-title">Your Dessert Personality</h2>
+                <div id="result-content">
+                    <!-- Result content will be inserted here by JavaScript -->
+                </div>
+                <button class="btn restart-btn" id="restart-btn">Take the Quiz Again</button>
+                <a class="btn restart-btn" id="playlist-btn" href="results.html">Recommend me some playlists!</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz state
+        let currentPage = 0;
+        const totalPages = 5; // Including intro and results
+        const answers = [];
+        
+        // DOM elements
+        const pages = document.querySelectorAll('.page');
+        const progressBar = document.getElementById('progress');
+        const startBtn = document.getElementById('start-btn');
+        const nextBtns = [
+            document.getElementById('next-btn-1'),
+            document.getElementById('next-btn-2'),
+            document.getElementById('next-btn-3'),
+            document.getElementById('next-btn-4')
+        ];
+        const restartBtn = document.getElementById('restart-btn');
+        
+        // Personality data with enhanced information
+        const personalityData = {
+            A: {
+                title: "The Sophisticated Crème Brûlée",
+                description: "You are elegant, refined, and value tradition and quality. Like a perfect Crème Brûlée, you have a calm, composed exterior that hides a rich, deep, and wonderfully complex interior. People are drawn to your classic charm and unwavering reliability. You appreciate the finer things in life and have a keen eye for beauty and detail. Sometimes you can be a little reserved, but once someone breaks through your 'caramelized shell,' they find a wonderfully warm and loyal heart.",
+                image: "cremebrulee.jpg",
+                color: "#ffd9ec",
+                songs: [
+                    "Smooth Operator - Sade",
+                    "Perfect - Ed Sheeran",
+                    "A Thousand Years - Christina Perri",
+                    "Moon River - Audrey Hepburn",
+                    "La Vie en Rose - Emily Watts"
+                ],
+                comments: [
+                    {author: "Chocolate Chip Cookie", text: "I love how you always know the perfect wine pairing!"},
+                    {author: "Spicy Chocolate Tart", text: "Your attention to detail is honestly inspiring."},
+                    {author: "Fusion Cupcake", text: "You make elegance look so effortless!"}
+                ],
+                talent: "Your hidden talent is curating the perfect ambiance - you can transform any space into something magical with just a few thoughtful touches."
+            },
+            B: {
+                title: "The Heartwarming Chocolate Chip Cookie",
+                description: "You are the embodiment of comfort, warmth, and genuine kindness. Like the perfect Chocolate Chip Cookie, you are universally loved and make everyone around you feel at home. You are unpretentious, dependable, and find joy in life's simple pleasures. Your strength isn't in being flashy, but in being deeply, wholesomely satisfying. You are the friend everyone calls when they need a shoulder to lean on or a warm, comforting presence.",
+                image: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+                color: "#ffd9ec",
+                songs: [
+                    "Count on Me - Bruno Mars",
+                    "Home - Edward Sharpe & The Magnetic Zeros",
+                    "Sweet Creature - Harry Styles",
+                    "You've Got a Friend - James Taylor",
+                    "Best Day of My Life - American Authors"
+                ],
+                comments: [
+                    {author: "Crème Brûlée", text: "Your hugs are literally the best thing in the world."},
+                    {author: "Spicy Chocolate Tart", text: "You remember everyone's coffee order - how?!"},
+                    {author: "Fusion Cupcake", text: "Your presence instantly makes any room feel cozier."}
+                ],
+                talent: "Your hidden talent is remembering small but meaningful details about people - you make everyone feel truly seen and valued."
+            },
+            C: {
+                title: "The Daring Spicy Chocolate Tart",
+                description: "You are innovative, bold, and utterly unpredictable. Like a Spicy Chocolate Tart, you combine unexpected elements to create something thrilling and memorable. You have a fiery spirit and a zest for life that draws people to your energy. You're not afraid to break the rules and are always seeking the next adventure or creative project. You can be intense for some, but for those who can keep up, you are an exhilarating and unforgettable force of nature.",
+                image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+                color: "#ffd9ec",
+                songs: [
+                    "Uptown Funk - Mark Ronson ft. Bruno Mars",
+                    "Bad Guy - Billie Eilish",
+                    "Don't Stop Me Now - Queen",
+                    "7 rings - Ariana Grande",
+                    "Can't Hold Us - Macklemore & Ryan Lewis"
+                ],
+                comments: [
+                    {author: "Crème Brûlée", text: "I wish I had your confidence to speak my mind!"},
+                    {author: "Chocolate Chip Cookie", text: "Your energy is absolutely contagious!"},
+                    {author: "Fusion Cupcake", text: "You turn every ordinary moment into an adventure."}
+                ],
+                talent: "Your hidden talent is improvisation - you can turn any disaster into an opportunity and make brilliant decisions under pressure."
+            },
+            mixed: {
+                title: "The Experimental Fusion Cupcake",
+                description: "You are a true original, a creative free spirit who can't be easily categorized. Like a Wasabi-Green Tea-Passionfruit Cupcake, you are a fascinating fusion of different ideas, energies, and tastes. You adapt to any situation, bringing a unique perspective and a touch of whimsy to everything you do. You get bored easily with routine and thrive on change and self-expression. Your personality is a delightful surprise that keeps people guessing and always coming back for more.",
+                image: "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+                color: "#ffd9ec",
+                songs: [
+                    "Bohemian Rhapsody - Queen",
+                    "Blinding Lights - The Weeknd",
+                    "Happy - Pharrell Williams",
+                    "Shake It Off - Taylor Swift",
+                    "Feel It Still - Portugal. The Man"
+                ],
+                comments: [
+                    {author: "Crème Brûlée", text: "You always have the most interesting stories to tell!"},
+                    {author: "Chocolate Chip Cookie", text: "Your creativity amazes me every single time."},
+                    {author: "Spicy Chocolate Tart", text: "You see possibilities where others see problems."}
+                ],
+                talent: "Your hidden talent is connecting seemingly unrelated ideas - you're a natural innovator who brings fresh perspectives to everything."
+            }
+        };
+        
+        // Initialize the quiz
+        function initQuiz() {
+            // Set up event listeners for option selection
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    // Deselect all options in the current question
+                    const parentOptions = this.parentElement;
+                    parentOptions.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Select the clicked option
+                    this.classList.add('selected');
+                    
+                    // Enable the next button
+                    const pageId = this.closest('.page').id;
+                    const pageNum = parseInt(pageId.split('-')[1]);
+                    if (pageNum >= 1 && pageNum <= 4) {
+                        nextBtns[pageNum - 1].disabled = false;
+                    }
+                });
+            });
+            
+            // Set up event listeners for navigation buttons
+            startBtn.addEventListener('click', nextPage);
+            
+            nextBtns.forEach((btn, index) => {
+                btn.addEventListener('click', function() {
+                    // Save the answer
+                    const selectedOption = this.parentElement.querySelector('.option.selected');
+                    if (selectedOption) {
+                        answers.push(selectedOption.dataset.value);
+                    }
+                    
+                    nextPage();
+                });
+            });
+            
+            restartBtn.addEventListener('click', function() {
+                // Reset quiz state
+                currentPage = 0;
+                answers.length = 0;
+                
+                // Reset UI
+                document.querySelectorAll('.option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                document.querySelectorAll('.btn').forEach(btn => {
+                    btn.disabled = true;
+                });
+                
+                startBtn.disabled = false;
+                
+                // Show first page
+                showPage(currentPage);
+                updateProgress();
+            });
+            
+            // Initial progress update
+            updateProgress();
+        }
+        
+        // Navigate to the next page
+        function nextPage() {
+            currentPage++;
+            
+            if (currentPage === totalPages - 1) {
+                // We're on the results page
+                showResults();
+            } else {
+                showPage(currentPage);
+            }
+            
+            updateProgress();
+        }
+        
+        // Show a specific page
+        function showPage(pageIndex) {
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            pages[pageIndex].classList.add('active');
+            
+            // Scroll to top of page
+            window.scrollTo(0, 0);
+        }
+        
+        // Update progress bar
+        function updateProgress() {
+            const progress = (currentPage / (totalPages - 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // Calculate and display results
+        function showResults() {
+            // Count answers
+            const counts = { A: 0, B: 0, C: 0 };
+            answers.forEach(answer => {
+                counts[answer]++;
+            });
+            
+            // Determine result based on answers
+            let resultType;
+            
+            // If mostly A's
+            if (counts.A >= counts.B && counts.A >= counts.C) {
+                resultType = "A";
+            }
+            // If mostly B's
+            else if (counts.B >= counts.A && counts.B >= counts.C) {
+                resultType = "B";
+            }
+            // If mostly C's or a tie with C as the final answer
+            else if (counts.C >= counts.A && counts.C >= counts.B) {
+                resultType = "C";
+            }
+            // For mixed results that don't clearly favor one option
+            else {
+                resultType = "mixed";
+            }
+            
+            const result = personalityData[resultType];
+            
+            // Display the result
+            document.getElementById('result-title').textContent = result.title;
+            
+            const resultContent = document.getElementById('result-content');
+            resultContent.innerHTML = `
+                <div class="image-container">
+                    <img src="${result.image}" alt="${result.title}" class="result-image">
+                </div>
+                <div style="background-color: ${result.color}; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <div class="result-description">
+                        <p>${result.description}</p>
+                    </div>
+                </div>
+                
+                <div class="extra-info">
+                    <div class="info-box">
+                        <h3>Your Signature Playlist</h3>
+                        <p>Songs that capture your essence:</p>
+                        <ul class="song-list">
+                            ${result.songs.map(song => `<li>${song}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3>What Others Say About You</h3>
+                        ${result.comments.map(comment => `
+                            <div class="comment-bubble">
+                                <div class="comment-author">${comment.author}:</div>
+                                <div>${comment.text}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3>Your Hidden Talent</h3>
+                        <p>${result.talent}</p>
+                    </div>
+                </div>
+                
+                <p>Thank you for visiting the Enchanted Patisserie! We hope you enjoyed your journey.</p>
+                <p><strong>Share your result to see what dessert your friends are!</strong></p>
+            `;
+            
+            showPage(totalPages - 1);
+        }
+        
+        // Initialize the quiz when the page loads
+        document.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+</body>
+</html>
