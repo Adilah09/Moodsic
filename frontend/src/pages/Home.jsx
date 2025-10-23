@@ -3,29 +3,19 @@ import axios from "axios";
 import "./Home.css";
 
 function Home() {
-  const [selectedMood, setSelectedMood] = useState(null);
   const [weatherData, setWeatherData] = useState(null); // Store weather data
   const [useWeather, setWeather] = useState(false);
   const [usePersonality, setUsePersonality] = useState(false);
   const [locationError, setLocationError] = useState(null);
   const [selectedWords, setSelectedWords] = useState([]); // Store selected words from word cloud
-
-  const moods = [
-    { label: "😎 Chill", value: "chill" },
-    { label: "😃 Happy", value: "happy" },
-    { label: "😢 Sad", value: "sad" },
-    { label: "🔥 Energetic", value: "energetic" },
-    { label: "💤 Lazy", value: "lazy" },
-  ];
+  const [wordLimitError, setWordLimitError] = useState(false); // Error when exceeding word limit
 
   const words = [
     "Joy", "Sadness", "Excitement", "Chill", "Energy", "Peace", "Anger", "Happiness", "Motivation", "Relax",
-    "Adventure", "Calm", "Fun", "Vibes", "Love", "Surprise", "Surreal", "Excitement", "Fear", "Inspiration"
+    "Adventure", "Calm", "Fun", "Vibes", "Love", "Surprise", "Surreal"
   ];
 
-
-  const handleMoodClick = (mood) => setSelectedMood(mood);
-
+  // Fetch weather data based on geolocation
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -54,50 +44,92 @@ function Home() {
   }, []);
 
   const handleGenerate = async () => {
-  console.log("Mood:", selectedMood);
-  console.log("Use Personality Quiz:", usePersonality);
-  // pass mood + weatherData + personality vector to your AI
-  console.log("Selected Words:", selectedWords);
+    // Log selected words and weather data when the button is clicked
+    console.log("Selected Words:", selectedWords);
+    if (useWeather && weatherData) {
+      console.log("Weather Data:", weatherData);
+      // If "Use Weather" is checked, you can process weather data here as well
+    }
+
+    // You can send the selected words, weather data, and other state to an API or generate a playlist here
   };
 
   // Word Cloud Functions
-  const getRandomWords = (wordList, count = 10) => {
-    const shuffled = [...wordList].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
-  };
-
   const handleWordClick = (word) => {
-    setSelectedWords((prevSelected) => {
-      if (prevSelected.includes(word)) {
-        return prevSelected.filter((item) => item !== word); // Remove word
-      } else {
-        return [...prevSelected, word]; // Add word
-      }
-    });
+    if (selectedWords.includes(word)) {
+      // If the word is already selected, remove it
+      setSelectedWords((prevSelected) => prevSelected.filter((item) => item !== word));
+      setWordLimitError(false); // Reset error if word is removed
+    } else if (selectedWords.length < 3) {
+      // Allow selecting if less than 3 words are selected
+      setSelectedWords((prevSelected) => [...prevSelected, word]);
+    } else {
+      // Display error if more than 3 words are selected
+      setWordLimitError(true);
+    }
   };
-
-  const displayWords = getRandomWords(words);
 
   return (
     <div className="mood-wrapper">
       <div className="mood-card">
-        <h1>What's your vibe today?</h1>
-        <p className="subtitle">Tap your current mood or choose a surprise!</p>
+        <h1>Pick Your Words</h1>
+        <p className="subtitle">Click on the words that match your vibe <br></br> (Max 3 words)</p>
 
-        {/* Mood input grid */}
-        <div className="mood-grid">
-          {moods.map((mood) => (
-            <button
-              key={mood.value}
-              className={`mood-btn ${selectedMood === mood.value ? "active" : ""}`}
-              onClick={() => handleMoodClick(mood.value)}
-            >
-              {mood.label}
-            </button>
-          ))}
+        {/* Word Cloud */}
+        <div className="wordcloudalign">
+          <div id="wordCloudContainer">
+            <div id="wordCloud">
+              {words.map((word, index) => (
+                <span
+                  key={index}
+                  className={`word ${selectedWords.includes(word) ? "selected" : ""}`}
+                  onClick={() => handleWordClick(word)}
+                  style={{
+                    cursor: "pointer",
+                    padding: "5px",
+                    fontSize: "18px",
+                    margin: "5px",
+                    display: "inline-block",
+                  }}
+                >
+                  {word}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Display selected words with border */}
+          <div
+            id="selectedWords"
+            style={{
+              display: selectedWords.length ? "block" : "none",
+              marginTop: "20px",
+              border: "2px solid #ddd", // Add a light border
+              padding: "10px", // Add padding for spacing
+              borderRadius: "8px", // Optional: rounded corners
+            }}
+          >
+            {selectedWords.length > 0 ? (
+              selectedWords.map((word, index) => (
+                <span key={index} style={{ padding: "5px", fontWeight: "bold" }}>
+                  {word}
+                </span>
+              ))
+            ) : (
+              <p>No words selected.</p>
+            )}
+          </div>
+
+          {/* Word Limit Error Message */}
+          {wordLimitError && (
+            <p style={{ color: "red", marginTop: "10px" }}>
+              You can only select up to 3 words.
+            </p>
+          )}
         </div>
 
         {/* Optional Toggles */}
+        <br />
         <div className="optional-toggles">
           <label>
             <input
@@ -117,59 +149,6 @@ function Home() {
           </label>
         </div>
 
-        {/* Mood Options
-        <div className="mood-options">
-          <button className="option-btn" onClick={() => console.log("Surprise Me!")}>
-            Use my Spotify Data
-          </button>
-          <button
-            className="option-btn"
-            onClick={() => console.log("Based on My Vibe!")}
-          >
-            Fresh Moods
-          </button>
-        </div> */}
-
-        {/* Generate Playlist */}
-        <button
-          id="submit-btn"
-          disabled={!selectedMood}
-          onClick={handleGenerate}
-        >
-          Generate My Vibe 🎶
-        </button>
-        <br />
-        <br />
-
-         {/* Word Cloud */}
-        <div className="wordcloudalign">
-          <h2>Select Words</h2>
-          <div id="wordCloudContainer">
-            <div id="wordCloud">
-              {displayWords.map((word, index) => (
-                <span
-                  key={index}
-                  className="word"
-                  onClick={() => handleWordClick(word)}
-                  style={{ cursor: "pointer", padding: "5px", fontSize: "18px", margin: "5px", display: "inline-block" }}
-                >
-                  {word}
-                </span>
-              ))}
-            </div>
-          </div>
-          <button id="submitBtn" onClick={handleGenerate}>
-            Submit
-          </button>
-          <div id="selectedWords" style={{ display: selectedWords.length ? "block" : "none", marginTop: "20px" }}>
-            {selectedWords.length > 0 ? (
-              selectedWords.map((word, index) => <span key={index} style={{ padding: "5px", fontWeight: "bold" }}>{word}</span>)
-            ) : (
-              <p>No words selected.</p>
-            )}
-          </div>
-        </div>
-
         {/* Weather Display */}
         <div>
           {locationError && <p>{locationError}</p>}
@@ -187,6 +166,14 @@ function Home() {
           )}
         </div>
 
+        {/* Generate My Vibe button */}
+        <button
+          id="submit-btn"
+          onClick={handleGenerate}
+          disabled={selectedWords.length === 0} // Disable button if no words are selected
+        >
+          Generate My Vibe 🎶
+        </button>
       </div>
     </div>
   );
