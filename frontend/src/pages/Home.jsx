@@ -1,182 +1,196 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import HomeUI from "./HomeUI";
 import "./Home.css";
+import { useNavigate } from 'react-router-dom';
+import { AppContext } from "../context/AppContext";
 
 function Home() {
-  const [weatherData, setWeatherData] = useState(null); // Store weather data
-  const [useWeather, setWeather] = useState(false);
-  const [usePersonality, setUsePersonality] = useState(false);
-  const [locationError, setLocationError] = useState(null);
-  const [selectedWords, setSelectedWords] = useState([]); // Store selected words from word cloud
-  const [wordLimitError, setWordLimitError] = useState(false); // Error when exceeding word limit
+    const [weatherData, setWeatherData] = useState(null);
+    const [useWeather, setWeather] = useState(false);
+    const [locationError, setLocationError] = useState(null);
 
-  const words = [
-    "Joy", "Sadness", "Excitement", "Chill", "Energy", "Peace", "Anger", "Happiness", "Motivation", "Relax",
-    "Adventure", "Calm", "Fun", "Vibes", "Love", "Surprise", "Surreal"
-  ];
+    const [usePersonality, setUsePersonality] = useState(false);
+    const [personalityVector, setPersonalityVector] = useState(null); // Will be filled later
 
-  // Fetch weather data based on geolocation
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-          try {
-            const res = await axios.get("https://api.openweathermap.org/data/2.5/weather", {
-              params: {
-                lat: latitude,
-                lon: longitude,
-                appid: "bbc23dde07349494203ae99ffadebca4", // Replace with your API key
-                units: "metric",
-              },
+    const [selectedWords, setSelectedWords] = useState([]);
+    const [wordLimitError, setWordLimitError] = useState(false);
+    const [mood, setMood] = useState("");
+
+    const [useSpotifyHistory, setUseSpotifyHistory] = useState(false);
+    const [spotifyTopArtists, setSpotifyTopArtists] = useState([]);
+
+    const [spotifyGenres, setSpotifyGenres] = useState([]);
+
+    const { accessToken, setProfile } = useContext(AppContext);
+    const [error, setError] = useState(null);
+
+    const [vibePhrase, setVibePhrase] = useState("");
+    const [playlist, setPlaylist] = useState([]); // array of track objects
+
+    const words = [
+        "Joy", "Sadness", "Excitement", "Chill", "Energy", "Peace", "Anger", "Happiness",
+        "Motivation", "Relax", "Adventure", "Calm", "Fun", "Vibes", "Love", "Surprise", "Surreal"
+    ];
+
+    // Fetch weather data if useWeather is true
+    useEffect(() => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const { latitude, longitude } = position.coords;
+                    try {
+                        // Call your backend endpoint instead of OpenWeather directly
+                        const res = await axios.get(`http://localhost:8888/api/weather?lat=${latitude}&lon=${longitude}`);
+                        setWeatherData(res.data);
+                    } catch (err) {
+                        console.error(err);
+                    }
+                },
+                () => setLocationError("Could not get your location."),
+                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+            );
+        } else {
+            setLocationError("Geolocation not supported.");
+        }
+    }, []);
+
+    // Fetch Spotify profile to verify token
+    useEffect(() => {
+        if (!accessToken) return;
+
+        const fetchProfile = async () => {
+            try {
+                const res = await axios.get("https://api.spotify.com/v1/me", {
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                });
+                console.log("Fetched profile:", res.data);
+                setProfile(res.data);
+            } catch (err) {
+                console.error("Spotify fetch failed", err);
+                if (err.response?.status === 401) {
+                    setError("Session expired, please log in again.");
+                } else if (err.response?.status === 403) {
+                    setError("⚠️ Some features require Spotify Premium.");
+                } else {
+                    setError("Failed to fetch profile.");
+                }
+            }
+        };
+
+        fetchProfile();
+    }, [accessToken, setProfile]);
+
+
+    // Fetch Spotify Top Artists if toggle is on
+    useEffect(() => {
+        if (!useSpotifyHistory || !accessToken) return;
+
+        const fetchTopArtists = async () => {
+            try {
+                const res = await axios.get("https://api.spotify.com/v1/me/top/artists?limit=10", {
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                });
+                setSpotifyTopArtists(res.data.items);
+
+                // Extract genres right after fetching
+                if (res.data.items && res.data.items.length > 0) {
+                    const genres = [...new Set(res.data.items.flatMap(artist => artist.genres))];
+                    setSpotifyGenres(genres);
+                }
+            } catch (err) {
+                console.error("Failed to fetch Spotify top artists", err);
+            }
+        };
+
+        fetchTopArtists();
+    }, [useSpotifyHistory, accessToken]);
+
+
+    // Word Cloud selection
+    const handleWordClick = (word) => {
+        if (selectedWords.includes(word)) {
+            setSelectedWords(prev => prev.filter(item => item !== word));
+            setWordLimitError(false);
+        } else if (selectedWords.length < 3) {
+            setSelectedWords(prev => [...prev, word]);
+        } else {
+            setWordLimitError(true);
+        }
+    };
+
+    const navigate = useNavigate();
+
+    // Generate vibe & playlist
+    const handleGenerate = async () => {
+        try {
+            console.log("Mood:", mood);
+            console.log("Selected Words:", selectedWords);
+            if (useWeather && weatherData) console.log("Weather Data:", weatherData);
+            if (useSpotifyHistory && spotifyGenres.length > 0) console.log("Spotify Genres:", spotifyGenres);
+
+            // Payload for vibe phrase generation
+            const payload = {
+                mood,
+                selectedWords,
+                weather: weatherData
+                    ? { temp: weatherData.main.temp, description: weatherData.weather[0].description }
+                    : null,
+                personalityVector,
+                spotifyGenres: useSpotifyHistory ? spotifyGenres : null,
+            };
+
+            console.log("Payload to AI:", payload);
+
+            // 1️⃣ Get vibe phrase from backend
+            const { data: { vibePhrase } } = await axios.post("/api/getVibePhrase", payload);
+
+            // 2️⃣ Generate playlist using Spotify Recommendations API
+            const { data: { tracks } } = await axios.post("/api/generatePlaylist", {
+                vibePhrase,
+                spotifyGenres: spotifyGenres || [],
+                accessToken,
             });
-            setWeatherData(res.data); // Store weather data in state
-          } catch (err) {
-            console.error(err);
-          }
-        },
-        (error) => setLocationError("Could not get your location."),
-        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
-      );
-    } else {
-      setLocationError("Geolocation not supported.");
-    }
-  }, []);
 
-  const handleGenerate = async () => {
-    // Log selected words and weather data when the button is clicked
-    console.log("Selected Words:", selectedWords);
-    if (useWeather && weatherData) {
-      console.log("Weather Data:", weatherData);
-      // If "Use Weather" is checked, you can process weather data here as well
-    }
+            // 3️⃣ Navigate to results page
+            navigate("/results", {
+                state: {
+                    vibePhrase,
+                    mood,
+                    selectedWords,
+                    usedWeather: !!weatherData,
+                    usedPersonality: !!personalityVector,
+                    usedSpotify: useSpotifyHistory,
+                    tracks,
+                },
+            });
 
-    // You can send the selected words, weather data, and other state to an API or generate a playlist here
-  };
+        } catch (err) {
+            console.error("Failed to generate vibe & playlist:", err.response?.data || err);
+            alert("Oops! Something went wrong while generating your vibe. Please try again.");
+        }
+    };
 
-  // Word Cloud Functions
-  const handleWordClick = (word) => {
-    if (selectedWords.includes(word)) {
-      // If the word is already selected, remove it
-      setSelectedWords((prevSelected) => prevSelected.filter((item) => item !== word));
-      setWordLimitError(false); // Reset error if word is removed
-    } else if (selectedWords.length < 3) {
-      // Allow selecting if less than 3 words are selected
-      setSelectedWords((prevSelected) => [...prevSelected, word]);
-    } else {
-      // Display error if more than 3 words are selected
-      setWordLimitError(true);
-    }
-  };
-
-  return (
-    <div className="mood-wrapper">
-      <div className="mood-card">
-        <h1>Pick Your Words</h1>
-        <p className="subtitle">Click on the words that match your vibe <br></br> (Max 3 words)</p>
-
-        {/* Word Cloud */}
-        <div className="wordcloudalign">
-          <div id="wordCloudContainer">
-            <div id="wordCloud">
-              {words.map((word, index) => (
-                <span
-                  key={index}
-                  className={`word ${selectedWords.includes(word) ? "selected" : ""}`}
-                  onClick={() => handleWordClick(word)}
-                  style={{
-                    cursor: "pointer",
-                    padding: "5px",
-                    fontSize: "18px",
-                    margin: "5px",
-                    display: "inline-block",
-                  }}
-                >
-                  {word}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Display selected words with border */}
-          <div
-            id="selectedWords"
-            style={{
-              display: selectedWords.length ? "block" : "none",
-              marginTop: "20px",
-              border: "2px solid #ddd", // Add a light border
-              padding: "10px", // Add padding for spacing
-              borderRadius: "8px", // Optional: rounded corners
-            }}
-          >
-            {selectedWords.length > 0 ? (
-              selectedWords.map((word, index) => (
-                <span key={index} style={{ padding: "5px", fontWeight: "bold" }}>
-                  {word}
-                </span>
-              ))
-            ) : (
-              <p>No words selected.</p>
-            )}
-          </div>
-
-          {/* Word Limit Error Message */}
-          {wordLimitError && (
-            <p style={{ color: "red", marginTop: "10px" }}>
-              You can only select up to 3 words.
-            </p>
-          )}
-        </div>
-
-        {/* Optional Toggles */}
-        <br />
-        <div className="optional-toggles">
-          <label>
-            <input
-              type="checkbox"
-              checked={useWeather}
-              onChange={() => setWeather(!useWeather)}
-            />
-            Use Weather
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={usePersonality}
-              onChange={() => setUsePersonality(!usePersonality)}
-            />
-            Personality Quiz
-          </label>
-        </div>
-
-        {/* Weather Display */}
-        <div>
-          {locationError && <p>{locationError}</p>}
-          {weatherData ? (
-            <div>
-              <p>Temperature: {weatherData.main.temp}°C</p>
-              <p>Description: {weatherData.weather[0].description}</p>
-              <img
-                src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}
-                alt={weatherData.weather[0].description}
-              />
-            </div>
-          ) : (
-            <p>Loading weather...</p>
-          )}
-        </div>
-
-        {/* Generate My Vibe button */}
-        <button
-          id="submit-btn"
-          onClick={handleGenerate}
-          disabled={selectedWords.length === 0} // Disable button if no words are selected
-        >
-          Generate My Vibe 🎶
-        </button>
-      </div>
-    </div>
-  );
+    return (
+        <HomeUI
+            words={words}
+            selectedWords={selectedWords}
+            wordLimitError={wordLimitError}
+            handleWordClick={handleWordClick}
+            useWeather={useWeather}
+            setWeather={setWeather}
+            usePersonality={usePersonality}
+            setUsePersonality={setUsePersonality}
+            useSpotifyHistory={useSpotifyHistory}
+            setUseSpotifyHistory={setUseSpotifyHistory}
+            locationError={locationError}
+            weatherData={weatherData}
+            handleGenerate={handleGenerate}
+            mood={mood}
+            setMood={setMood}
+            error={error}
+        />
+    );
 }
 
 export default Home;

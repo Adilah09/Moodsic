@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import ProfilePic from "../assets/profile.jpg";
 import "./Navbar.css";
+import { AppContext } from "../context/AppContext";
 
 function Navbar() {
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const { profile } = useContext(AppContext);
 
   const controlNavbar = () => {
     if (window.scrollY > lastScrollY) {
@@ -23,7 +25,7 @@ function Navbar() {
   }, [lastScrollY]);
 
   return (
-    <nav className={`navbar ${show ? "navbar--visible" : "navbar--hidden"} ${window.scrollY > 20 ? "scrolled" : "" } `} >
+    <nav className={`navbar ${show ? "navbar--visible" : "navbar--hidden"} ${window.scrollY > 20 ? "scrolled" : ""}`}>
       <div className="navbar-left">
         <Link to="/home"><img src={Logo} alt="Logo" className="logo-img" /></Link>
       </div>
@@ -31,16 +33,28 @@ function Navbar() {
       <div className="navbar-links">
         <Link to="/home">Home</Link>
         <Link to="/personality-quiz">Personality Quiz</Link>
-        <Link to="/my-playlists">My Playlists</Link>
+        <Link to="/playlists">Playlists</Link>
         <Link to="/chart">Chart</Link>
       </div>
 
       <div className="navbar-profile">
-        <Link to="/profile"><span>Bae</span></Link>
-        <img src={ProfilePic} alt="Profile" className="profile-img" />
+        {profile ? (
+          <>
+            <Link to="/profile"><span>{profile.display_name}</span>
+            <img src={profile.images[0]?.url} alt="Profile" className="profile-img" />
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link to="/profile"><span>You</span>
+            <img src={ProfilePic} alt="Profile" className="profile-img" />
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );
 }
+
 
 export default Navbar;

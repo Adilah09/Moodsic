@@ -1,49 +1,153 @@
-// backend/server.js
-require('dotenv').config();
-const express = require('express');
-const querystring = require('querystring');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
+import querystring from "querystring";
 
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+import axios from "axios";
+
+import fetch from "node-fetch";
+
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import OpenAI from "openai";
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
+const REDIRECT_URI = 'http://127.0.0.1:8888/callback';
+const FRONTEND_URI = 'http://localhost:3000';
 
-// Debug logs to confirm .env loaded
-console.log('Client ID:', CLIENT_ID);
-console.log('Client Secret loaded?', CLIENT_SECRET ? 'Yes' : 'No');
+// --- LOGIN STEP ---
+app.get('/login', (req, res) => {
+  const scope = 'user-read-private user-read-email user-top-read playlist-modify-public playlist-modify-private';
+  const params = querystring.stringify({
+    client_id: CLIENT_ID,
+    response_type: 'code',
+    redirect_uri: REDIRECT_URI,
+    scope,
+  });
+  res.redirect('https://accounts.spotify.com/authorize?' + params);
+});
 
-// Endpoint to get Spotify token
-app.get('/api/token', async (req, res) => {
-  try {
-    const response = await fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Basic ' + Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64'),
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: querystring.stringify({ grant_type: 'client_credentials' })
+// --- CALLBACK STEP ---
+app.get('/callback', async (req, res) => {
+  const code = req.query.code || null;
+
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Basic ' + Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64'),
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: querystring.stringify({
+      code,
+      redirect_uri: REDIRECT_URI,
+      grant_type: 'authorization_code',
+    }),
+  });
+
+  const data = await response.json();
+  console.log("Spotify token exchange:", data);
+
+  if (data.access_token) {
+    const params = querystring.stringify({
+      access_token: data.access_token,
+      refresh_token: data.refresh_token,
     });
-
-    const data = await response.json();
-    if (data.access_token) {
-      res.json(data);
-    } else {
-      res.status(500).json({ error: 'Failed to get token', details: data });
-    }
-  } catch (err) {
-    console.error('Spotify token fetch error:', err);
-    res.status(500).json({ error: 'Failed to get token', details: err.toString() });
+    // Send token back to frontend
+    res.redirect(`${FRONTEND_URI}/?${params}`);
+  } else {
+    console.error("Token exchange failed:", data);
+    res.status(400).json({ error: 'Token exchange failed', details: data });
   }
 });
 
-// Endpoint to get weather data
+
+// --- REFRESH TOKEN ENDPOINT ---
+app.get('/refresh_token', async (req, res) => {
+  const refresh_token = req.query.refresh_token;
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Basic ' + Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64'),
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: querystring.stringify({
+      grant_type: 'refresh_token',
+      refresh_token,
+    }),
+  });
+
+  const data = await response.json();
+  res.json(data);
+});
+
+// --- GENERATE VIBE & PLAYLIST ENDPOINT ---
+app.post("/api/generatePlaylist", async (req, res) => {
+  const { mood, selectedWords, weather, personalityVector, spotifyGenres, accessToken } = req.body;
+
+  if (!accessToken) return res.status(400).json({ error: "Spotify access token required" });
+
+  try {
+    // --- 1️⃣ Generate vibe phrase with AI ---
+    const prompt = `
+You are a vibe generator. 
+Given the following inputs, create a concise 3-5 word phrase that captures the user's mood and vibe.
+
+Mood: ${mood}
+Selected Words: ${selectedWords.join(", ")}
+Weather: ${weather ? JSON.stringify(weather) : "none"}
+Personality: ${personalityVector ? JSON.stringify(personalityVector) : "none"}
+Spotify Genres: ${spotifyGenres ? spotifyGenres.join(", ") : "none"}
+
+Output ONLY the phrase.
+    `;
+
+    const vibeResponse = await openai.chat.completions.create({
+      model: "gpt-4",
+      messages: [{ role: "user", content: prompt }],
+      max_tokens: 20,
+    });
+
+    const vibePhrase = vibeResponse.choices[0].message.content.trim();
+
+    // --- 2️⃣ Generate Spotify playlist ---
+    const params = new URLSearchParams();
+    params.append("seed_genres", spotifyGenres && spotifyGenres.length > 0 ? spotifyGenres.slice(0,5).join(",") : "pop");
+    params.append("limit", "20");
+    params.append("market", "from_token");
+
+    const spotifyRes = await axios.get(
+      `https://api.spotify.com/v1/recommendations?${params.toString()}`,
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+
+    const tracks = spotifyRes.data.tracks.map(track => ({
+      id: track.id,
+      title: track.name,
+      artist: track.artists.map(a => a.name).join(", "),
+      preview_url: track.preview_url,
+      uri: track.uri,
+    }));
+
+    // --- 3️⃣ Return combined response ---
+    res.json({ vibePhrase, tracks });
+
+  } catch (err) {
+    console.error(err.response?.data || err);
+    res.status(500).json({ error: "Failed to generate vibe & playlist" });
+  }
+});
+
+// --- WEATHER DATA ENDPOINT ---
 app.get("/api/weather", async (req, res) => {
   const { lat, lon } = req.query;
 
@@ -58,36 +162,21 @@ app.get("/api/weather", async (req, res) => {
         params: {
           lat,
           lon,
-          appid: process.env.WEATHER_API_KEY,
+          appid: process.env.WEATHER_API_KEY, 
           units: "metric",
         },
       }
     );
 
-    const weatherTypeImages = {
-      Clear: "/img/weather/clear.jpg",
-      Clouds: "/img/weather/clouds.jpg",
-      Haze: "/img/weather/haze.jpg",
-      Mist: "/img/weather/mist.jpg",
-      Rain: "/img/weather/rain.jpg",
-      Smoke: "/img/weather/smoke.jpg",
-      Snow: "/img/weather/snow.jpg",
-      Thunderstorm: "/img/weather/thunderstorm.jpg",
-    };
-
-    const weatherMain = response.data.weather[0].main;
-    const images = weatherTypeImages[weatherMain] ? [weatherTypeImages[weatherMain]] : [];
-
-    res.json({
-      temp: response.data.main.temp,
-      description: response.data.weather[0].description,
-      main: weatherMain,
-      images,
-    });
+    res.json(response.data);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch weather" });
   }
+});
+
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found", path: req.path });
 });
 
 

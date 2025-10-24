@@ -14,7 +14,7 @@
   to { opacity: 1; transform: translateY(0);}
 }
 
-.spotify-login-btn {
+button {
   margin-top: 30px;
   padding: 14px 50px;
   border-radius: 50px;
@@ -26,24 +26,8 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.spotify-login-btn:hover {
+button:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 25px rgba(30, 215, 96, 0.6);
 }
 
-.skip {
-  margin-top: 20px;
-  padding: 10px 30px;
-  border-radius: 50px;
-  background: transparent;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  border: 2px solid white;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.skip a {
-  color: white;
-  text-decoration: none;
-}

@@ -71,6 +71,7 @@
   font-weight: 500;
   text-decoration: none;
   font-size: 14px; /* slightly smaller font */
+  margin-right: 8px;
 }
 
 .navbar-profile a:hover {
