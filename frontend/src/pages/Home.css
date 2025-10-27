@@ -7,6 +7,7 @@
   text-align: center;
   padding: 20px 20px;
   width: 100%;
+  flex-direction: column;
 }
 
 /* Mood card with frosted glass effect */
@@ -18,11 +19,16 @@
   );
   backdrop-filter: blur(15px);
   border-radius: 35px;
-  padding: 100px 90px;
-  box-shadow: 0 10px 50px rgba(255, 105, 180, 0.4);
-  width: 700px;
-  max-width: 90%;
+  padding: 40px;
+  /* box-shadow: 0 10px 50px rgba(255, 105, 180, 0.4); */
+  width: 100%;
+  /* max-width: 90%; */
   transition: 0.4s ease;
+  margin-bottom: 25px;
+}
+
+.welcome-box h1, .welcome-box p{
+  text-align: left;
 }
 
 .mood-card:hover {
@@ -129,4 +135,52 @@
 .error-banner {
   padding-top: 30px;
   font-size: small;
+}
+
+
+.optional-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;  /* Space between buttons */
+}
+
+.button-row.top {
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.button-row.bottom {
+  justify-content: space-between;
+}
+
+.feature-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  background-color: #ff4fa7; /* Base color */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  flex: 1 1 30%; /* Ensures the button occupies a third of the container for the top row */
+}
+
+.feature-button:hover {
+  background-color: #ff8ccf; /* Hover color */
+}
+
+.feature-button.selected {
+  background-color: #ff4fa7;
+  border: 2px solid #ffffff;
+  transform: scale(1.05); /* Slight zoom effect */
+}
+
+.button-row.bottom .feature-button {
+  flex: 1 1 48%; /* Ensures bottom buttons take up 48% of the container width */
 }
