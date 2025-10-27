@@ -1,28 +1,18 @@
 import querystring from "querystring";
-
 import axios from "axios";
-
 import fetch from "node-fetch";
-
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 
 import sotdRouter from "./routes/sotd.js";
-
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
 
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
@@ -74,7 +64,6 @@ app.get('/callback', async (req, res) => {
   }
 });
 
-
 // --- REFRESH TOKEN ENDPOINT ---
 app.get('/refresh_token', async (req, res) => {
   const refresh_token = req.query.refresh_token;
@@ -94,62 +83,79 @@ app.get('/refresh_token', async (req, res) => {
   res.json(data);
 });
 
-// --- GENERATE VIBE & PLAYLIST ENDPOINT ---
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+// -------------------- Generate Playlist --------------------
 app.post("/api/generatePlaylist", async (req, res) => {
-  const { mood, selectedWords, weather, personalityVector, spotifyGenres, accessToken } = req.body;
+    try {
+        const {
+            mood,
+            selectedWords,
+            weather,
+            personalityVector,
+            spotifyGenres,
+            spotifyTopArtists,
+            accessToken
+        } = req.body;
 
-  if (!accessToken) return res.status(400).json({ error: "Spotify access token required" });
+        // ----- 1️⃣ Generate vibe phrase with Gemini AI -----
+        const aiPrompt = `
+        Create a vibe phrase for a playlist. Use the following inputs:
+        Mood: ${mood}
+        Selected Words: ${selectedWords.join(", ")}
+        Weather: ${weather ? `${weather.temp}°C, ${weather.description}` : "N/A"}
+        Personality vector: ${personalityVector || "N/A"}
+        Spotify Genres: ${spotifyGenres ? spotifyGenres.join(", ") : "N/A"}
+        Spotify Top Artists: ${spotifyTopArtists ? spotifyTopArtists.map(a => a.name).join(", ") : "N/A"}
+        Limit vibe phrase to 10 words max. Do not use words from the input directly. No need to add the inputs in the phrase.
+        `;
 
-  try {
-    // --- 1️⃣ Generate vibe phrase with AI ---
-    const prompt = `
-You are a vibe generator. 
-Given the following inputs, create a concise 3-5 word phrase that captures the user's mood and vibe.
+        const aiResponse = await ai.models.generateContent({
+            model: "gemini-2.5-flash-lite",
+            contents: aiPrompt,
+            temperature: 0.7,
+            maxOutputTokens: 128
+        });
 
-Mood: ${mood}
-Selected Words: ${selectedWords.join(", ")}
-Weather: ${weather ? JSON.stringify(weather) : "none"}
-Personality: ${personalityVector ? JSON.stringify(personalityVector) : "none"}
-Spotify Genres: ${spotifyGenres ? spotifyGenres.join(", ") : "none"}
+        const vibePhrase = aiResponse.text.trim();
+        console.log("AI generated vibe phrase:", vibePhrase);
 
-Output ONLY the phrase.
-    `;
+        // ----- 2️⃣ Search Spotify tracks based on vibe phrase -----
+        const searchResponse = await axios.get(
+            `https://api.spotify.com/v1/search`,
+            {
+                params: {
+                    q: vibePhrase,
+                    type: "track",
+                    limit: 15
+                },
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            }
+        );
 
-    const vibeResponse = await openai.chat.completions.create({
-      model: "gpt-4",
-      messages: [{ role: "user", content: prompt }],
-      max_tokens: 20,
-    });
+        const tracks = searchResponse.data.tracks.items.map(track => ({
+            name: track.name,
+            artist: track.artists.map(a => a.name).join(", "),
+            url: track.external_urls.spotify,
+            image: track.album.images[0]?.url
+        }));
 
-    const vibePhrase = vibeResponse.choices[0].message.content.trim();
+        console.log("Spotify tracks found:", tracks.length);
 
-    // --- 2️⃣ Generate Spotify playlist ---
-    const params = new URLSearchParams();
-    params.append("seed_genres", spotifyGenres && spotifyGenres.length > 0 ? spotifyGenres.slice(0,5).join(",") : "pop");
-    params.append("limit", "20");
-    params.append("market", "from_token");
+        // ----- 3️⃣ Send results back to frontend -----
+        res.json({
+            vibePhrase,
+            tracks
+        });
 
-    const spotifyRes = await axios.get(
-      `https://api.spotify.com/v1/recommendations?${params.toString()}`,
-      { headers: { Authorization: `Bearer ${accessToken}` } }
-    );
-
-    const tracks = spotifyRes.data.tracks.map(track => ({
-      id: track.id,
-      title: track.name,
-      artist: track.artists.map(a => a.name).join(", "),
-      preview_url: track.preview_url,
-      uri: track.uri,
-    }));
-
-    // --- 3️⃣ Return combined response ---
-    res.json({ vibePhrase, tracks });
-
-  } catch (err) {
-    console.error(err.response?.data || err);
-    res.status(500).json({ error: "Failed to generate vibe & playlist" });
-  }
+    } catch (err) {
+        console.error("Error generating playlist:", err.response?.data || err.message || err);
+        res.status(500).json({ error: "Failed to generate playlist" });
+    }
 });
+
 
 // --- WEATHER DATA ENDPOINT ---
 app.get("/api/weather", async (req, res) => {
@@ -166,7 +172,7 @@ app.get("/api/weather", async (req, res) => {
         params: {
           lat,
           lon,
-          appid: process.env.WEATHER_API_KEY, 
+          appid: process.env.WEATHER_API_KEY,
           units: "metric",
         },
       }

@@ -81,45 +81,43 @@ function Home() {
         fetchProfile();
     }, [accessToken, setProfile]);
 
-
-    // Fetch Spotify Top Artists if toggle is on
+    // Fetch Spotify Top Artists & Genres
     useEffect(() => {
         if (!useSpotifyHistory || !accessToken) return;
 
-        const fetchTopArtists = async () => {
+        const fetchSpotifyData = async () => {
             try {
                 const res = await axios.get("https://api.spotify.com/v1/me/top/artists?limit=10", {
                     headers: { Authorization: `Bearer ${accessToken}` },
                 });
-                setSpotifyTopArtists(res.data.items);
 
-                // Extract genres right after fetching
-                if (res.data.items && res.data.items.length > 0) {
-                    const genres = [...new Set(res.data.items.flatMap(artist => artist.genres))];
-                    setSpotifyGenres(genres);
-                }
+                const artists = res.data.items || [];
+                setSpotifyTopArtists(artists.map(a => a.name)); // Top artist names
+
+                // Aggregate genres from top artists
+                const genres = [...new Set(artists.flatMap(a => a.genres))];
+                setSpotifyGenres(genres);
+
+                console.log("Spotify top artists:", artists.map(a => a.name));
+                console.log("Spotify genres:", genres);
             } catch (err) {
-                console.error("Failed to fetch Spotify top artists", err);
+                console.error("Failed to fetch Spotify top artists/genres:", err);
             }
         };
 
-        fetchTopArtists();
+        fetchSpotifyData();
     }, [useSpotifyHistory, accessToken]);
-
 
     // Word Cloud selection
     const handleWordClick = (word) => {
         if (selectedWords.includes(word)) {
             setSelectedWords(prev => prev.filter(item => item !== word));
-            setWordLimitError(false);
         } else if (selectedWords.length < 3) {
             setSelectedWords(prev => [...prev, word]);
         } else {
-            setWordLimitError(true);
+            alert("You can select up to 3 words");
         }
     };
-
-    const navigate = useNavigate();
 
     // Generate vibe & playlist
     const handleGenerate = async () => {
@@ -127,32 +125,39 @@ function Home() {
             console.log("Mood:", mood);
             console.log("Selected Words:", selectedWords);
             if (useWeather && weatherData) console.log("Weather Data:", weatherData);
-            if (useSpotifyHistory && spotifyGenres.length > 0) console.log("Spotify Genres:", spotifyGenres);
+            if (useSpotifyHistory) {
+                console.log("Spotify Genres:", spotifyGenres);
+                console.log("Spotify Top Artists:", spotifyTopArtists);
+            }
 
-            // Payload for vibe phrase generation
+            // Build payload for backend
             const payload = {
                 mood,
                 selectedWords,
-                weather: weatherData
+                weather: useWeather && weatherData
                     ? { temp: weatherData.main.temp, description: weatherData.weather[0].description }
                     : null,
-                personalityVector,
-                spotifyGenres: useSpotifyHistory ? spotifyGenres : null,
+                personalityVector: personalityVector || null,
+                spotifyGenres: useSpotifyHistory ? spotifyGenres : null, // send all genres
+                spotifyTopArtists: useSpotifyHistory
+                    ? spotifyTopArtists.map(artist => artist.name).filter(Boolean)
+                    : null, // only names,
+                accessToken,
             };
+            console.log("Payload to AI/backend:", payload); // Debugging, remove in production
 
-            console.log("Payload to AI:", payload);
 
-            // 1️⃣ Get vibe phrase from backend
-            const { data: { vibePhrase } } = await axios.post("/api/getVibePhrase", payload);
-
-            // 2️⃣ Generate playlist using Spotify Recommendations API
-            const { data: { tracks } } = await axios.post("/api/generatePlaylist", {
-                vibePhrase,
-                spotifyGenres: spotifyGenres || [],
+            // Call backend
+            const response = await axios.post("http://localhost:8888/api/generatePlaylist", {
+                ...payload,
                 accessToken,
             });
 
-            // 3️⃣ Navigate to results page
+            console.log("Backend response:", response.data);
+
+            const { vibePhrase, tracks } = response.data;
+
+            // Navigate to results
             navigate("/results", {
                 state: {
                     vibePhrase,
@@ -170,6 +175,8 @@ function Home() {
             alert("Oops! Something went wrong while generating your vibe. Please try again.");
         }
     };
+
+    const navigate = useNavigate();
 
     return (
         <HomeUI

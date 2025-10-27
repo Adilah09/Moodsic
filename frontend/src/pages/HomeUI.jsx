@@ -89,6 +89,8 @@ export default function HomeUI({
           )}
         </div>
 
+        <hr />
+
         {/* Optional Toggles */}
         <br />
         <div className="optional-toggles" style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
