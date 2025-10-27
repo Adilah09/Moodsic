@@ -25,6 +25,10 @@ export default function Results() {
     alert("Playlist sent to Spotify!");
   };
 
+  const handleChart = () => {
+    navigate("/chart", { state: { tracks } });
+  };
+
   return (
     <div className="results-container">
       <h1 className="vibe-title">{vibePhrase}</h1>
@@ -60,6 +64,9 @@ export default function Results() {
         </button>
         <button className="save-button spotify" onClick={handleSaveSpotify}>
           Save to Spotify
+        </button>
+        <button className="see-chart" onClick={handleChart}>
+          View your Mood Chart
         </button>
       </div>
 
