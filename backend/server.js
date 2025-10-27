@@ -9,11 +9,15 @@ import cors from "cors";
 import dotenv from "dotenv";
 import OpenAI from "openai";
 
+import sotdRouter from "./routes/sotd.js";
+
+
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
@@ -174,6 +178,8 @@ app.get("/api/weather", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch weather" });
   }
 });
+
+app.use(sotdRouter);
 
 app.use((req, res) => {
   res.status(404).json({ error: "Route not found", path: req.path });
