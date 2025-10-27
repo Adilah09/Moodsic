@@ -85,75 +85,82 @@ app.get('/refresh_token', async (req, res) => {
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
+
 // -------------------- Generate Playlist --------------------
 app.post("/api/generatePlaylist", async (req, res) => {
-    try {
-        const {
-            mood,
-            selectedWords,
-            weather,
-            personalityVector,
-            spotifyGenres,
-            spotifyTopArtists,
-            accessToken
-        } = req.body;
+  try {
+    const {
+      mood = "",
+      selectedWords = [],
+      weather = null,
+      personalityVector = {},
+      spotifyGenres = [],
+      spotifyTopArtists = [],
+      accessToken
+    } = req.body;
 
-        // ----- 1️⃣ Generate vibe phrase with Gemini AI -----
-        const aiPrompt = `
-        Create a vibe phrase for a playlist. Use the following inputs:
-        Mood: ${mood}
-        Selected Words: ${selectedWords.join(", ")}
-        Weather: ${weather ? `${weather.temp}°C, ${weather.description}` : "N/A"}
-        Personality vector: ${personalityVector || "N/A"}
-        Spotify Genres: ${spotifyGenres ? spotifyGenres.join(", ") : "N/A"}
-        Spotify Top Artists: ${spotifyTopArtists ? spotifyTopArtists.map(a => a.name).join(", ") : "N/A"}
-        Limit vibe phrase to 10 words max. Do not use words from the input directly. No need to add the inputs in the phrase.
-        `;
+    // ----- 1️⃣ Generate vibe phrase with Gemini AI -----
+    const aiPrompt = `
+Create a vibe phrase for a playlist. Use the following inputs:
+Mood: ${mood || "N/A"}
+Selected Words: ${selectedWords.length ? selectedWords.join(", ") : "N/A"}
+Weather: ${weather?.temp ? `${weather.temp}°C, ${weather.description}` : "N/A"}
+Personality vector: ${Object.keys(personalityVector).length ? JSON.stringify(personalityVector) : "N/A"}
+Spotify Genres: ${spotifyGenres.length ? spotifyGenres.join(", ") : "N/A"}
+Spotify Top Artists: ${spotifyTopArtists.length ? spotifyTopArtists.join(", ") : "N/A"}
+Limit vibe phrase to 10 words max. Do not use words from the input directly.
+`;
 
-        const aiResponse = await ai.models.generateContent({
-            model: "gemini-2.5-flash-lite",
-            contents: aiPrompt,
-            temperature: 0.7,
-            maxOutputTokens: 128
-        });
+    const aiResponse = await ai.models.generateContent({
+      model: "gemini-2.5-flash-lite",
+      contents: aiPrompt,
+      temperature: 0.7,
+      maxOutputTokens: 128
+    });
 
-        const vibePhrase = aiResponse.text.trim();
-        console.log("AI generated vibe phrase:", vibePhrase);
+    const vibePhrase = aiResponse.text?.trim() || "Chill Vibes";
+    console.log("AI generated vibe phrase:", vibePhrase);
 
-        // ----- 2️⃣ Search Spotify tracks based on vibe phrase -----
+    // ----- 2️⃣ Search Spotify tracks safely -----
+    let tracks = [];
+
+    if (accessToken) {
+      try {
         const searchResponse = await axios.get(
-            `https://api.spotify.com/v1/search`,
-            {
-                params: {
-                    q: vibePhrase,
-                    type: "track",
-                    limit: 15
-                },
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            }
+          `https://api.spotify.com/v1/search`,
+          {
+            params: { q: vibePhrase, type: "track", limit: 15 },
+            headers: { Authorization: `Bearer ${accessToken}` }
+          }
         );
 
-        const tracks = searchResponse.data.tracks.items.map(track => ({
-            name: track.name,
-            artist: track.artists.map(a => a.name).join(", "),
-            url: track.external_urls.spotify,
-            image: track.album.images[0]?.url
+        tracks = (searchResponse.data.tracks?.items || []).map(track => ({
+          name: track.name,
+          artist: track.artists.map(a => a.name).join(", "),
+          url: track.external_urls.spotify,
+          image: track.album.images[0]?.url || ""
         }));
 
         console.log("Spotify tracks found:", tracks.length);
 
-        // ----- 3️⃣ Send results back to frontend -----
-        res.json({
-            vibePhrase,
-            tracks
-        });
-
-    } catch (err) {
-        console.error("Error generating playlist:", err.response?.data || err.message || err);
-        res.status(500).json({ error: "Failed to generate playlist" });
+      } catch (spotifyErr) {
+        // Handle development mode / unregistered users gracefully
+        console.warn(
+          "Spotify track search failed (maybe Free account or not allowlisted).",
+          spotifyErr.response?.status,
+          spotifyErr.response?.data?.error?.message
+        );
+        tracks = []; // fallback to empty tracks
+      }
     }
+
+    // ----- 3️⃣ Return results -----
+    res.json({ vibePhrase, tracks });
+
+  } catch (err) {
+    console.error("Error generating playlist:", err.response?.data || err.message || err);
+    res.status(500).json({ error: "Failed to generate playlist" });
+  }
 });
 
 

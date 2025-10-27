@@ -130,28 +130,32 @@ function Home() {
                 console.log("Spotify Top Artists:", spotifyTopArtists);
             }
 
-            // Build payload for backend
+            // Build payload safely for backend
             const payload = {
-                mood,
-                selectedWords,
+                mood: mood || "",
+                selectedWords: selectedWords || [],
                 weather: useWeather && weatherData
-                    ? { temp: weatherData.main.temp, description: weatherData.weather[0].description }
+                    ? {
+                        temp: weatherData?.main?.temp ?? null,
+                        description: weatherData?.weather?.[0]?.description ?? "",
+                    }
                     : null,
-                personalityVector: personalityVector || null,
-                spotifyGenres: useSpotifyHistory ? spotifyGenres : null, // send all genres
-                spotifyTopArtists: useSpotifyHistory
-                    ? spotifyTopArtists.map(artist => artist.name).filter(Boolean)
-                    : null, // only names,
-                accessToken,
-            };
-            console.log("Payload to AI/backend:", payload); // Debugging, remove in production
+                personalityVector: personalityVector || {},
 
+                // Make Spotify data safe
+                spotifyGenres: useSpotifyHistory ? spotifyGenres || [] : [],
+                spotifyTopArtists: useSpotifyHistory ? spotifyTopArtists || [] : [],
+
+                accessToken, // Only send once
+            };
+
+            console.log("Payload to AI/backend:", payload);
 
             // Call backend
-            const response = await axios.post("http://localhost:8888/api/generatePlaylist", {
-                ...payload,
-                accessToken,
-            });
+            const response = await axios.post(
+                "http://localhost:8888/api/generatePlaylist",
+                payload
+            );
 
             console.log("Backend response:", response.data);
 
@@ -166,15 +170,25 @@ function Home() {
                     usedWeather: !!weatherData,
                     usedPersonality: !!personalityVector,
                     usedSpotify: useSpotifyHistory,
-                    tracks,
+                    tracks: tracks.length ? tracks : [{
+                        name: "No tracks found",
+                        artist: "",
+                        url: "",
+                        image: ""
+                    }],
                 },
             });
-
         } catch (err) {
-            console.error("Failed to generate vibe & playlist:", err.response?.data || err);
-            alert("Oops! Something went wrong while generating your vibe. Please try again.");
+            console.error(
+                "Failed to generate vibe & playlist:",
+                err.response?.data || err
+            );
+            alert(
+                "Oops! Something went wrong while generating your vibe. Please try again."
+            );
         }
     };
+
 
     const navigate = useNavigate();
 

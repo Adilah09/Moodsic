@@ -34,25 +34,31 @@ export default function Results() {
       <h1 className="vibe-title">{vibePhrase}</h1>
 
       <div className="tracks-container">
-        {tracks.map((track, index) => (
-          <div className="track-wrapper" key={track.url || index}>
-            <div className="track-card">
-              <iframe
-                title={`track-${index}`}
-                className="spotify-embed"
-                src={`https://open.spotify.com/embed/track/${track.url.split("/").pop()}`}
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-              />
+        {tracks.length && tracks[0].url ? (
+          tracks.map((track, index) => (
+            <div className="track-wrapper" key={track.url || index}>
+              <div className="track-card">
+                <iframe
+                  title={`track-${index}`}
+                  className="spotify-embed"
+                  src={`https://open.spotify.com/embed/track/${track.url.split("/").pop()}`}
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                />
+              </div>
+              <button
+                className="remove-button"
+                onClick={() => handleRemove(index)}
+              >
+                &times;
+              </button>
             </div>
-            <button
-              className="remove-button"
-              onClick={() => handleRemove(index)}
-            >
-              &times;
-            </button>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="no-tracks-message">
+            No tracks available for this vibe. Try adjusting your mood, words, or Spotify options!
+          </p>
+        )}
       </div>
 
       <div className="results-buttons">
