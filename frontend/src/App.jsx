@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'r
 import React, { useState, useEffect, useContext } from "react";
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
-
 import Login from './pages/Login.jsx';
 import Home from './pages/Home.jsx';
 import Results from './pages/Results.jsx';
@@ -15,10 +14,16 @@ import './index.css';
 
 import { AppProvider, AppContext } from "./context/AppContext";
 
+
 function AppWrapper() {
   const location = useLocation();
   const { accessToken } = useContext(AppContext);
   const showNavbar = location.pathname !== "/";
+
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);  // scroll to top on route change
+  }, [pathname]);
 
   return (
     <div className="app-container">

@@ -1,43 +1,8 @@
-// import React, { useEffect, useContext } from "react";
-// import { AppContext } from "../context/AppContext";
-// import "./Login.css";
-
-// const Login = () => {
-//   const { setAccessToken } = useContext(AppContext);
-
-//   useEffect(() => {
-//     const params = new URLSearchParams(window.location.search);
-//     const accessToken = params.get("access_token");
-//     const refreshToken = params.get("refresh_token");
-
-//     if (accessToken) {
-//       localStorage.setItem("access_token", accessToken);
-//       localStorage.setItem("refresh_token", refreshToken);
-//       setAccessToken(accessToken);
-
-//       // Clean URL and go to home
-//       window.history.replaceState({}, document.title, "/home");
-//       window.location.href = "/home";
-//     }
-//   }, [setAccessToken]);
-
-//   return (
-//     <div className="login-page">
-//       <h1>Welcome to Moodsic 🎵</h1>
-//       <p>Login with Spotify to start generating your vibes.</p>
-//       <button onClick={() => (window.location.href = "http://localhost:8888/login")}>
-//         Login with Spotify
-//       </button>
-//     </div>
-//   );
-// };
-
-// export default Login;
-
 import React, { useEffect, useState, useContext, useRef } from "react";
 import { AppContext } from "../context/AppContext";
 import "./Login.css";
 
+//Login to Spotify
 const Login = () => {
   const { setAccessToken } = useContext(AppContext);
   const [song, setSong] = useState(null);
@@ -59,6 +24,7 @@ const Login = () => {
     }
   }, [setAccessToken]);
 
+  // Fetch Song of the Day on mount
   useEffect(() => {
     fetch("http://127.0.0.1:8888/api/sotd")
       .then((res) => res.json())
@@ -77,6 +43,7 @@ const Login = () => {
       setIsPlaying(true);
     }
   };
+  
    // 🎆 Parallax effect for particles and notes
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -90,6 +57,7 @@ const Login = () => {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
   // fetch Song of the Day (backend already guarantees preview_url)
   const fetchSOTD = async () => {
     try {

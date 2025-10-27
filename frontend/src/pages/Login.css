@@ -1,11 +1,3 @@
-/* Full-bleed page baseline */
-html, body, #root {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 /* ✅ Exact dark maroon background (edge-to-edge) */
 body {
   background: radial-gradient(
@@ -17,9 +9,11 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  overflow: hidden;
   color: #fff;
-  font-family: "Poppins", sans-serif;
+
+  /* important: allow scrolling! */
+  overflow-y: auto;
+  min-height: 100vh;
 }
 
 /* Layout container spans full viewport */
@@ -32,7 +26,6 @@ body {
   overflow: hidden;
   background: transparent; /* gradient lives on body */
   color: #fff;
-  font-family: "Poppins", sans-serif;
 }
 
 /* ✨ Soft, neutral pink glow (doesn't re-purple the page) */
@@ -54,8 +47,6 @@ body {
   pointer-events: none;
   z-index: 0;
 }
-
-
 
 /* 🎧 Layout */
 .song-section,
@@ -225,8 +216,6 @@ body {
   box-shadow: 0 0 40px rgba(255, 182, 193, 0.9);
   filter: brightness(1.1);
 }
-
-
 
 /* ✨ Animations */
 .fade-in { animation: fadeIn 1.2s ease; }

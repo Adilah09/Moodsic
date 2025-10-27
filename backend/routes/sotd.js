@@ -3,7 +3,6 @@ import fetch from "node-fetch";
 import dotenv from "dotenv";
 dotenv.config();
 
-
 const router = express.Router();
 
 let cached = null;
@@ -22,7 +21,6 @@ async function fetchWithTimeout(url, opts = {}, ms = 6000) {
     throw e;
   }
 }
-
 
 function isToday(date) {
   const today = new Date();
@@ -106,10 +104,6 @@ async function fetchSongOfTheDay() {
     preview: track.preview_url || null,
   };
 }
-
-
-
-
 
 router.get("/api/sotd", async (_req, res) => {
   console.log("[SOTD] HIT /api/sotd");
