@@ -47,6 +47,8 @@
 
 .subtitle {
   color: #ffb6d5;
+  text-align: center;
+  display: inline-block; 
   font-size: 17px;
   margin-bottom: 40px;
 }

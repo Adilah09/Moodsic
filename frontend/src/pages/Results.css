@@ -125,6 +125,26 @@
   transform: translateY(-2px);
 }
 
+/* === VIEW YOUR MOOD CHART === */
+.see-chart {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: #1db954;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.see-chart:hover {
+  background-color: #1ed760;
+  transform: translateY(-2px);
+}
+
+
+
 /* === RESPONSIVE === */
 @media (max-width: 600px) {
   .vibe-title {

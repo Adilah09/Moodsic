@@ -34,15 +34,12 @@ export default function HomeUI({
           <p>Moodsic: Navigating the vast world of music</p>
           <p>Discover playlists tailored to your mood, personality, or even today's weather.</p>
           <p><strong>Your personalized playlist generator based on your vibe!</strong></p>
-          <p><em>Simply provide your mood or select from other options (like weather, personality, or Spotify history) to create your perfect playlist.</em></p>
-          <p><strong><em>Remember:</em></strong> You must select at least one feature (Mood, Word Cloud, Weather, or History) to generate your playlist.</p>
         </div>
       </div>
 
       <div className="mood-card">
-        <p><em>Simply provide your mood or select from other options (like weather, personality, or Spotify history) to create your perfect playlist.</em></p>
-        <p><strong><em>Remember:</em></strong> You must select at least one feature (Mood, Word Cloud, Weather, or History) to generate your playlist.</p>
-        {/* Feature buttons layout */}
+        <p><em>Simply provide your mood or select from other options to create your perfect playlist.</em></p>
+        <p><strong><em>Remember:</em></strong> You must select at least one feature to generate your playlist.</p>
         <div className="optional-toggles">
           <div className="button-row top">
             {/* Top row (3 buttons) */}
@@ -75,7 +72,7 @@ export default function HomeUI({
         <div className="mood-card">
           <div className="mood-input-container">
             <h1>💗 How are you feeling right now?</h1>
-            <p className="subtitle">Tell us your vibe of the day 🎧 (Optional, leave blank if you prefer)</p>
+            <p className="subtitle">Tell us your vibe of the day 🎧</p>
             <input
               type="text"
               id="mood-input"
@@ -199,7 +196,7 @@ export default function HomeUI({
 
         {(selectedWords.length === 0 && !mood && !showWeather && !showSpotifyHistory) && (
           <p style={{ color: "red", marginTop: "10px" }}>
-            You must fill in at least one feature (mood, word cloud, weather, or history) to generate your playlist.
+            You must fill in at least one feature to generate your playlist.
           </p>
         )}
       </div>
