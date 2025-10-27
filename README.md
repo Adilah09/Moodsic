@@ -36,8 +36,8 @@ Describe the **real-world business or community problem** your project addresses
 ## Web Solution Overview
 
 ### 🎯 Intended Users
-Identify your target user groups.  
-Examples: small-business owners, caregivers, students, pet adopters, etc.
+Identify your target user groups.
+ Spotify Users mainly gen-z 
 
 ### 💡 What Users Can Do & Benefits
 Explain the core features and the benefit each provides.  
@@ -58,9 +58,9 @@ Explain the core features and the benefit each provides.
 | <img src="https://raw.githubusercontent.com/github/explore/main/topics/html/html.png" width="40"> | **HTML5** | Structure and content |
 | <img src="https://raw.githubusercontent.com/github/explore/main/topics/css/css.png" width="40"> | **CSS3 / Bootstrap** | Styling and responsiveness |
 | <img src="https://raw.githubusercontent.com/github/explore/main/topics/javascript/javascript.png" width="40"> | **JavaScript (ES6)** | Client-side logic and interactivity |
-| <img src="https://vitejs.dev/logo.svg" width="40"> | **Vite** | Development server and build tool |
-| <img src="https://vuejs.org/images/logo.png" width="40"> | **Vue.js 3** | Component-based frontend framework |
 | <img src="https://firebase.google.com/downloads/brand-guidelines/PNG/logo-logomark.png" width="40"> | **Firebase** | Authentication and database services |
+| <img src="https://firebase.google.com/downloads/brand-guidelines/PNG/logo-logomark.png" width="40"> | **React** | * |
+| <img src="https://firebase.google.com/downloads/brand-guidelines/PNG/logo-logomark.png" width="40"> | **Chart** | * |
 
 > Add or remove technologies depending on your project stack (e.g., Express.js, Supabase, MongoDB Atlas, AWS S3).
 
