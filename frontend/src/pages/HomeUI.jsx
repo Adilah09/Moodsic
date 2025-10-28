@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AppContext } from "../context/AppContext";
 
 export default function HomeUI({
   words,
@@ -24,6 +25,7 @@ export default function HomeUI({
   const [showWeather, setShowWeather] = useState(false);
   const [showPersonality, setShowPersonality] = useState(false);
   const [showSpotifyHistory, setShowSpotifyHistory] = useState(false);
+  const { profile } = useContext(AppContext);
 
   return (
     <div className="mood-wrapper">
@@ -34,6 +36,13 @@ export default function HomeUI({
           <p>Moodsic: Navigating the vast world of music</p>
           <p>Discover playlists tailored to your mood, personality, or even today's weather.</p>
           <p><strong>Your personalized playlist generator based on your vibe!</strong></p>
+
+          {/* show warning if not premium */}
+          {!profile?.product || profile.product !== "premium" ? (
+            <p className="profile-warning">
+              ⚠️ Some features require Spotify Premium.
+            </p>
+          ) : null}
         </div>
       </div>
 
@@ -65,7 +74,6 @@ export default function HomeUI({
           </div>
         </div>
       </div>
-
 
       {/* Mood Input Section (conditionally rendered) */}
       {showMoodInput && (
@@ -130,10 +138,10 @@ export default function HomeUI({
           >
             {selectedWords.length > 0
               ? selectedWords.map((word, index) => (
-                  <span key={index} style={{ padding: "5px", fontWeight: "bold" }}>
-                    {word}
-                  </span>
-                ))
+                <span key={index} style={{ padding: "5px", fontWeight: "bold" }}>
+                  {word}
+                </span>
+              ))
               : <p>No words selected.</p>}
           </div>
 
@@ -185,20 +193,20 @@ export default function HomeUI({
       )}
 
       {/* Generate Button Section */}
-        <button
-          id="submit-btn"
-          onClick={handleGenerate}
-          disabled={selectedWords.length === 0 && !mood && !showWeather && !showSpotifyHistory} // Require at least one feature
-          style={{ marginTop: "20px", padding: "10px 20px", fontSize: "16px", cursor: "pointer" }}
-        >
-          Generate My Vibe 🎶
-        </button>
+      <button
+        id="submit-btn"
+        onClick={handleGenerate}
+        disabled={selectedWords.length === 0 && !mood && !showWeather && !showSpotifyHistory} // Require at least one feature
+        style={{ marginTop: "20px", padding: "10px 20px", fontSize: "16px", cursor: "pointer" }}
+      >
+        Generate My Vibe 🎶
+      </button>
 
-        {(selectedWords.length === 0 && !mood && !showWeather && !showSpotifyHistory) && (
-          <p style={{ color: "red", marginTop: "10px" }}>
-            You must fill in at least one feature to generate your playlist.
-          </p>
-        )}
-      </div>
+      {(selectedWords.length === 0 && !mood && !showWeather && !showSpotifyHistory) && (
+        <p style={{ color: "red", marginTop: "10px" }}>
+          You must fill in at least one feature to generate your playlist.
+        </p>
+      )}
+    </div>
   );
 }

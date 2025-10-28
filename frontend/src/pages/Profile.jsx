@@ -49,9 +49,6 @@ function Profile() {
         <>
           <img src={profile.images?.[0]?.url || {Logo}} alt="Profile" />
           <h1>{profile.display_name}</h1>
-          {!profile.product || profile.product !== "premium" && (
-            <p className="profile-warning">⚠️ Some features require Spotify Premium.</p>
-          )}
         </>
       )}
       <button onClick={handleLogout}>Log out</button>

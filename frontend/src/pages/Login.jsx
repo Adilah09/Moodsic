@@ -12,9 +12,18 @@ const Login = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    const error = params.get("error");
     const accessToken = params.get("access_token");
     const refreshToken = params.get("refresh_token");
 
+    // Handle "cancelled authorization"
+    if (error === "access_denied") {
+      alert("You cancelled Spotify login. Please try again!");
+      window.history.replaceState({}, document.title, "/login");
+      return; // stop here — don’t run rest of logic
+    }
+
+    // Handle successful auth
     if (accessToken) {
       localStorage.setItem("access_token", accessToken);
       localStorage.setItem("refresh_token", refreshToken);
@@ -39,12 +48,12 @@ const Login = () => {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      audioRef.current.play().catch(() => {});
+      audioRef.current.play().catch(() => { });
       setIsPlaying(true);
     }
   };
-  
-   // 🎆 Parallax effect for particles and notes
+
+  // Parallax effect for particles and notes
   useEffect(() => {
     const handleMouseMove = (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 20;
@@ -58,7 +67,7 @@ const Login = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // fetch Song of the Day (backend already guarantees preview_url)
+  // fetch Song of the Day
   const fetchSOTD = async () => {
     try {
       setLoading(true);
@@ -74,44 +83,44 @@ const Login = () => {
     }
   };
 
-  // 🎶 Floating musical note trail
-useEffect(() => {
-  const container = document.createElement("div");
-  container.id = "note-container";
-  document.body.appendChild(container);
+  // Floating musical note trail
+  useEffect(() => {
+    const container = document.createElement("div");
+    container.id = "note-container";
+    document.body.appendChild(container);
 
-  let lastSpawn = 0;
-  const notes = ["🎵", "🎶", "🎼"];
+    let lastSpawn = 0;
+    const notes = ["🎵", "🎶", "🎼"];
 
-  const spawnNote = (e) => {
-    const now = Date.now();
-    if (now - lastSpawn < 120) return; // limit spawn rate
-    lastSpawn = now;
+    const spawnNote = (e) => {
+      const now = Date.now();
+      if (now - lastSpawn < 120) return; // limit spawn rate
+      lastSpawn = now;
 
-    const note = document.createElement("div");
-    note.className = "note-float";
-    note.textContent = notes[Math.floor(Math.random() * notes.length)];
+      const note = document.createElement("div");
+      note.className = "note-float";
+      note.textContent = notes[Math.floor(Math.random() * notes.length)];
 
-    // position near cursor
-    note.style.left = `${e.pageX + (Math.random() * 30 - 15)}px`;
-    note.style.top = `${e.pageY + (Math.random() * 30 - 15)}px`;
+      // position near cursor
+      note.style.left = `${e.pageX + (Math.random() * 30 - 15)}px`;
+      note.style.top = `${e.pageY + (Math.random() * 30 - 15)}px`;
 
-    container.appendChild(note);
+      container.appendChild(note);
 
-    // remove after fade
-    setTimeout(() => {
-      note.remove();
-    }, 2000);
-  };
+      // remove after fade
+      setTimeout(() => {
+        note.remove();
+      }, 2000);
+    };
 
-  window.addEventListener("mousemove", spawnNote);
-  return () => {
-    window.removeEventListener("mousemove", spawnNote);
-    container.remove();
-  };
-}, []);
+    window.addEventListener("mousemove", spawnNote);
+    return () => {
+      window.removeEventListener("mousemove", spawnNote);
+      container.remove();
+    };
+  }, []);
 
-    // 💿 3D tilt effect for the song card
+  // 3D tilt effect for the song card
   useEffect(() => {
     const card = document.querySelector(".song-card");
     if (!card) return;
@@ -138,24 +147,24 @@ useEffect(() => {
 
   return (
     <div className="login-wrapper">
-      {/* 🌸 One soft glow spotlight */}
+      {/* One soft glow spotlight */}
       <div className="spotlight"></div>
 
-      {/* ✨ Floating Particles */}
+      {/* Floating Particles */}
       <ul className="particles">
         {[...Array(20)].map((_, i) => (
           <li key={i}></li>
         ))}
       </ul>
 
-      {/* 🎵 Floating Music Notes */}
+      {/*Floating Music Notes */}
       <ul className="music-notes">
         {["🎵", "🎶", "🎼", "🎵", "🎶"].map((note, i) => (
           <li key={i}>{note}</li>
         ))}
       </ul>
 
-      {/* 🎧 Song of the Day */}
+      {/* Song of the Day */}
       <div className="song-section fade-in">
         <div className="song-card">
           {loading ? (
@@ -203,7 +212,7 @@ useEffect(() => {
         </div>
       </div>
 
-      {/* 🩷 Login Section */}
+      {/* Login Section */}
       <div className="login-panel slide-in">
         <h1>
           Welcome to <span className="highlight">Moodsic</span> 🎶
@@ -219,6 +228,6 @@ useEffect(() => {
     </div>
   );
 };
- 
+
 
 export default Login;

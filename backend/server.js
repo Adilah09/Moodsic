@@ -34,35 +34,48 @@ app.get('/login', (req, res) => {
 // --- CALLBACK STEP ---
 app.get('/callback', async (req, res) => {
   const code = req.query.code || null;
+  const error = req.query.error || null;
 
-  const response = await fetch('https://accounts.spotify.com/api/token', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Basic ' + Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64'),
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: querystring.stringify({
-      code,
-      redirect_uri: REDIRECT_URI,
-      grant_type: 'authorization_code',
-    }),
-  });
+  // 🟥 User pressed "Cancel" on Spotify authorization
+  if (error === 'access_denied') {
+    console.log("User denied access — redirecting to login page");
+    return res.redirect(`${FRONTEND_URI}/login?error=access_denied`);
+  }
 
-  const data = await response.json();
-  console.log("Spotify token exchange:", data);
-
-  if (data.access_token) {
-    const params = querystring.stringify({
-      access_token: data.access_token,
-      refresh_token: data.refresh_token,
+  // 🟩 Normal case: got authorization code
+  try {
+    const response = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Basic ' + Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64'),
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: querystring.stringify({
+        code,
+        redirect_uri: REDIRECT_URI,
+        grant_type: 'authorization_code',
+      }),
     });
-    // Send token back to frontend
-    res.redirect(`${FRONTEND_URI}/?${params}`);
-  } else {
-    console.error("Token exchange failed:", data);
-    res.status(400).json({ error: 'Token exchange failed', details: data });
+
+    const data = await response.json();
+    console.log("Spotify token exchange:", data);
+
+    if (data.access_token) {
+      const params = querystring.stringify({
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+      });
+      return res.redirect(`${FRONTEND_URI}/?${params}`);
+    } else {
+      console.error("Token exchange failed:", data);
+      return res.redirect(`${FRONTEND_URI}/login?error=token_failed`);
+    }
+  } catch (err) {
+    console.error("Error during token exchange:", err);
+    return res.redirect(`${FRONTEND_URI}/login?error=server_error`);
   }
 });
+
 
 // --- REFRESH TOKEN ENDPOINT ---
 app.get('/refresh_token', async (req, res) => {
@@ -130,7 +143,8 @@ Limit vibe phrase to 10 words max. Do not use words from the input directly.
           `https://api.spotify.com/v1/search`,
           {
             params: { q: vibePhrase, type: "track", limit: 15 },
-            headers: { Authorization: `Bearer ${accessToken}` }
+            headers: { Authorization: `Bearer ${accessToken}` },
+            timeout: 15000,
           }
         );
 
