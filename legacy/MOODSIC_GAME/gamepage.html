@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enchanted Patisserie Personality Quiz</title>
     <style>
+        /* Your existing CSS remains the same */
         * {
             margin: 0;
             padding: 0;
@@ -253,106 +254,16 @@
             font-size: 1.1em;
         }
         
-        /* Vinyl Styles */
-        .vinyl-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 25px;
-            justify-content: center;
-            margin-top: 20px;
+        /* Spotify Player Styles */
+        .spotify-player {
+            margin: 15px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
-        .vinyl-record {
-            width: 150px;
-            height: 180px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            position: relative;
-        }
-        
-        .vinyl-record:hover {
-            transform: scale(1.05);
-        }
-        
-        .vinyl-record.playing .vinyl-disc {
-            animation: spin 3s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .vinyl-disc {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: radial-gradient(circle at center, #333 0%, #1a1a1a 70%, #000 100%);
-            position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            aspect-ratio: 1 / 1;
-        }
-        
-        .vinyl-center {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #e03b85;
-            position: absolute;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-            border: 2px solid #ffcce6;
-            aspect-ratio: 1 / 1;
-        }
-        
-        .vinyl-lines {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            top: 0;
-            left: 0;
-        }
-        
-        .vinyl-line {
-            position: absolute;
-            border: 1px solid #444;
-            border-radius: 50%;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            aspect-ratio: 1 / 1;
-        }
-        
-        .vinyl-line:nth-child(1) { width: 90%; height: 90%; }
-        .vinyl-line:nth-child(2) { width: 80%; height: 80%; }
-        .vinyl-line:nth-child(3) { width: 70%; height: 70%; }
-        .vinyl-line:nth-child(4) { width: 60%; height: 60%; }
-        .vinyl-line:nth-child(5) { width: 50%; height: 50%; }
-        
-        .song-info {
-            text-align: center;
-            margin-top: 10px;
-            font-weight: bold;
-            color: #5a3921;
-            font-size: 0.9rem;
-            max-width: 140px;
-        }
-        
-        /* Hidden audio elements */
-        .audio-element {
-            display: none;
+        .spotify-player iframe {
+            border: none;
         }
         
         .comment-bubble {
@@ -425,19 +336,6 @@
             
             .story-image {
                 height: 150px;
-            }
-            
-            .vinyl-container {
-                gap: 15px;
-            }
-            
-            .vinyl-record {
-                width: 130px;
-            }
-            
-            .vinyl-disc {
-                width: 100px;
-                height: 100px;
             }
         }
     </style>
@@ -616,75 +514,11 @@
         </div>
     </div>
 
-    <!-- Hidden Audio Elements -->
-    <audio id="audio-smooth-operator" class="audio-element">
-        <source src="https://www.youtube.com/watch?v=4TYv2PhG89A&list=RD4TYv2PhG89A&start_radio=1" type="audio/mpeg">
-    </audio>
-    <audio id="audio-perfect" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-sweet-and-soft-romance-479.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-thousand-years" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-emotional-piano-478.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-moon-river" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-jazz-piano-478.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-la-vie-en-rose" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-french-romantic-piano-478.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-count-on-me" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-upbeat-funny-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-home" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-folk-acoustic-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-sweet-creature" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-acoustic-guitar-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-youve-got-a-friend" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-folk-acoustic-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-best-day" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-upbeat-pop-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-uptown-funk" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-funky-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-bad-guy" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-dark-trap-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-dont-stop-me" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-rock-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-7-rings" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-pop-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-cant-hold-us" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-hip-hop-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-bohemian-rhapsody" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-rock-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-blinding-lights" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-synth-pop-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-happy" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-upbeat-pop-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-shake-it-off" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-pop-477.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-feel-it-still" class="audio-element">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-indie-rock-477.mp3" type="audio/mpeg">
-    </audio>
-
     <script>
         // Quiz state
         let currentPage = 0;
         const totalPages = 6; // Including intro, 4 questions, and results
         const answers = [];
-        let currentPlayingVinyl = null;
-        let currentAudio = null;
         
         // DOM elements
         const pages = document.querySelectorAll('.page');
@@ -698,31 +532,7 @@
         ];
         const restartBtn = document.getElementById('restart-btn');
         
-        // Audio element mapping
-        const audioElements = {
-            "Smooth Operator - Sade": document.getElementById('audio-smooth-operator'),
-            "Perfect - Ed Sheeran": document.getElementById('audio-perfect'),
-            "A Thousand Years - Christina Perri": document.getElementById('audio-thousand-years'),
-            "Moon River - Audrey Hepburn": document.getElementById('audio-moon-river'),
-            "La Vie en Rose - Emily Watts": document.getElementById('audio-la-vie-en-rose'),
-            "Count on Me - Bruno Mars": document.getElementById('audio-count-on-me'),
-            "Home - Edward Sharpe & The Magnetic Zeros": document.getElementById('audio-home'),
-            "Sweet Creature - Harry Styles": document.getElementById('audio-sweet-creature'),
-            "You've Got a Friend - James Taylor": document.getElementById('audio-youve-got-a-friend'),
-            "Best Day of My Life - American Authors": document.getElementById('audio-best-day'),
-            "Uptown Funk - Mark Ronson ft. Bruno Mars": document.getElementById('audio-uptown-funk'),
-            "Bad Guy - Billie Eilish": document.getElementById('audio-bad-guy'),
-            "Don't Stop Me Now - Queen": document.getElementById('audio-dont-stop-me'),
-            "7 rings - Ariana Grande": document.getElementById('audio-7-rings'),
-            "Can't Hold Us - Macklemore & Ryan Lewis": document.getElementById('audio-cant-hold-us'),
-            "Bohemian Rhapsody - Queen": document.getElementById('audio-bohemian-rhapsody'),
-            "Blinding Lights - The Weeknd": document.getElementById('audio-blinding-lights'),
-            "Happy - Pharrell Williams": document.getElementById('audio-happy'),
-            "Shake It Off - Taylor Swift": document.getElementById('audio-shake-it-off'),
-            "Feel It Still - Portugal. The Man": document.getElementById('audio-feel-it-still')
-        };
-        
-        // Personality data with enhanced information
+        // Personality data with Spotify URIs
         const personalityData = {
             A: {
                 title: "The Sophisticated Crème Brûlée",
@@ -730,11 +540,8 @@
                 image: "cremebrulee.jpg",
                 color: "#ffd9ec",
                 songs: [
-                    "Smooth Operator - Sade",
-                    "Perfect - Ed Sheeran",
-                    "A Thousand Years - Christina Perri",
-                    "Moon River - Audrey Hepburn",
-                    "La Vie en Rose - Emily Watts"
+                    "37i9dQZF1DX4UtSsGT1Sbe", // "All Out 80s" playlist
+                    "spotify:track:4TYv2PhG89A" // "Smooth Operator" track
                 ],
                 comments: [
                     {author: "Chocolate Chip Cookie", text: "I love how you always know the perfect wine pairing!"},
@@ -749,11 +556,8 @@
                 image: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
                 color: "#ffd9ec",
                 songs: [
-                    "Count on Me - Bruno Mars",
-                    "Home - Edward Sharpe & The Magnetic Zeros",
-                    "Sweet Creature - Harry Styles",
-                    "You've Got a Friend - James Taylor",
-                    "Best Day of My Life - American Authors"
+                    "37i9dQZF1DX4SBhb3fqCJd", // "Relax & Unwind" playlist
+                    "spotify:track:0L7i14dRg8Fe6TDq37W3wI" // "Count on Me" track
                 ],
                 comments: [
                     {author: "Crème Brûlée", text: "Your hugs are literally the best thing in the world."},
@@ -768,11 +572,8 @@
                 image: "choctart.jpeg",
                 color: "#ffd9ec",
                 songs: [
-                    "Uptown Funk - Mark Ronson ft. Bruno Mars",
-                    "Bad Guy - Billie Eilish",
-                    "Don't Stop Me Now - Queen",
-                    "7 rings - Ariana Grande",
-                    "Can't Hold Us - Macklemore & Ryan Lewis"
+                    "37i9dQZF1DX0XUsuxWHRQd", // "RapCaviar" playlist
+                    "spotify:track:2NRANZE9UCmPAS5XVbXL40" // "Uptown Funk" track
                 ],
                 comments: [
                     {author: "Crème Brûlée", text: "I wish I had your confidence to speak my mind!"},
@@ -787,11 +588,8 @@
                 image: "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
                 color: "#ffd9ec",
                 songs: [
-                    "Bohemian Rhapsody - Queen",
-                    "Blinding Lights - The Weeknd",
-                    "Happy - Pharrell Williams",
-                    "Shake It Off - Taylor Swift",
-                    "Feel It Still - Portugal. The Man"
+                    "37i9dQZF1DXcBWIGoYBM5M", // "Today's Top Hits" playlist
+                    "spotify:track:04KTF78FFg8sOHC1BADqbY" // "Blinding Lights" track
                 ],
                 comments: [
                     {author: "Crème Brûlée", text: "You always have the most interesting stories to tell!"},
@@ -856,16 +654,6 @@
                 
                 startBtn.disabled = false;
                 
-                // Stop any playing audio
-                stopAllAudio();
-                
-                // Reset all vinyl animations
-                document.querySelectorAll('.vinyl-record').forEach(vinyl => {
-                    vinyl.classList.remove('playing');
-                });
-                
-                currentPlayingVinyl = null;
-                
                 // Show first page
                 showPage(currentPage);
                 updateProgress();
@@ -907,51 +695,27 @@
             progressBar.style.width = `${progress}%`;
         }
         
-        // Stop all audio elements
-        function stopAllAudio() {
-            Object.values(audioElements).forEach(audio => {
-                audio.pause();
-                audio.currentTime = 0;
-            });
-        }
-        
-        // Play/pause song preview using HTML5 audio
-        function toggleSongPreview(songName, vinylElement) {
-            const audio = audioElements[songName];
+        // Create Spotify embed
+        function createSpotifyEmbed(spotifyUri, container) {
+            // Clear previous content
+            container.innerHTML = '';
             
-            if (!audio) return;
+            // Determine if it's a track or playlist
+            const isTrack = spotifyUri.includes('track:');
+            const type = isTrack ? 'track' : 'playlist';
+            const id = isTrack ? spotifyUri.split(':')[2] : spotifyUri;
             
-            // Stop current audio if playing
-            if (currentPlayingVinyl && currentPlayingVinyl !== vinylElement) {
-                const currentAudio = audioElements[Object.keys(audioElements).find(
-                    key => audioElements[key] === currentAudio
-                )];
-                if (currentAudio) {
-                    currentAudio.pause();
-                    currentAudio.currentTime = 0;
-                }
-                currentPlayingVinyl.classList.remove('playing');
-            }
+            // Create iframe
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://open.spotify.com/embed/${type}/${id}`;
+            iframe.width = "100%";
+            iframe.height = isTrack ? "80" : "380";
+            iframe.frameBorder = "0";
+            iframe.allowtransparency = "true";
+            iframe.allow = "encrypted-media";
+            iframe.style.borderRadius = "8px";
             
-            // If clicking the same vinyl that's already playing, just stop it
-            if (vinylElement.classList.contains('playing')) {
-                audio.pause();
-                audio.currentTime = 0;
-                vinylElement.classList.remove('playing');
-                currentPlayingVinyl = null;
-                return;
-            }
-            
-            // Play new audio
-            audio.play();
-            vinylElement.classList.add('playing');
-            currentPlayingVinyl = vinylElement;
-            
-            // Reset vinyl when audio ends
-            audio.addEventListener('ended', function() {
-                vinylElement.classList.remove('playing');
-                currentPlayingVinyl = null;
-            });
+            container.appendChild(iframe);
         }
         
         // Calculate and display results
@@ -1001,23 +765,9 @@
                 <div class="extra-info">
                     <div class="info-box">
                         <h3>Your Signature Playlist</h3>
-                        <p>Click on the vinyl records to play song previews:</p>
-                        <div class="vinyl-container">
-                            ${result.songs.map(song => `
-                                <div class="vinyl-record" onclick="toggleSongPreview('${song}', this)">
-                                    <div class="vinyl-disc">
-                                        <div class="vinyl-lines">
-                                            <div class="vinyl-line"></div>
-                                            <div class="vinyl-line"></div>
-                                            <div class="vinyl-line"></div>
-                                            <div class="vinyl-line"></div>
-                                            <div class="vinyl-line"></div>
-                                        </div>
-                                        <div class="vinyl-center">♪</div>
-                                    </div>
-                                    <div class="song-info">${song}</div>
-                                </div>
-                            `).join('')}
+                        <p>Listen to your personalized playlist on Spotify:</p>
+                        <div class="spotify-player" id="spotify-player">
+                            <!-- Spotify embed will be inserted here -->
                         </div>
                     </div>
                     
@@ -1040,6 +790,15 @@
                 <p>Thank you for visiting the Enchanted Patisserie! We hope you enjoyed your journey.</p>
                 <p><strong>Share your result to see what dessert your friends are!</strong></p>
             `;
+            
+            // Add Spotify embed after the content is rendered
+            setTimeout(() => {
+                const spotifyContainer = document.getElementById('spotify-player');
+                // Use the first song/playlist URI for the embed
+                if (result.songs && result.songs.length > 0) {
+                    createSpotifyEmbed(result.songs[0], spotifyContainer);
+                }
+            }, 100);
             
             showPage(totalPages - 1);
         }
