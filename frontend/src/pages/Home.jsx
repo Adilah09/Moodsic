@@ -70,9 +70,8 @@ function Home() {
                 console.error("Spotify fetch failed", err);
                 if (err.response?.status === 401) {
                     setError("Session expired, please log in again.");
-                } else if (err.response?.status === 403) {
-                    setError("⚠️ Some features require Spotify Premium.");
-                } else {
+                }
+                else {
                     setError("Failed to fetch profile.");
                 }
             }

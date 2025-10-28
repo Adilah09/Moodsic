@@ -36,13 +36,13 @@ app.get('/callback', async (req, res) => {
   const code = req.query.code || null;
   const error = req.query.error || null;
 
-  // 🟥 User pressed "Cancel" on Spotify authorization
+  //User pressed "Cancel" on Spotify authorization
   if (error === 'access_denied') {
     console.log("User denied access — redirecting to login page");
     return res.redirect(`${FRONTEND_URI}/login?error=access_denied`);
   }
 
-  // 🟩 Normal case: got authorization code
+  //Normal case: got authorization code
   try {
     const response = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',

@@ -22,11 +22,8 @@ export default function HomeUI({
   // State for toggling visibility of each feature
   const [showMoodInput, setShowMoodInput] = useState(false);
   const [showWordCloud, setShowWordCloud] = useState(false);
-  const [showWeather, setShowWeather] = useState(false);
-  const [showPersonality, setShowPersonality] = useState(false);
-  const [showSpotifyHistory, setShowSpotifyHistory] = useState(false);
   const { profile } = useContext(AppContext);
-
+  
   return (
     <div className="mood-wrapper">
       {/* Welcome Box */}
@@ -58,17 +55,17 @@ export default function HomeUI({
             <button onClick={() => setShowWordCloud(!showWordCloud)} className="feature-button">
               Word Cloud
             </button>
-            <button onClick={() => setShowWeather(!showWeather)} className="feature-button">
+            <button onClick={() => setWeather(!useWeather)} className="feature-button">
               Use Weather
             </button>
           </div>
 
           <div className="button-row bottom">
             {/* Bottom row (2 buttons) */}
-            <button onClick={() => setShowPersonality(!showPersonality)} className="feature-button">
+            <button onClick={() => setUsePersonality(!usePersonality)} className="feature-button">
               Personality Quiz
             </button>
-            <button onClick={() => setShowSpotifyHistory(!showSpotifyHistory)} className="feature-button">
+            <button onClick={() => setUseSpotifyHistory(!useSpotifyHistory)} className="feature-button">
               Use Spotify History
             </button>
           </div>
@@ -99,7 +96,7 @@ export default function HomeUI({
           <h1>Pick Your Words</h1>
           <p className="subtitle">Click on the words that match your vibe <br /> (Max 3 words)</p>
           <p className="note">
-            <strong>Note:</strong> Select up to 3 words that best describe how you’re feeling today to help personalize your playlist.
+            <strong>Note:</strong> Select up to 3 words that best describe how you're feeling today to help personalize your playlist.
           </p>
 
           <div className="wordcloudalign">
@@ -152,7 +149,7 @@ export default function HomeUI({
       )}
 
       {/* Weather Section (conditionally rendered) */}
-      {showWeather && (
+      {useWeather && (
         <div className="mood-card">
           <h1>Weather</h1>
           <p className="subtitle">See how today's weather influences your vibe.</p>
@@ -175,7 +172,7 @@ export default function HomeUI({
       )}
 
       {/* Personality Quiz Section (conditionally rendered) */}
-      {showPersonality && (
+      {usePersonality && (
         <div className="mood-card">
           <h1>Personality Quiz</h1>
           <p className="subtitle">Take a quiz to generate a playlist based on your personality.</p>
@@ -184,7 +181,7 @@ export default function HomeUI({
       )}
 
       {/* Spotify History Section (conditionally rendered) */}
-      {showSpotifyHistory && (
+      {useSpotifyHistory && (
         <div className="mood-card">
           <h1>Spotify History</h1>
           <p className="subtitle">Generate a playlist based on your Spotify listening history.</p>
@@ -196,13 +193,13 @@ export default function HomeUI({
       <button
         id="submit-btn"
         onClick={handleGenerate}
-        disabled={selectedWords.length === 0 && !mood && !showWeather && !showSpotifyHistory} // Require at least one feature
+        disabled={selectedWords.length === 0 && !mood && !useWeather && !useSpotifyHistory} // Require at least one feature
         style={{ marginTop: "20px", padding: "10px 20px", fontSize: "16px", cursor: "pointer" }}
       >
         Generate My Vibe 🎶
       </button>
 
-      {(selectedWords.length === 0 && !mood && !showWeather && !showSpotifyHistory) && (
+      {(selectedWords.length === 0 && !mood && !useWeather && !useSpotifyHistory) && (
         <p style={{ color: "red", marginTop: "10px" }}>
           You must fill in at least one feature to generate your playlist.
         </p>
