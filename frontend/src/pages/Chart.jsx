@@ -69,16 +69,32 @@ function ChartPage() {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "10px" }}>
-      <h3 style={{ color: "#ffb6d5", marginBottom: "30px" }}>
-        Your Stats Radar Chart
-      </h3>
+    <div className="mood-wrapper">
+      <div className="mood-card">
+        <h1>Your Personality Result!</h1>
+      </div>
 
-      <div style={{ width: "500px", margin: "0 auto" }}>
-        <Radar data={data} options={options} />
+      <div className="mood-card">
+        <h1>Your Mood History</h1>
+      </div>
+
+      <div className="mood-card">
+        <h1>Your Track Genre!</h1>
+        <div style={{ textAlign: "center", marginTop: "10px" }}>
+          <div style={{ width: "500px", margin: "0 auto" }}>
+            <Radar data={data} options={options} />
+          </div>
+        </div>
+      </div>
+
+      <div className="mood-card">
+        <h1>Top Songs</h1>
       </div>
 
     </div>
+  
+
+
   );
 }
 
