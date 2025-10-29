@@ -59,8 +59,8 @@ Explain the core features and the benefit each provides.
 | <img src="https://raw.githubusercontent.com/github/explore/main/topics/css/css.png" width="40"> | **CSS3 / Bootstrap** | Styling and responsiveness |
 | <img src="https://raw.githubusercontent.com/github/explore/main/topics/javascript/javascript.png" width="40"> | **JavaScript (ES6)** | Client-side logic and interactivity |
 | <img src="https://firebase.google.com/downloads/brand-guidelines/PNG/logo-logomark.png" width="40"> | **Firebase** | Authentication and database services |
-| <img src="https://firebase.google.com/downloads/brand-guidelines/PNG/logo-logomark.png" width="40"> | **React** | * |
-| <img src="https://firebase.google.com/downloads/brand-guidelines/PNG/logo-logomark.png" width="40"> | **Chart** | * |
+| <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="40"> | **React** | Building user interfaces with components |
+| <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Logo_D3.svg" width="40"> | **Chart** | Data visualisation |
 
 > Add or remove technologies depending on your project stack (e.g., Express.js, Supabase, MongoDB Atlas, AWS S3).
 
@@ -206,17 +206,25 @@ npm run test
 
 Each member should contribute 2–3 sentences on their learning and project experience.
 
-> **Example Template:**  
-> - *Alice:* Learned to build reusable Vue components and manage state effectively.  
-> - *Ben:* Gained experience connecting frontend and backend APIs.  
-> - *Chloe:* Improved UI/UX design workflow and collaboration using Figma.  
-> - *David:* Understood how Firebase Authentication and Firestore integrate with modern SPAs.  
+> - Adilah: This project has challenged my coding and teamwork skills while introducing me to new technologies that make websites visually engaging. Creating charts was a new experience for me, and I quickly learned how important it is to balance technical implementation with clear and appealing design. Collaborating with my team enhanced my communication and time management abilities, as we combined our strengths to bring the project to life. Overall, I’m proud of what we accomplished and excited to continue improving my development skills. 
+
+> - Eryn: I gained practical experience working with real-world frameworks and authentication systems. I discovered how APIs function in production settings, including the challenges of permissions and paid access. One major challenge was handling Spotify’s authentication and token flow, which I resolved through documentation study and iterative testing. Collaborating closely with the frontend team improved my communication and project management skills, while reinforcing the importance of structured problem-solving and teamwork in a development environment.
+
+> - Aaliya:
+
+> - Sreya: By sharing my word cloud designs with my group mates and getting their feedback, I could design the word cloud feature so that it matched the theme of the application better, and make it more usable for the users as well. I also explored different libraries like D3.js and other frameworks like Tailwind. Although I did not use them, it was a good opportunity to learn about the available resources. All in all, this learning experience has definitely been valuable, and has reinforced my learning in this module.
+
+> - Kushala: As the Frontend Developer and UI/UX Designer for Moodsic, I learned how to transform creative ideas into interactive, user-friendly interfaces that seamlessly blend emotion and music. Building features like Song of the Day taught me how to balance aesthetics with usability, making every click and effect feel intentional. Through continuous testing and feedback, I strengthened my skills in visual design and user-centered thinking. It was very rewarding seeing our vision come to life.
+
+> - Etienne: 
+ 
 
 As a team, reflect on:
 - Key takeaways from working with real-world frameworks  
 - Challenges faced and how they were resolved  
-- Insights on teamwork, project management, and problem-solving  
+- Insights on teamwork, project management, and problem-solving 
 
+> - 
 
 
 
