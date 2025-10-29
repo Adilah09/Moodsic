@@ -18,7 +18,7 @@
 | <img src="photos/member5.jpg" width="80"> | Kushala Kanakesh | UI/UX Designer - Layout & Color Themes, Page Design |
 | <img src="photos/member6.jpg" width="80"> | Etienne Wong Ai Ting | Frontend Developer - Personality Quiz Development |
 
-> Place all headshot thumbnails in the `/photos` folder (JPEG or PNG).
+<!-- > Place all headshot thumbnails in the `/photos` folder (JPEG or PNG). -->
 
 ---
 
@@ -26,7 +26,7 @@
 
 Describe the **real-world business or community problem** your project addresses.
 
-> *Example:*  
+<!-- > *Example:*   -->
 > Navigating the vast world of music to find a playlist that matches our exact mood can be a surprisingly frustrating chore. The paradox of choice on platforms like Spotify often leads to decision fatigue, pulling us out of the moment instead of enhancing it. 
 
 > Moodsic is an interactive web application designed to solve this. It intelligently matches the users’ current mood, personality traits, and even the weather to personalized playlists by analyzing a unique blend of inputs. By removing the burden of choice, Moodsic creates a more intuitive, enjoyable, and emotionally-connected music listening experience.
@@ -92,6 +92,12 @@ Comprehensive steps to help other developers or evaluators run and test your pro
 
 ---
 
+moodsic/
+├── legacy           ← old HTML/CSS/JS here
+├── frontend/        ← React app (with navbar, stats, moods, etc.)
+├── backend/         ← Node/Express app (with .env ignored)
+└── README.md
+
 ### 0) Prerequisites
 - [Git](https://git-scm.com/) v2.4+  
 - [Node.js](https://nodejs.org/) v18+ and npm v9+  
@@ -101,8 +107,8 @@ Comprehensive steps to help other developers or evaluators run and test your pro
 
 ### 1) Download the Project
 ```bash
-git clone https://github.com/<org-or-user>/<repo-name>.git
-cd <repo-name>
+git clone https://github.com/Adilah09/Moodsic.git
+cd Adilah09/Moodsic
 npm install
 ```
 
@@ -112,13 +118,12 @@ npm install
 Create a `.env` file in the root directory with the following structure:
 
 ```bash
-VITE_API_URL=<your_backend_or_firebase_url>
-VITE_FIREBASE_API_KEY=<your_firebase_api_key>
-VITE_FIREBASE_AUTH_DOMAIN=<your_auth_domain>
-VITE_FIREBASE_PROJECT_ID=<your_project_id>
-VITE_FIREBASE_STORAGE_BUCKET=<your_storage_bucket>
-VITE_FIREBASE_MESSAGING_SENDER_ID=<your_sender_id>
-VITE_FIREBASE_APP_ID=<your_app_id>
+SPOTIFY_CLIENT_ID=<your_spotify_client_id>
+SPOTIFY_CLIENT_SECRET=<your_spotify_client_secret>
+REDIRECT_URI= <http://localhost:8888/callback>
+FRONTEND_URI= <http://localhost:3000>
+WEATHER_API_KEY=<your_weather_api_key>
+GEMINI_API_KEY=<your_gemini_api_key>
 ```
 
 > Never commit the `.env` file to your repository.  
@@ -137,17 +142,17 @@ VITE_FIREBASE_APP_ID=<your_app_id>
    - **Hosting (optional)** if you plan to deploy your web app
 4. Copy the Firebase configuration into your `.env` file.
 
-#### Optional: Express.js / MongoDB
+<!-- #### Optional: Express.js / MongoDB
 If your app includes a backend:
 1. Create a `/server` folder for backend code.
 2. Inside `/server`, create a `.env` file with:
    ```bash
    MONGO_URI=<your_mongodb_connection_string>
    JWT_SECRET=<your_jwt_secret_key>
-   ```
+   ``` -->
 3. Start the backend:
    ```bash
-   cd server
+   cd backend
    npm install
    npm start
    ```
@@ -157,15 +162,17 @@ If your app includes a backend:
 ### 4) Run the Frontend
 To start the development server:
 ```bash
-npm run dev
+cd frontend
+npm install
+npm start
 ```
-The project will run on [http://localhost:5173](http://localhost:5173) by default.
+The project will run on [http://localhost:3000](http://localhost:3000) by default.
 
-To build and preview the production version:
+<!-- To build and preview the production version:
 ```bash
 npm run build
 npm run preview
-```
+``` -->
 
 ---
 
@@ -224,7 +231,9 @@ As a team, reflect on:
 - Challenges faced and how they were resolved  
 - Insights on teamwork, project management, and problem-solving 
 
-> - 
+> - As a team, working with real-world frameworks like React, Firebase, and Chart.js gave us valuable experience to build a functional and interactive website. We quickly learned the importance of choosing the right framework for specific tasks, such as using React for state management and Firebase for backend services. The frameworks helped streamline our workflow and kept the code organized, making it easier to scale and maintain the project as it progressed. A key takeaway was realizing how powerful and time-saving these frameworks can be when used correctly, but also how they require a solid understanding of their core concepts to avoid issues down the road.
+
+Throughout the project, we encountered challenges such as integrating multiple libraries, managing complex states, and ensuring cross-component compatibility. These were resolved through strong communication and collaborative problem-solving. For example, we divided tasks effectively and regularly checked in with each other to ensure we were aligned. In terms of teamwork, we learned the value of trust and constructive feedback, with everyone contributing their strengths and being open to suggestions. Project management skills were crucial in keeping us on track, with clear deadlines and responsibility sharing helping us stay organized and meet milestones.
 
 
 
@@ -234,18 +243,7 @@ As a team, reflect on:
 
 
 
-
-
-
-
-moodsic/
-├── legacy           ← old HTML/CSS/JS here
-├── frontend/        ← React app (with navbar, stats, moods, etc.)
-├── backend/         ← Node/Express app (with .env ignored)
-└── README.md
-
-
-open 2 terminals, run:
+<!-- open 2 terminals, run:
 cd backend
 npm install
 # create .env from .env.example
@@ -268,5 +266,5 @@ Do not commit .env — it contains spotify secret keys.
 Only commit code and .env.example.
 
 open legacy folder to use mamp/wamp
-for react-app, after npm start for both front/backend, should be able to see at localhost:3000
+for react-app, after npm start for both front/backend, should be able to see at localhost:3000 -->
 
