@@ -1,0 +1,74 @@
+/* Container for centering mood cards in a 2x2 grid */
+.chart-mood-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 30px; /* Space between cards */
+  justify-items: center;
+  align-items: flex-start; /* Align at the top */
+  padding: 20px;
+  /* width: 100%; */
+}
+
+/* Mood card with frosted glass effect */
+.chart-mood-card {
+  background: linear-gradient(180deg, rgba(255, 182, 193, 0.18), rgba(255, 105, 180, 0.15));
+  backdrop-filter: blur(15px);
+  border-radius: 35px;
+  padding: 40px;
+  width: 100%;
+  transition: 0.4s ease;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 50px rgba(255, 105, 180, 0.4);
+}
+
+.chart-mood-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(255, 182, 193, 0.7);
+}
+
+/* Title Styling */
+.chart-mood-card h1 {
+  font-weight: 700;
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #ffe5f2;
+  padding-top: 20px;
+  text-align: center;
+}
+
+/* Subtitle Styling */
+.subtitle {
+  color: #ffb6d5;
+  text-align: center;
+  display: inline-block;
+  font-size: 17px;
+  margin-bottom: 40px;
+}
+
+/* Responsive design: Ensure 1 card per row on smaller screens */
+@media (max-width: 768px) {
+  .chart-mood-wrapper {
+    grid-template-columns: 1fr; /* Stack cards in 1 column on smaller screens */
+  }
+}
+
+
+/* Explanation Section for each chart */
+.chart-explanation {
+  font-size: 16px;
+  color: #e03b85;
+  background-color: #ffe6f2;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 20px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(255, 105, 180, 0.4);
+}
+
+/* Explanation text for bubble chart and radar chart */
+.chart-explanation h3 {
+  font-size: 20px;
+  color: #e03b85;
+  margin-bottom: 10px;
+  text-align: center;
+}

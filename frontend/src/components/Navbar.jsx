@@ -34,7 +34,7 @@ function Navbar() {
         <Link to="/home">Home</Link>
         <Link to="/game">Personality Quiz</Link>
         <Link to="/playlists">Playlists</Link>
-        <Link to="/chart">Chart</Link>
+        <Link to="/chart">Dashboard</Link>
       </div>
 
       <div className="navbar-profile">
