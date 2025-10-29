@@ -32,7 +32,7 @@ function Navbar() {
 
       <div className="navbar-links">
         <Link to="/home">Home</Link>
-        <Link to="/personality-quiz">Personality Quiz</Link>
+        <Link to="/game">Personality Quiz</Link>
         <Link to="/playlists">Playlists</Link>
         <Link to="/chart">Chart</Link>
       </div>
