@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { AppContext } from "../context/AppContext";
 
 export default function HomeUI({
@@ -20,10 +20,17 @@ export default function HomeUI({
   error
 }) {
   // State for toggling visibility of each feature
-  const [showMoodInput, setShowMoodInput] = useState(false);
-  const [showWordCloud, setShowWordCloud] = useState(false);
+  const [showMoodInput, setShowMoodInput] = useState(Boolean(mood));;
+  const [showWordCloud, setShowWordCloud] = useState(selectedWords.length > 0);
+
+  // Ensure toggles reflect previous state
+  useEffect(() => {
+    setShowMoodInput(Boolean(mood));
+    setShowWordCloud(selectedWords.length > 0);
+  }, [mood, selectedWords]);
+
   const { profile } = useContext(AppContext);
-  
+
   return (
     <div className="mood-wrapper">
       {/* Welcome Box */}

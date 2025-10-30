@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./Results.css";
 
 export default function Results() {
+  const location = useLocation();
   const navigate = useNavigate();
   const { state } = useLocation();
   const { vibePhrase, tracks: initialTracks } = state;
@@ -62,8 +63,20 @@ export default function Results() {
       </div>
 
       <div className="results-buttons">
-        <button className="back-button" onClick={() => navigate("/")}>
-          &larr; Back to Home
+        <button
+          className="back-button"
+          onClick={() => navigate("/", {
+            state: {
+              // pass back the existing selections so Home can repopulate them
+              mood: location.state?.mood,
+              selectedWords: location.state?.selectedWords,
+              usedWeather: location.state?.usedWeather,
+              usedPersonality: location.state?.usedPersonality,
+              usedSpotify: location.state?.usedSpotify
+            }
+          })}
+        >
+          &larr; Try Again!
         </button>
         <button className="save-button moodsic" onClick={handleSaveMoodsic}>
           Save in Moodsic

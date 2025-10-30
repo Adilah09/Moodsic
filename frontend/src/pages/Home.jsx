@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import HomeUI from "./HomeUI";
 import "./Home.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AppContext } from "../context/AppContext";
 
 function Home() {
@@ -19,7 +19,6 @@ function Home() {
 
     const [useSpotifyHistory, setUseSpotifyHistory] = useState(false);
     const [spotifyTopArtists, setSpotifyTopArtists] = useState([]);
-
     const [spotifyGenres, setSpotifyGenres] = useState([]);
 
     const { accessToken, setProfile } = useContext(AppContext);
@@ -27,6 +26,9 @@ function Home() {
 
     const [vibePhrase, setVibePhrase] = useState("");
     const [playlist, setPlaylist] = useState([]); // array of track objects
+
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const words = [
         "Joy", "Sadness", "Excitement", "Chill", "Energy", "Peace", "Anger", "Happiness",
@@ -119,7 +121,7 @@ function Home() {
     };
 
     // Generate vibe & playlist
-    const handleGenerate = async () => {
+    const handleGenerate = React.useCallback(async () => {
         try {
             console.log("Mood:", mood);
             console.log("Selected Words:", selectedWords);
@@ -130,6 +132,7 @@ function Home() {
             }
 
             // Build payload safely for backend
+            console.log("Current spotifyGenres state:", spotifyGenres);
             const payload = {
                 mood: mood || "",
                 selectedWords: selectedWords || [],
@@ -186,10 +189,18 @@ function Home() {
                 "Oops! Something went wrong while generating your vibe. Please try again."
             );
         }
-    };
+    });
 
+    useEffect(() => {
+        if (location.state) {
+            if (location.state.mood) setMood(location.state.mood);
+            if (location.state.selectedWords) setSelectedWords(location.state.selectedWords);
+            if (location.state.usedWeather) setWeather(true);
+            if (location.state.usedPersonality) setUsePersonality(true);
+            if (location.state.usedSpotify) setUseSpotifyHistory(true);
+        }
+    }, [location.state]);
 
-    const navigate = useNavigate();
 
     return (
         <HomeUI
