@@ -1,0 +1,122 @@
+/* Wrapper to center the vinyl (flex container) */
+.ring-container-wrapper {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100%; /* Make the parent container take full height */
+  width: 100%; /* Make the parent container take full width */
+  position: relative;
+  margin-top: 20px; /* Optional: Add spacing if needed */
+}
+
+/* Vinyl circle container (record) */
+.ring-container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  animation: spin 40s linear infinite;
+  background: radial-gradient(circle, #111 60%, #000 61%, #000 100%);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media screen and (max-width: 991px) {
+  .ring-container {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .ring-container {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+/* Ring styling (the circles around the vinyl) */
+.ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Word styling inside the vinyl */
+.word {
+  position: absolute;
+  font-size: clamp(0.7rem, 1.5vw, 1rem);
+  white-space: nowrap;
+  cursor: pointer;
+  transform-origin: center center;
+  transition: color 0.2s;
+  color: white;
+}
+
+.word:hover {
+  color: #ff4fa7;
+}
+
+/* Display the clicked words (box below the vinyl) */
+.clicked-box {
+  width: 80vmin;
+  border: 1px solid #ccc;
+  padding: 10px;
+  min-height: 40px;
+  background: #fff;
+  margin-top: 20px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+#clickedWords span {
+  display: inline-block;
+  margin-right: 10px;
+  font-weight: bold;
+  color: #222;
+}
+
+/* Simulate grooves using concentric circles with repeating radial gradient */
+.ring-container::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.03) 0,
+    rgba(255, 255, 255, 0.03) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* Center label of the record */
+.center-label {
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, #ff4fa7, #ff4fa7 80%);
+  border-radius: 50%;
+}
+
+@media screen and (max-width: 991px) {
+  .center-label {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .center-label {
+    width: 20px;
+    height: 20px;
+  }
+}
