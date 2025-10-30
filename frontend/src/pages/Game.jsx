@@ -176,8 +176,8 @@ const PERSONALITY_DATA = {
   },
   C: {
     title: "The Daring Spicy Chocolate Tart",
-    description:
-      "You are innovative, bold, and utterly unpredictable. Like a Spicy Chocolate Tart, you combine unexpected elements to create something thrilling and memorable. You have a fiery spirit and a zest for life that draws people to your energy. You're not afraid to break the rules and are always seeking the next adventure or creative project. You can be intense for some, but for those who can keep up, you are an exhilarating and unforgettable force of nature.",
+    description: "You are innovative, bold, and utterly unpredictable. Like a Spicy Chocolate Tart, you combine unexpected elements to create something thrilling and memorable. You have a fiery spirit and a zest for life that draws people to your energy. You're not afraid to break the rules and are always seeking the next adventure or creative project. You can be intense for some, but for those who can keep up, you are an exhilarating and unforgettable force of nature.",
+    image: "/assets/game/choctart.jpg",
     color: "#ffd9ec",
     songs: ["37i9dQZF1DX0XUsuxWHRQd"],
     comments: [
