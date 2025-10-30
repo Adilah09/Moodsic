@@ -1,12 +1,17 @@
 /* Container for centering mood cards in a 2x2 grid */
 .chart-mood-wrapper {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  grid-template-columns: 1fr 1fr; /* Two columns */
   gap: 30px; /* Space between cards */
   justify-items: center;
   align-items: flex-start; /* Align at the top */
   padding: 20px;
-  /* width: 100%; */
+  width: 100%;
+}
+
+/* Make the first item span the full row */
+.chart-mood-wrapper > .chart-mood-card:first-child {
+  grid-column: span 2; /* This makes "Your Personalized Dashboard" span across two columns */
 }
 
 /* Mood card with frosted glass effect */
@@ -51,7 +56,6 @@
     grid-template-columns: 1fr; /* Stack cards in 1 column on smaller screens */
   }
 }
-
 
 /* Explanation Section for each chart */
 .chart-explanation {
