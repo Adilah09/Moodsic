@@ -59,12 +59,12 @@ Explain the core features and the benefit each provides.
 | <img src="https://raw.githubusercontent.com/github/explore/main/topics/css/css.png" width="40"> | **CSS3 / Bootstrap** | Styling and responsiveness |
 | <img src="https://raw.githubusercontent.com/github/explore/main/topics/javascript/javascript.png" width="40"> | **JavaScript (ES6)** | Client-side logic and interactivity |
 | <img src="https://firebase.google.com/downloads/brand-guidelines/PNG/logo-logomark.png" width="40"> | **Firebase** | Authentication and database services |
-| <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="40"> | **React** | Building user interfaces with components |
-| <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Logo_D3.svg" width="40"> | **D3.js** | Data visualisation |
-| <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Framer-logo.svg" width="40">| **Framer Motion** |  Animations |
-| <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Chartjs_logo.svg" width="40"> | **Chart.js / react-chartjs-2** | Mood chart |
-| <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Spotify_logo_green.svg" width="40"> | **Spotify for Developers** | Spotify API |
-| <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Google_GenAI_Logo.svg" width="40"> | **Google GenAI** | Generating vibe phrases |
+| <img src="https://raw.githubusercontent.com/github/explore/main/topics/react/react.png" width="40"> | **React** | Building user interfaces with components |
+| <img src="photos/d3-js-icon.png" width="40"> | **D3.js** | Data visualisation |
+| <img src="https://raw.githubusercontent.com/github/explore/main/topics/framer-motion/framer-motion.png" width="40">| **Framer Motion** |  Animations |
+| <img src="photos/chart-js-seeklogo.png" width="40"> | **Chart.js / react-chartjs-2** | Mood chart |
+| <img src="https://raw.githubusercontent.com/github/explore/main/topics/spotify/spotify.png" width="40"> | **Spotify for Developers** | Spotify API |
+| <img src="photos/aistudio.png" width="40"> | **Google GenAI** | Generating vibe phrases |
 
 ---
 

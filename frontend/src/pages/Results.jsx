@@ -221,7 +221,6 @@ export default function Results() {
         )}
       </AnimatePresence>
 
-
       {error && <div className="error-message">{error}</div>}
     </div>
   );
