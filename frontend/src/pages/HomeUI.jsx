@@ -218,11 +218,12 @@
 import React, { useRef, useEffect, useState, useContext } from "react";
 import "./Home.css";
 import { AppContext } from "../context/AppContext";
+import WordVinyl from './WordVinyl'; // Import the WordVinyl component
 
 export default function HomeUI({
   words,
-  selectedWords,
-  wordLimitError,
+  // selectedWords,
+  // wordLimitError,
   handleWordClick,
   useWeather,
   setWeather,
