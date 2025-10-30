@@ -41,13 +41,25 @@ function Navbar() {
         {profile ? (
           <>
             <Link to="/profile"><span>{profile.display_name}</span>
-            <img src={profile.images[0]?.url} alt="Profile" className="profile-img" />
+              {profile.images && profile.images.length > 0 ? (
+                <img
+                  src={profile.images[0].url}
+                  alt="Profile"
+                  className="profile-img"
+                />
+              ) : (
+                <img
+                  src={ProfilePic} 
+                  alt="pfp"
+                  className="profile-img"
+                />
+              )}
             </Link>
           </>
         ) : (
           <>
             <Link to="/profile"><span>You</span>
-            <img src={ProfilePic} alt="Profile" className="profile-img" />
+              <img src={ProfilePic} alt="Profile" className="profile-img" />
             </Link>
           </>
         )}

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
 import "./Profile.css";
-import Logo from "../assets/logo.svg";
+import ProfilePic from "../assets/profile.jpg";
 
 function Profile() {
   const { accessToken, setAccessToken, profile, setProfile } = useContext(AppContext);
@@ -47,7 +47,19 @@ function Profile() {
         <p>Could not fetch profile.</p>
       ) : (
         <>
-          <img src={profile.images?.[0]?.url || {Logo}} alt="Profile" />
+          {profile.images && profile.images.length > 0 ? (
+            <img
+              src={profile.images[0].url}
+              alt="Profile"
+              className="profile-img"
+            />
+          ) : (
+            <img
+              src={ProfilePic}   // path to your logo
+              alt="Logo"
+              className="profile-img"
+            />
+          )}
           <h1 className="username">{profile.display_name}</h1>
         </>
       )}

@@ -4,6 +4,7 @@ import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import Login from './pages/Login.jsx';
 import Home from './pages/Home.jsx';
+import Generating from './pages/Generating.jsx';
 import Results from './pages/Results.jsx';
 import Playlists from './pages/Playlists.jsx';
 import PersonalityQuiz from './pages/Game.jsx';
@@ -13,7 +14,6 @@ import Profile from './pages/Profile.jsx';
 import './index.css';
 
 import { AppProvider, AppContext } from "./context/AppContext";
-
 
 function AppWrapper() {
   const location = useLocation();
@@ -42,6 +42,7 @@ function AppWrapper() {
               accessToken ? <Home /> : <Navigate to="/" replace />
             }
           />
+          <Route path="/generating" element={<Generating />} />
           <Route
             path="/results"
             element={

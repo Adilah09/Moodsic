@@ -39,7 +39,7 @@ app.get('/callback', async (req, res) => {
   //User pressed "Cancel" on Spotify authorization
   if (error === 'access_denied') {
     console.log("User denied access — redirecting to login page");
-    return res.redirect(`${FRONTEND_URI}/login?error=access_denied`);
+    return res.redirect(`${FRONTEND_URI}/?error=access_denied`);
   }
 
   //Normal case: got authorization code
@@ -68,11 +68,11 @@ app.get('/callback', async (req, res) => {
       return res.redirect(`${FRONTEND_URI}/?${params}`);
     } else {
       console.error("Token exchange failed:", data);
-      return res.redirect(`${FRONTEND_URI}/login?error=token_failed`);
+      return res.redirect(`${FRONTEND_URI}/?error=token_failed`);
     }
   } catch (err) {
     console.error("Error during token exchange:", err);
-    return res.redirect(`${FRONTEND_URI}/login?error=server_error`);
+    return res.redirect(`${FRONTEND_URI}/?error=server_error`);
   }
 });
 

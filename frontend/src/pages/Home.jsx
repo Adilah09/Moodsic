@@ -164,7 +164,7 @@ function Home() {
             const { vibePhrase, tracks } = response.data;
 
             // Navigate to results
-            navigate("/results", {
+            navigate("/generating", {
                 state: {
                     vibePhrase,
                     mood,
