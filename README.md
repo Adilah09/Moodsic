@@ -12,8 +12,8 @@
 | Photo | Full Name | Role / Features Responsible For |
 |:--:|:--|:--|
 | <img src="photos/member1.jpg" width="80"> | Siti Adilah Binte Selamat | Frontend Developer - Weather API Development, Charts, Project Manager|
-| <img src="photos/member2.jpeg" width="80"> | (Eryn) Ei Ngon Phoo Pwint | Backend Developer - Spotify API & Account Integration, Playlist Generation|
-| <img src="photos/member3.jpg" width="80"> | Aaliya Navas | Database & Auth - Firebase Integration |
+| <img src="photos/member2.jpg" width="80"> | (Eryn) Ei Ngon Phoo Pwint | Backend Developer - Spotify API & Account Integration, Playlist Generation|
+| <img src="photos/member3.jpeg" width="80"> | Aaliya Navas | Database & Auth - Firebase Integration |
 | <img src="photos/member4.jpg" width="80"> | Sreya Mohan Doss | Frontend Developer – Word Cloud Interaction |
 | <img src="photos/member5.jpg" width="80"> | Kushala Kanakesh | UI/UX Designer - Layout & Color Themes, Page Design |
 | <img src="photos/member6.png" width="80"> | Etienne Wong Ai Ting | Frontend Developer - Personality Quiz Development |
