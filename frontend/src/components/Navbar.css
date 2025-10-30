@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 6px 16px;
-  background-color: rgba(220, 71, 138, 0.85);
+  background-color: #dc478ad9;
   border-radius: 18px;
   position: sticky;
   top: 8px;
@@ -27,19 +27,19 @@
 
 /* soft shadow + background fade */
 .navbar--visible.scrolled {
-  background-color: rgba(220, 71, 138, 0.95); /* slightly more opaque */
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);   /* softer shadow when scrolling */
+  background-color: #dc478af2; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);   
 }
 
 /* logo */
 .navbar-left .logo-img {
-  height: 28px; /* slightly smaller */
+  height: 28px; 
   width: auto;
 }
 
 /* links */
 .navbar-links a {
-  margin-left: 16px; /* closer together */
+  margin-left: 16px;
   text-decoration: none;
   color: #fff;
   font-weight: 500;
@@ -54,9 +54,9 @@
 .navbar-profile {
   display: flex;
   align-items: center;
-  gap: 8px; /* tighter spacing */
+  gap: 8px; 
   background-color: rgba(255,255,255,0.1);
-  padding: 3px 8px; /* slimmer bubble */
+  padding: 3px 8px; 
   border-radius: 28px;
   transition: background-color 0.2s;
 }
@@ -70,7 +70,7 @@
   color: #fff;
   font-weight: 500;
   text-decoration: none;
-  font-size: 14px; /* slightly smaller font */
+  font-size: 14px; 
   margin-right: 8px;
 }
 
@@ -79,7 +79,7 @@
 }
 
 .profile-img {
-  height: 32px; /* slightly smaller */
+  height: 32px; 
   width: 32px;
   border-radius: 50%;
   object-fit: cover;

@@ -48,7 +48,7 @@ function Profile() {
       ) : (
         <>
           <img src={profile.images?.[0]?.url || {Logo}} alt="Profile" />
-          <h1>{profile.display_name}</h1>
+          <h1 className="username">{profile.display_name}</h1>
         </>
       )}
       <button onClick={handleLogout}>Log out</button>

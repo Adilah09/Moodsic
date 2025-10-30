@@ -33,3 +33,7 @@
   background-color: #1ed760;
   transform: scale(1.05);
 }
+
+.username {
+  color: white;
+}

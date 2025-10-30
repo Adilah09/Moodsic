@@ -12,7 +12,7 @@
 | Photo | Full Name | Role / Features Responsible For |
 |:--:|:--|:--|
 | <img src="photos/member1.jpg" width="80"> | Siti Adilah Binte Selamat | Frontend Developer - Weather API Development, Charts, Project Manager|
-| <img src="photos/member2.jpg" width="80"> | (Eryn) Ei Ngon Phoo Pwint | Backend Developer - Spotify API & Account Integration, Playlist Generation|
+| <img src="photos/member2.jpg" width="80"> | (Eryn) Ei Ngon Phoo Pwint | Backend Developer - Spotify API & Account Integration, Playlist Generation, UI Design |
 | <img src="photos/member3.jpeg" width="80"> | Aaliya Navas | Database & Auth - Firebase Integration |
 | <img src="photos/member4.jpg" width="80"> | Sreya Mohan Doss | Frontend Developer – Word Cloud Interaction |
 | <img src="photos/member5.jpg" width="80"> | Kushala Kanakesh | UI/UX Designer - Layout & Color Themes, Page Design |
@@ -60,9 +60,11 @@ Explain the core features and the benefit each provides.
 | <img src="https://raw.githubusercontent.com/github/explore/main/topics/javascript/javascript.png" width="40"> | **JavaScript (ES6)** | Client-side logic and interactivity |
 | <img src="https://firebase.google.com/downloads/brand-guidelines/PNG/logo-logomark.png" width="40"> | **Firebase** | Authentication and database services |
 | <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="40"> | **React** | Building user interfaces with components |
-| <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Logo_D3.svg" width="40"> | **Chart** | Data visualisation |
-
-> Add or remove technologies depending on your project stack (e.g., Express.js, Supabase, MongoDB Atlas, AWS S3).
+| <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Logo_D3.svg" width="40"> | **D3.js** | Data visualisation |
+| <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Framer-logo.svg" width="40">| **Framer Motion** |  Animations |
+| <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Chartjs_logo.svg" width="40"> | **Chart.js / react-chartjs-2** | Mood chart |
+| <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Spotify_logo_green.svg" width="40"> | **Spotify for Developers** | Spotify API |
+| <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Google_GenAI_Logo.svg" width="40"> | **Google GenAI** | Generating vibe phrases |
 
 ---
 
@@ -111,7 +113,7 @@ moodsic/
 ### 0) Prerequisites
 - [Git](https://git-scm.com/) v2.4+  
 - [Node.js](https://nodejs.org/) v18+ and npm v9+  
-- Access to backend or cloud services used (Firebase, MongoDB Atlas, AWS S3, etc.)
+- Access to backend or cloud services used (Firebase, Spotify for Developers, Google AI Studio)
 
 ---
 
@@ -125,7 +127,7 @@ npm install
 ---
 
 ### 2) Configure Environment Variables
-Create a `.env` file in the root directory with the following structure:
+Create a `.env` file in the backend folder with the following structure:
 
 ```bash
 SPOTIFY_CLIENT_ID=<your_spotify_client_id>
@@ -152,15 +154,7 @@ GEMINI_API_KEY=<your_gemini_api_key>
    - **Hosting (optional)** if you plan to deploy your web app
 4. Copy the Firebase configuration into your `.env` file.
 
-<!-- #### Optional: Express.js / MongoDB
-If your app includes a backend:
-1. Create a `/server` folder for backend code.
-2. Inside `/server`, create a `.env` file with:
-   ```bash
-   MONGO_URI=<your_mongodb_connection_string>
-   JWT_SECRET=<your_jwt_secret_key>
-   ``` -->
-3. Start the backend:
+5. Start the backend:
    ```bash
    cd backend
    npm install
@@ -178,12 +172,6 @@ npm start
 ```
 The project will run on [http://localhost:3000](http://localhost:3000) by default.
 
-<!-- To build and preview the production version:
-```bash
-npm run build
-npm run preview
-``` -->
-
 ---
 
 ### 5) Testing the Application
@@ -199,23 +187,15 @@ Perform the following checks before submission:
 | Navigation | All menu links functional | Pages route correctly |
 | Error Handling | Invalid inputs or missing data | User-friendly error messages displayed |
 
-#### Automated Testing (Optional)
-If applicable:
-```bash
-npm run test
-```
-
 ---
 
 ### 6) Common Issues & Fixes
 
 | Issue | Cause | Fix |
 |:--|:--|:--|
-| `Module not found` | Missing dependencies | Run `npm install` again |
+| `Module not found` | Missing dependencies | Run `npm install 'that missing dependency'` |
 | `Firebase: permission-denied` | Firestore security rules not set | Check rules under Firestore → Rules |
 | `CORS policy error` | Backend not allowing requests | Enable your domain in CORS settings |
-| `.env` variables undefined | Missing `VITE_` prefix | Rename variables to start with `VITE_` |
-| `npm run dev` fails | Node version mismatch | Check Node version (`node -v` ≥ 18) |
 
 ---
 
@@ -244,37 +224,3 @@ As a team, reflect on:
 > - As a team, working with real-world frameworks like React, Firebase, and Chart.js gave us valuable experience to build a functional and interactive website. We quickly learned the importance of choosing the right framework for specific tasks, such as using React for state management and Firebase for backend services. The frameworks helped streamline our workflow and kept the code organized, making it easier to scale and maintain the project as it progressed. A key takeaway was realizing how powerful and time-saving these frameworks can be when used correctly, but also how they require a solid understanding of their core concepts to avoid issues down the road.
 
 > - Throughout the project, we encountered challenges such as integrating multiple libraries, managing complex states, and ensuring cross-component compatibility. These were resolved through strong communication and collaborative problem-solving. For example, we divided tasks effectively and regularly checked in with each other to ensure we were aligned. In terms of teamwork, we learned the value of trust and constructive feedback, with everyone contributing their strengths and being open to suggestions. Project management skills were crucial in keeping us on track, with clear deadlines and responsibility sharing helping us stay organized and meet milestones.
-
-
-
-
-
-
-
-
-
-<!-- open 2 terminals, run:
-cd backend
-npm install
-# create .env from .env.example
-cp .env.example .env
-then fill in the keys 
-
-cd frontend
-npm install
-
-**to run our app, must start both backend/frontend:
-in backend directory: 
-npm start
-
-in frontend directory: 
-npm start
-
-** impt **
-Do not commit .env — it contains spotify secret keys.
-(i alr put in .gitignore but do check b4 u push)
-Only commit code and .env.example.
-
-open legacy folder to use mamp/wamp
-for react-app, after npm start for both front/backend, should be able to see at localhost:3000 -->
-
