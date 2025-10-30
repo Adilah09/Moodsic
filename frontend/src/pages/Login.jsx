@@ -217,7 +217,7 @@ const Login = () => {
         <h1>
           Welcome to <span className="highlight">Moodsic</span> 🎶
         </h1>
-        <p className="subtitle">Your mood. Your music. Curated to match your vibe.</p>
+        <p className="subtitle">Your mood. Your music. Curated just for you.</p>
         <button
           className="spotify-btn"
           onClick={() => (window.location.href = "http://127.0.0.1:8888/login")}

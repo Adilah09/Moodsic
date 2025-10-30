@@ -1,59 +1,97 @@
-/* Container for centering mood card */
+/* 🌸 Layout Wrapper */
 .mood-wrapper {
   flex-grow: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px 20px;
-  width: 100%;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  padding: 20px;
 }
 
-/* Mood card with frosted glass effect */
-.mood-card {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 182, 193, 0.18),
-    rgba(255, 105, 180, 0.15)
-  );
+/* 🌈 Card Containers */
+.mood-card,
+.mode-select-card,
+.options-card {
+  background: linear-gradient(180deg, rgba(255, 182, 193, 0.18), rgba(255, 105, 180, 0.15));
   backdrop-filter: blur(15px);
   border-radius: 35px;
   padding: 40px;
-  /* box-shadow: 0 10px 50px rgba(255, 105, 180, 0.4); */
   width: 100%;
-  /* max-width: 90%; */
   transition: 0.4s ease;
   margin-bottom: 25px;
+  max-width: 900px;
 }
 
-.welcome-box h1, .welcome-box p{
-  text-align: left;
-}
-
-.mood-card:hover {
+.mood-card:hover,
+.mode-select-card:hover,
+.options-card:hover {
   transform: scale(1.02);
   box-shadow: 0 0 40px rgba(255, 182, 193, 0.7);
 }
 
-/* Card text */
-.mood-card h1 {
+/* 🌟 Headings */
+.mood-card h1,
+.mode-select-card h1,
+.options-card h1 {
   font-weight: 700;
   font-size: 28px;
   margin-bottom: 10px;
   color: #ffe5f2;
-  padding-top: 20px;
 }
 
 .subtitle {
   color: #ffb6d5;
-  text-align: center;
-  display: inline-block; 
   font-size: 17px;
-  margin-bottom: 40px;
+  margin-bottom: 18px;
 }
 
-/* Mood input */
+/* 🌈 Buttons — Main Pink Style */
+.primary-btn,
+.feature-button,
+#submit-btn {
+  background: linear-gradient(135deg, #ff8ccf, #ff4fa7);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 45px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 25px rgba(255, 105, 180, 0.5);
+}
+
+/* Hover Effects */
+.primary-btn:hover,
+.feature-button:hover,
+#submit-btn:hover:not(:disabled) {
+  transform: scale(1.07);
+  box-shadow: 0 0 30px rgba(255, 182, 193, 0.9);
+}
+
+/* Disabled */
+#submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 🌸 Mode Selection Block */
+.mode-select-card {
+  text-align: center;
+  padding: 50px 30px;
+}
+
+.button-row.top {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+/* Mood Input Box */
 #mood-input {
   width: 85%;
   padding: 18px 25px;
@@ -68,121 +106,252 @@
   transition: all 0.3s ease;
 }
 
-#mood-input::placeholder {
-  color: #888;
-}
-
 #mood-input:focus {
   background-color: #fff;
   box-shadow: 0 0 25px rgba(255, 105, 180, 0.5);
 }
 
-/* Generate button */
-#submit-btn {
-  margin-top: 35px;
+/* 🌸 Word Cloud */
+#wordCloud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-width: 600px;
+  margin: 15px auto;
+}
+
+#wordCloud .word {
+  background: rgba(255, 105, 180, 0.15);
+  color: #ffe5f2;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+#wordCloud .word:hover {
+  background: rgba(255, 105, 180, 0.3);
+  transform: scale(1.08);
+}
+
+#wordCloud .word.selected {
+  background: linear-gradient(135deg, #ff8ccf, #ff4fa7);
+  border: 1px solid #fff;
+  color: white;
+  box-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
+  transform: scale(1.12);
+}
+
+/* 🌸 Options Section */
+.options-card {
+  margin-top: 10px;
+}
+
+.options-card h2 {
+  color: #ffb6d5;
+  margin-bottom: 10px;
+}
+
+.optional-toggles {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 8px auto 20px auto;
+  font-size: 15px;
+  color: #ffb6d5;
+  width: fit-content;
+  text-align: left;
+}
+
+.optional-toggles label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.optional-toggles input[type="checkbox"] {
+  accent-color: #ff4fa7;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+/* 🌤 Weather Display */
+.weather-display {
+  margin-top: 15px;
+  color: #ffe5f2;
+}
+.weather-display img {
+  margin-top: 10px;
+  width: 50px;
+  height: 50px;
+}
+
+/* 🌈 Progress Bar */
+.progress-bar-container {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  max-width: 850px;
+  background: rgba(255, 105, 180, 0.08);
+  border-radius: 30px;
+  margin-bottom: 25px;
+  overflow: hidden;
+  height: 10px;
+}
+
+.progress-bar-fill {
+  height: 10px;
+  background: linear-gradient(90deg, #ff8ccf, #ff4fa7);
+  border-radius: 30px;
+  transition: width 0.4s ease;
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  color: #ffb6d5;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.active-step {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 🌸 Back to Top Button */
+/* ⬆ Back to Top Button — now bottom right */
+.back-to-top {
+  position: fixed;
+  bottom: 35px;
+  right: 35px; /* moved from left → right */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   background: linear-gradient(135deg, #ff8ccf, #ff4fa7);
   color: white;
   border: none;
-  border-radius: 50px;
-  padding: 14px 50px;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s ease;
   box-shadow: 0 6px 25px rgba(255, 105, 180, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  opacity: 0.9;
+  z-index: 999;
 }
 
-#submit-btn:hover:not(:disabled) {
-  transform: scale(1.07);
+.back-to-top:hover {
+  transform: scale(1.15) rotate(5deg);
   box-shadow: 0 0 35px rgba(255, 192, 203, 0.9);
+  opacity: 1;
 }
 
-/* Disabled state for button */
-#submit-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+
+.back-to-top:hover {
+  transform: scale(1.15) rotate(-5deg);
+  box-shadow: 0 0 35px rgba(255, 192, 203, 0.9);
+  opacity: 1;
 }
 
-/* Responsive */
+/* 🌸 Responsive */
 @media (max-width: 768px) {
-  .mood-card {
-    padding: 80px 40px;
+  .mood-card,
+  .mode-select-card,
+  .options-card {
+    padding: 60px 30px;
   }
 
   #mood-input {
     width: 90%;
   }
+
+  .feature-button {
+    width: 100%;
+  }
+
+  .back-to-top {
+    left: 20px;
+    bottom: 25px;
+  }
+}
+/* ✨ Mini Frosted Cards */
+.mini-card {
+  background: linear-gradient(180deg, rgba(255, 182, 193, 0.25), rgba(255, 105, 180, 0.18));
+  border: 1px solid rgba(255, 192, 203, 0.4);
+  box-shadow: 0 6px 25px rgba(255, 105, 180, 0.25);
+  border-radius: 25px;
+  padding: 25px 35px;
+  width: 85%;
+  max-width: 700px;
+  margin: 25px auto 0 auto;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(15px);
 }
 
-.mood-btn.active {
-  background-color: #ff4fa7;
-  box-shadow: 0 6px 25px rgba(255, 105, 180, 0.8);
-  transform: scale(1.07);
+.mini-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 35px rgba(255, 182, 193, 0.6);
 }
 
-.optional-toggles {
+/* 🌸 Word Cloud Styling */
+#wordCloud {
+  margin-top: 15px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 25px;
-  margin-bottom: 25px;
-  font-size: 14px;
-  color: #ffb6d5;
-}
-
-.optional-toggles input {
-  margin-right: 6px;
-  accent-color: #ff4fa7; /* nice pink checkbox */
-}
-
-.error-banner {
-  padding-top: 30px;
-  font-size: small;
-}
-
-
-.optional-toggles {
-  display: flex;
-  flex-direction: column;
   gap: 10px;
 }
 
-.button-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;  /* Space between buttons */
-}
-
-.button-row.top {
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.button-row.bottom {
-  justify-content: space-between;
-}
-
-.feature-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: none;
-  background-color: #ff4fa7; /* Base color */
-  color: white;
+#wordCloud .word {
+  padding: 6px 14px;
+  border-radius: 25px;
+  background-color: rgba(255, 182, 193, 0.15);
+  color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  flex: 1 1 30%; /* Ensures the button occupies a third of the container for the top row */
+  transition: all 0.25s ease;
+  font-weight: 500;
+  border: 1px solid rgba(255, 182, 193, 0.4);
 }
 
-.feature-button:hover {
-  background-color: #ff8ccf; /* Hover color */
+#wordCloud .word:hover {
+  background-color: rgba(255, 105, 180, 0.5);
+  transform: scale(1.1);
 }
 
-.feature-button.selected {
-  background-color: #ff4fa7;
-  border: 2px solid #ffffff;
-  transform: scale(1.05); /* Slight zoom effect */
+#wordCloud .word.selected {
+  background: linear-gradient(135deg, #ff8ccf, #ff4fa7);
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
 }
 
-.button-row.bottom .feature-button {
-  flex: 1 1 48%; /* Ensures bottom buttons take up 48% of the container width */
+/* 🌟 Animation for Fade + Bounce */
+.expanded-section {
+  animation: fadeSlideBounce 0.6s ease forwards;
+}
+
+@keyframes fadeSlideBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }

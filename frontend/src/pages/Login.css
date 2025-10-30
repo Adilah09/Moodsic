@@ -176,6 +176,7 @@ body {
   color: #ffb6d5;
   font-size: 18px;
   max-width: 420px;
+
 }
 .album-art:hover {
   transform: scale(1.05);
@@ -201,6 +202,10 @@ body {
   box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
   animation: chromeShift 6s ease infinite;
 }
+
+/* .spotify-btn {
+  margin-left: 90px;
+} */
 
 /* 🎵 Animated Gradient Shine */
 @keyframes chromeShift {
