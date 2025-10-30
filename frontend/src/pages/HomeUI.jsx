@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { AppContext } from "../context/AppContext";
+import WordVinyl from './WordVinyl'; // Import the WordVinyl component
 
 export default function HomeUI({
   words,
-  selectedWords,
-  wordLimitError,
+  // selectedWords,
+  // wordLimitError,
   handleWordClick,
   useWeather,
   setWeather,
@@ -20,8 +21,10 @@ export default function HomeUI({
   error
 }) {
   // State for toggling visibility of each feature
-  const [showMoodInput, setShowMoodInput] = useState(Boolean(mood));;
-  const [showWordCloud, setShowWordCloud] = useState(selectedWords.length > 0);
+    const [showMoodInput, setShowMoodInput] = useState(Boolean(mood));
+    const [showWordCloud, setShowWordCloud] = useState(false); // Initially, show word cloud based on selection
+    const [wordLimitError, setWordLimitError] = useState(false);
+    const [selectedWords, setSelectedWords] = useState([]);
 
   // Ensure toggles reflect previous state
   useEffect(() => {
@@ -30,6 +33,21 @@ export default function HomeUI({
   }, [mood, selectedWords]);
 
   const { profile } = useContext(AppContext);
+
+  const handleSelectedWords = (word) => {
+    if (selectedWords.includes(word)) {
+      setSelectedWords(selectedWords.filter(w => w !== word)); // Deselect if already selected
+    } else if (selectedWords.length < 3) {
+      setSelectedWords([...selectedWords, word]); // Add the word to selectedWords if < 3
+    }
+    // If more than 3 words are selected, show an error
+    if (selectedWords.length >= 3) {
+      setWordLimitError(true);
+    } else {
+      setWordLimitError(false);
+    }
+  };
+
 
   return (
     <div className="mood-wrapper">
@@ -97,6 +115,12 @@ export default function HomeUI({
         </div>
       )}
 
+       {/* <div className="mood-card">
+        <h1>Your Personalized Vibe</h1>
+        <p>Explore the words that best describe your vibe today. Select up to 3 words and let them guide the generation of your playlist.</p>
+
+      </div> */}
+
       {/* Word Cloud Selection Section (conditionally rendered) */}
       {showWordCloud && (
         <div className="mood-card">
@@ -109,11 +133,11 @@ export default function HomeUI({
           <div className="wordcloudalign">
             <div id="wordCloudContainer">
               <div id="wordCloud">
-                {words.map((word, index) => (
+                {/* {words.map((word, index) => (
                   <span
                     key={index}
                     className={`word ${selectedWords.includes(word) ? "selected" : ""}`}
-                    onClick={() => handleWordClick(word)}
+                    onClick={() => handleSelectedWords(word)}
                     style={{
                       cursor: "pointer",
                       padding: "5px",
@@ -124,7 +148,12 @@ export default function HomeUI({
                   >
                     {word}
                   </span>
-                ))}
+                ))} */}
+
+                {/* Center the WordVinyl */}
+                <div className="ring-container-wrapper">
+                  <WordVinyl handleSelectedWords={handleSelectedWords} />
+                </div>
               </div>
             </div>
           </div>
@@ -154,7 +183,6 @@ export default function HomeUI({
           )}
         </div>
       )}
-
       {/* Weather Section (conditionally rendered) */}
       {useWeather && (
         <div className="mood-card">
