@@ -6,7 +6,7 @@ import Login from './pages/Login.jsx';
 import Home from './pages/Home.jsx';
 import Results from './pages/Results.jsx';
 import Playlists from './pages/Playlists.jsx';
-import PersonalityQuiz from './pages/PersonalityQuiz.jsx';
+import PersonalityQuiz from './pages/Game.jsx';
 import Chart from './pages/Chart.jsx';
 import Profile from './pages/Profile.jsx';
 
@@ -49,7 +49,7 @@ function AppWrapper() {
             }
           />
           <Route
-            path="/personality-quiz"
+            path="/game"
             element={
               accessToken ? <PersonalityQuiz /> : <Navigate to="/" replace />
             }

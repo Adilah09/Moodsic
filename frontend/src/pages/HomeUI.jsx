@@ -57,23 +57,23 @@ export default function HomeUI({
           <div className="button-row top">
             {/* Top row (3 buttons) */}
             <button onClick={() => setShowMoodInput(!showMoodInput)} className="feature-button">
-              Mood Input
+              What's Your Mood?
             </button>
             <button onClick={() => setShowWordCloud(!showWordCloud)} className="feature-button">
-              Word Cloud
+             Pick Your Vibe!
             </button>
             <button onClick={() => setWeather(!useWeather)} className="feature-button">
-              Use Weather
+              Vibe with the Weather!
             </button>
           </div>
 
           <div className="button-row bottom">
             {/* Bottom row (2 buttons) */}
             <button onClick={() => setUsePersonality(!usePersonality)} className="feature-button">
-              Personality Quiz
+              What's Your Personality Vibe?
             </button>
             <button onClick={() => setUseSpotifyHistory(!useSpotifyHistory)} className="feature-button">
-              Use Spotify History
+              Create from My Spotify History
             </button>
           </div>
         </div>
