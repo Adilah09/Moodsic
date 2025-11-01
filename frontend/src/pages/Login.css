@@ -132,6 +132,40 @@ body {
   color: #ffb8dc;
   margin-bottom: 20px;
 }
+/* 💖 Premium Pink Chrome Buttons (Login & Listen) */
+.spotify-btn,
+.spotify-link {
+  display: inline-block;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(135deg, #ff9fdc, #ff4fa7, #ff85c1);
+  background-size: 200% 200%;
+  padding: 14px 45px;
+  border-radius: 50px;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+  animation: chromeShift 6s ease infinite;
+}
+
+/* 🎵 Animated Gradient Shine */
+@keyframes chromeShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 🩷 Hover Glow */
+.spotify-btn:hover,
+.spotify-link:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 40px rgba(255, 182, 193, 0.9);
+  filter: brightness(1.1);
+}
 
 /* Buttons */
 .play-btn {
@@ -176,6 +210,7 @@ body {
   color: #ffb6d5;
   font-size: 18px;
   max-width: 420px;
+  margin-left: 50px;
 }
 .album-art:hover {
   transform: scale(1.05);
@@ -201,11 +236,27 @@ body {
   animation: chromeShift 6s ease infinite;
 }
 
-/* .spotify-btn {
-  margin-left: 90px;
-} */
-
 /* 🎵 Animated Gradient Shine */
+/* Login Button */
+.spotify-btn {
+  display: inline-block;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(135deg,#ff9fdc, #ff4fa7, #ff85c1);
+  background-size: 200% 200%;
+  padding: 14px 45px;
+  border-radius: 50px;
+  border: none;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 12px rgba(29,185,84,0.35);
+  animation: chromeShift 6s ease infinite;
+  margin-left: 110px;
+}
+
+/* Animated Gradient Shine */
 @keyframes chromeShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }

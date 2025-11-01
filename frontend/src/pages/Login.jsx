@@ -221,7 +221,7 @@ const Login = () => {
       {/* Login Section */}
       <div className="login-panel slide-in">
         <h1>
-          Welcome to <span className="highlight">Moodsic</span>
+          Welcome to <span className="highlight">Moodsic </span>
         </h1>
         <p className="subtitle">Your mood. Your music. Curated just for you.</p>
         <button

@@ -14,7 +14,11 @@
 .mood-card,
 .mode-select-card,
 .options-card {
-  background: linear-gradient(180deg, rgba(255, 182, 193, 0.18), rgba(255, 105, 180, 0.15));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 182, 193, 0.18),
+    rgba(255, 105, 180, 0.15)
+  );
   backdrop-filter: blur(15px);
   border-radius: 35px;
   padding: 40px;
@@ -63,7 +67,6 @@
   box-shadow: 0 5px 25px rgba(255, 105, 180, 0.5);
 }
 
-/* Hover Effects */
 .primary-btn:hover,
 .feature-button:hover,
 #submit-btn:hover:not(:disabled) {
@@ -71,10 +74,26 @@
   box-shadow: 0 0 30px rgba(255, 182, 193, 0.9);
 }
 
-/* Disabled */
 #submit-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* 🌸 Feature Buttons (Toggle Style) */
+.feature-button {
+  padding: 12px 35px;
+  border-radius: 35px;
+  font-size: 15px;
+  background: rgba(255, 182, 193, 0.2);
+  border: 1.5px solid rgba(255, 182, 193, 0.5);
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.feature-button.selected {
+  background: linear-gradient(135deg, #ff8ccf, #ff4fa7);
+  border: none;
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.6);
 }
 
 /* 🌸 Mode Selection Block */
@@ -91,7 +110,50 @@
   margin-top: 15px;
 }
 
-/* Mood Input Box */
+/* ✨ Mini Frosted Cards */
+.mini-card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 182, 193, 0.25),
+    rgba(255, 105, 180, 0.18)
+  );
+  border: 1px solid rgba(255, 192, 203, 0.4);
+  box-shadow: 0 6px 25px rgba(255, 105, 180, 0.25);
+  border-radius: 25px;
+  padding: 25px 35px;
+  width: 85%;
+  max-width: 700px;
+  margin: 25px auto 0 auto;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(15px);
+}
+
+.mini-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 35px rgba(255, 182, 193, 0.6);
+}
+
+/* Smooth expand animation */
+.expanded-section {
+  animation: fadeSlideBounce 0.6s ease forwards;
+}
+
+@keyframes fadeSlideBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 🌸 Mood Input Box */
 #mood-input {
   width: 85%;
   padding: 18px 25px;
@@ -111,38 +173,80 @@
   box-shadow: 0 0 25px rgba(255, 105, 180, 0.5);
 }
 
-/* 🌸 Word Cloud */
-#wordCloud {
+/* 🌸 Selected Word Box */
+/* 🌸 Selected Word Box — centered text */
+.word-display-box {
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-radius: 12px;
+  width: 85%;
+  max-width: 700px;
+  margin: 25px auto 0 auto;
+  background: transparent;
+  text-align: center;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  max-width: 600px;
-  margin: 15px auto;
+  align-items: center;        /* vertical centering */
+  justify-content: center;    /* horizontal centering */
+  padding: 18px 20px;         /* even padding all around */
+  transition: all 0.4s ease;
+  box-shadow: none;
 }
 
-#wordCloud .word {
-  background: rgba(255, 105, 180, 0.15);
-  color: #ffe5f2;
-  padding: 8px 14px;
-  border-radius: 20px;
+/* ✨ subtle glow when hovered or full */
+.word-display-box:hover {
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.25);
+}
+
+/* glowing pink pulse when full (3 words) */
+.word-display-box.full.pulse {
+  animation: pulseGlow 1.5s infinite ease-in-out;
+  border-color: #ff8ccf;
+  box-shadow: 0 0 25px rgba(255, 105, 180, 0.4),
+              0 0 50px rgba(255, 182, 193, 0.25);
+}
+
+/* central text */
+.word-line {
+  color: #fff;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0.5px;
+  margin: 0;                  /* remove extra paragraph space */
+}
+
+/* pulse animation */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 105, 180, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.2);
+  }
+}
+
+
+.word-line {
+  color: #fff;
+  font-weight: 600;
   font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 1px solid transparent;
+  letter-spacing: 0.4px;
 }
 
-#wordCloud .word:hover {
-  background: rgba(255, 105, 180, 0.3);
-  transform: scale(1.08);
+/* red warning BELOW box */
+.word-warning {
+  margin-top: 10px;
+  color: #ff4f4f;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
 }
 
-#wordCloud .word.selected {
-  background: linear-gradient(135deg, #ff8ccf, #ff4fa7);
-  border: 1px solid #fff;
-  color: white;
-  box-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
-  transform: scale(1.12);
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* 🌸 Options Section */
@@ -188,6 +292,7 @@
   margin-top: 15px;
   color: #ffe5f2;
 }
+
 .weather-display img {
   margin-top: 10px;
   width: 50px;
@@ -230,11 +335,10 @@
 }
 
 /* 🌸 Back to Top Button */
-/* ⬆ Back to Top Button — now bottom right */
 .back-to-top {
   position: fixed;
   bottom: 35px;
-  right: 35px; /* moved from left → right */
+  right: 35px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -255,13 +359,6 @@
 
 .back-to-top:hover {
   transform: scale(1.15) rotate(5deg);
-  box-shadow: 0 0 35px rgba(255, 192, 203, 0.9);
-  opacity: 1;
-}
-
-
-.back-to-top:hover {
-  transform: scale(1.15) rotate(-5deg);
   box-shadow: 0 0 35px rgba(255, 192, 203, 0.9);
   opacity: 1;
 }
@@ -287,71 +384,30 @@
     bottom: 25px;
   }
 }
-/* ✨ Mini Frosted Cards */
-.mini-card {
-  background: linear-gradient(180deg, rgba(255, 182, 193, 0.25), rgba(255, 105, 180, 0.18));
-  border: 1px solid rgba(255, 192, 203, 0.4);
-  box-shadow: 0 6px 25px rgba(255, 105, 180, 0.25);
-  border-radius: 25px;
-  padding: 25px 35px;
-  width: 85%;
-  max-width: 700px;
-  margin: 25px auto 0 auto;
-  transition: all 0.4s ease;
-  backdrop-filter: blur(15px);
-}
-
-.mini-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 35px rgba(255, 182, 193, 0.6);
-}
-
-/* 🌸 Word Cloud Styling */
-#wordCloud {
-  margin-top: 15px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
-
-#wordCloud .word {
-  padding: 6px 14px;
-  border-radius: 25px;
-  background-color: rgba(255, 182, 193, 0.15);
-  color: #fff;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  font-weight: 500;
-  border: 1px solid rgba(255, 182, 193, 0.4);
-}
-
-#wordCloud .word:hover {
-  background-color: rgba(255, 105, 180, 0.5);
-  transform: scale(1.1);
-}
-
-#wordCloud .word.selected {
+/* 🌈 Feature Buttons — Gradient with Active Glow */
+.feature-button {
   background: linear-gradient(135deg, #ff8ccf, #ff4fa7);
-  box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 45px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 25px rgba(255, 105, 180, 0.45);
 }
 
-/* 🌟 Animation for Fade + Bounce */
-.expanded-section {
-  animation: fadeSlideBounce 0.6s ease forwards;
+/* Hover = stronger glow */
+.feature-button:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 35px rgba(255, 182, 193, 0.9);
 }
 
-@keyframes fadeSlideBounce {
-  0% {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(-5px) scale(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+/* Selected = persistent soft glow + slight brightness */
+.feature-button.selected {
+  box-shadow: 0 0 45px rgba(255, 182, 193, 0.85),
+              0 0 25px rgba(255, 105, 180, 0.5);
+  transform: scale(1.08);
+  filter: brightness(1.05);
 }

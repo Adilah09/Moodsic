@@ -137,15 +137,21 @@ function Home() {
 
 
     // Word Cloud selection
-    const handleWordClick = (word) => {
+   const handleWordClick = (word) => {
+        setWordLimitError(false); // reset previous error
+
         if (selectedWords.includes(word)) {
-            setSelectedWords(prev => prev.filter(item => item !== word));
+            // unselect word
+            setSelectedWords((prev) => prev.filter((item) => item !== word));
         } else if (selectedWords.length < 3) {
-            setSelectedWords(prev => [...prev, word]);
+            // add new word
+            setSelectedWords((prev) => [...prev, word]);
         } else {
-            alert("You can select up to 3 words");
+            // show red inline error instead of alert
+            setWordLimitError(true);
         }
     };
+
 
     // Generate vibe & playlist
     const handleGenerate = React.useCallback(async () => {
