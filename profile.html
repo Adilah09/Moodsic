@@ -1,0 +1,129 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moodsic | Profile</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="profile-container">
+    <h2>Your Profile</h2>
+
+    <form id="profileForm">
+      <label>Name:</label>
+      <input type="text" id="name" required>
+
+      <label>Favorite Genre:</label>
+      <input type="text" id="genre">
+
+      <label>Current Mood:</label>
+      <input type="text" id="mood">
+
+      <button type="submit">Save Profile</button>
+    </form>
+
+    <div id="displayProfile" class="hidden">
+      <h3>Welcome back, <span id="displayName"></span> 🎶</h3>
+      <p>Favorite Genre: <span id="displayGenre"></span></p>
+      <p>Current Mood: <span id="displayMood"></span></p>
+      <button id="editBtn">Edit Profile</button>
+    </div>
+  </div>
+
+  <script src="profile.js"></script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/index.css">
+  <title>Moodsic - Profile</title>
+</head>
+<body class="profile-page">
+  <!-- Navbar (reuse your existing navbar code) -->
+  <div id="navbar"></div>
+
+  <div class="profile-container">
+    <h2>Your Profile</h2>
+
+    <!-- Form to input user info -->
+    <form id="profileForm">
+      <label>Name:</label>
+      <input type="text" id="name" placeholder="Enter your name" required>
+
+      <label>Favorite Mood:</label>
+      <input type="text" id="mood" placeholder="Your current mood" required>
+
+      <label>Favorite Genre:</label>
+      <input type="text" id="genre" placeholder="Your favorite genre">
+
+      <button type="submit">Save Profile</button>
+    </form>
+
+    <!-- Display saved profile and playlists -->
+    <div id="displayProfile" class="hidden">
+      <h3>Welcome back, <span id="displayName"></span> 🎶</h3>
+      <p>Mood: <span id="displayMood"></span></p>
+      <p>Favorite Genre: <span id="displayGenre"></span></p>
+      <h4>Your Playlists:</h4>
+      <ul id="playlistList"></ul>
+      <button id="editBtn">Edit Profile</button>
+    </div>
+
+    <p>Weather:</p>
+    <div id="weather_text">Loading...</div>
+    <div id="weather_images"></div>
+
+  </div>
+
+  <script src="js/profile.js"></script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/index.css">
+  <title>Moodsic - Profile</title>
+</head>
+<body class="profile-page">
+  <div id="navbar"></div>
+
+  <div class="profile-container">
+    <h2>Your Profile</h2>
+
+    <!-- Display profile info (read-only) -->
+    <div id="displayProfile">
+      <p>Name: <span id="displayName">Loading...</span></p>
+      <p>Mood: <span id="displayMood">Not set yet</span></p>
+      <p>Favorite Genre: <span id="displayGenre">Not set yet</span></p>
+      <p>Weather:</p>
+      <div id="weather_text">Loading...</div>
+      <div id="weather_images"></div>
+
+      <h4>Your Playlists:</h4>
+      <ul id="playlistList">
+        <!-- Example playlists -->
+        <li>Chill Vibes</li>
+        <li>Happy Hits</li>
+        <li>Rainy Day Jazz</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="js/weather.js"></script>
+  <script src="js/profile.js"></script>
+  <script>
+    // Call weather API when profile page loads
+    check_weather();
+  </script>
+</body>
+</html>

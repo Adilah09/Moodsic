@@ -7,6 +7,7 @@ import ProfilePic from "../assets/profile.jpg";
 function Profile() {
   const { accessToken, setAccessToken, profile, setProfile } = useContext(AppContext);
   const [loading, setLoading] = useState(true);
+  const [sessions, setSessions] = useState([]);
 
   const handleLogout = () => {
     setAccessToken(null);
@@ -38,6 +39,24 @@ function Profile() {
 
     fetchProfile();
   }, [accessToken, profile]);
+
+  // fetch all sessions from backend
+  useEffect(() => {
+    const fetchAllSessions = async () => {
+      if (!profile?.email) return;
+
+      try {
+        const res = await axios.get("http://localhost:8888/get-all-sessions", {
+          params: { email: profile.email },
+        });
+        setSessions(res.data.data || []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchAllSessions();
+  }, [profile]);
 
   return (
     <div className="profile-page">

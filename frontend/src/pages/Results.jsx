@@ -58,10 +58,43 @@ export default function Results() {
     };
   }, []);
 
-  const handleSaveMoodsic = () => {
-    console.log("Saved in Moodsic:", tracks);
-    alert("Playlist saved in Moodsic!");
-  };
+  const handleSaveMoodsic = async () => {
+  try {
+    // Prepare the data to send
+    const payload = {
+      email: profile?.email || "guest@example.com", 
+      name: profile?.name || "Guest User",
+      mood: location.state?.mood,
+      selected_words: location.state?.selectedWords,
+      songs: tracks
+    };
+
+    console.log("Saving Moodsic session:", payload);
+
+    // Send POST request to your backend
+    const response = await fetch("http://localhost:8888/save-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log("Session saved:", data);
+      alert("Playlist saved in Moodsic!");
+    } else {
+      console.error("Failed to save session:", data.error);
+      alert("Failed to save session: " + data.error);
+    }
+  } catch (error) {
+    console.error("Error saving session:", error);
+    alert("An error occurred while saving your playlist.");
+  }
+};
+
 
   const handleSaveSpotify = async () => {
     if (!accessToken || !profile?.id) {

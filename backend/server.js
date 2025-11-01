@@ -8,6 +8,17 @@ import { GoogleGenAI } from "@google/genai";
 
 import sotdRouter from "./routes/sotd.js";
 
+import pool from "./database.js";
+
+pool.query("SELECT NOW()", (err, res) => {
+  if (err) {
+    console.error("❌ Database connection failed:", err);
+  } else {
+    console.log("✅ Connected to PostgreSQL:", res.rows[0].now);
+  }
+});
+
+
 dotenv.config();
 
 const app = express();
@@ -208,9 +219,51 @@ app.get("/api/weather", async (req, res) => {
 
 app.use(sotdRouter);
 
+app.post("/save-session", async (req, res) => {
+  try {
+    const { email, name, mood, selected_words, songs } = req.body;
+
+    const result = await pool.query(
+      `INSERT INTO sessions (email, name, mood, selected_words, songs)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING *`,
+      [email, name, mood, selected_words, JSON.stringify(songs)]
+    );
+
+    res.status(200).json({ success: true, data: result.rows[0] });
+  } catch (error) {
+    console.error("Error saving session:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// 404 handler comes after all other routes
 app.use((req, res) => {
   res.status(404).json({ error: "Route not found", path: req.path });
 });
+
+// server.js (add after /save-session)
+app.get("/get-session", async (req, res) => {
+  const { email } = req.query;
+  if (!email) return res.status(400).json({ error: "Email required" });
+
+  try {
+    const result = await pool.query(
+      `SELECT * FROM sessions WHERE email = $1 ORDER BY timestamp DESC LIMIT 1`,
+      [email]
+    );
+
+    if (result.rows.length === 0) {
+      return res.json({ success: true, data: null });
+    }
+
+    res.json({ success: true, data: result.rows[0] });
+  } catch (err) {
+    console.error("Error fetching session:", err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 
 
 const PORT = 8888;
