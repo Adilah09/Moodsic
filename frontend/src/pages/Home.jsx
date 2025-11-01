@@ -21,7 +21,7 @@ function Home() {
     const [spotifyTopArtists, setSpotifyTopArtists] = useState([]);
     const [spotifyGenres, setSpotifyGenres] = useState([]);
 
-    const { accessToken, setProfile } = useContext(AppContext);
+    const { accessToken, profile, setProfile } = useContext(AppContext);
     const [error, setError] = useState(null);
 
     const [vibePhrase, setVibePhrase] = useState("");
@@ -109,6 +109,33 @@ function Home() {
         fetchSpotifyData();
     }, [useSpotifyHistory, accessToken]);
 
+
+
+    useEffect(() => {
+    const fetchLastSession = async () => {
+        if (!profile?.email) return;
+
+        try {
+        const res = await axios.get("http://localhost:8888/get-session", {
+            params: { email: profile.email },
+        });
+
+        if (res.data.success && res.data.data) {
+            const session = res.data.data;
+            setMood(session.mood);
+            setSelectedWords(session.selected_words);
+            // Optionally store playlist tracks for Spotify history
+            setPlaylist(session.songs || []);
+        }
+        } catch (err) {
+        console.error("Failed to fetch last session:", err);
+        }
+    };
+
+    fetchLastSession();
+    }, []);
+
+
     // Word Cloud selection
     const handleWordClick = (word) => {
         if (selectedWords.includes(word)) {
@@ -164,7 +191,7 @@ function Home() {
             const { vibePhrase, tracks } = response.data;
 
             // Navigate to results
-            navigate("/results", {
+            navigate("/generating", {
                 state: {
                     vibePhrase,
                     mood,

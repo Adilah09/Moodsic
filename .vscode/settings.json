@@ -1,0 +1,15 @@
+{
+    "sqltools.connections": [
+        {
+            "ssh": "Disabled",
+            "previewLimit": 500,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "MoodsicDB",
+            "database": "moodsic_db",
+            "username": "aaliyanavas",
+            "password": ""
+        }
+    ]
+}

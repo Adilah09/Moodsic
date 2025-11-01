@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
+import { AppContext } from "../context/AppContext";
+import axios from "axios";
 
 function SpotifyEmbed({ uriOrId }) {
   const containerRef = useRef(null);
@@ -26,6 +28,30 @@ function SpotifyEmbed({ uriOrId }) {
 }
 
 export default function ResultPage({ result, showRestart = false, onRestart }) {
+    const { profile } = useContext(AppContext);
+  const [lastSession, setLastSession] = useState(null);
+
+  // Fetch last session when component mounts
+  useEffect(() => {
+    const fetchLastSession = async () => {
+      if (!profile?.email) return;
+
+      try {
+        const res = await axios.get("http://localhost:8888/get-session", {
+          params: { email: profile.email },
+        });
+
+        if (res.data.success && res.data.data) {
+          setLastSession(res.data.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch last session:", err);
+      }
+    };
+
+    fetchLastSession();
+  }, [profile]);
+
   return (
     <div className="page active">
       <div className="result">
@@ -80,3 +106,4 @@ export default function ResultPage({ result, showRestart = false, onRestart }) {
     </div>
   );
 }
+

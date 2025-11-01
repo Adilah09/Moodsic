@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import { AppContext } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 //Login to Spotify
@@ -9,6 +10,7 @@ const Login = () => {
   const [loading, setLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -16,22 +18,26 @@ const Login = () => {
     const accessToken = params.get("access_token");
     const refreshToken = params.get("refresh_token");
 
-    // Handle "cancelled authorization"
+    // Handle cancel
     if (error === "access_denied") {
       alert("You cancelled Spotify login. Please try again!");
-      window.history.replaceState({}, document.title, "/login");
-      return; // stop here — don’t run rest of logic
+      window.history.replaceState({}, document.title, "/");
+      return;
     }
-
     // Handle successful auth
     if (accessToken) {
       localStorage.setItem("access_token", accessToken);
       localStorage.setItem("refresh_token", refreshToken);
       setAccessToken(accessToken);
-      window.history.replaceState({}, document.title, "/home");
-      window.location.href = "/home";
+
+      // Clean up the URL and redirect to home
+      navigate("/home", { replace: true });
     }
-  }, [setAccessToken]);
+  }, [setAccessToken, navigate]);
+
+  const handleLogin = () => {
+    window.location.href = "http://localhost:8888/login";
+  };
 
   // Fetch Song of the Day on mount
   useEffect(() => {
@@ -215,12 +221,12 @@ const Login = () => {
       {/* Login Section */}
       <div className="login-panel slide-in">
         <h1>
-          Welcome to <span className="highlight">Moodsic</span> 🎶
+          Welcome to <span className="highlight">Moodsic</span>
         </h1>
         <p className="subtitle">Your mood. Your music. Curated just for you.</p>
         <button
           className="spotify-btn"
-          onClick={() => (window.location.href = "http://127.0.0.1:8888/login")}
+          onClick={handleLogin}
         >
           Login with Spotify
         </button>

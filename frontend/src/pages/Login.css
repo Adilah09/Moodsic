@@ -1,4 +1,4 @@
-/* ✅ Exact dark maroon background (edge-to-edge) */
+/* Exact dark maroon background (edge-to-edge) */
 body {
   background: radial-gradient(
     circle at 45% 50%,
@@ -28,7 +28,7 @@ body {
   color: #fff;
 }
 
-/* ✨ Soft, neutral pink glow (doesn't re-purple the page) */
+/* Soft, neutral pink glow (doesn't re-purple the page) */
 .spotlight {
   position: fixed;
   left: -25vw;
@@ -48,7 +48,7 @@ body {
   z-index: 0;
 }
 
-/* 🎧 Layout */
+/* Layout */
 .song-section,
 .login-panel {
   flex: 1;
@@ -59,7 +59,7 @@ body {
   flex-direction: column;
 }
 
-/* 💎 Song Card */
+/* Song Card */
 .song-card {
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(25px);
@@ -75,14 +75,14 @@ body {
   box-shadow: 0 0 70px rgba(255, 105, 180, 0.45);
 }
 
-/* 🎵 3D Floating Song Card */
+/* 3D Floating Song Card */
 .song-card {
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   transform-style: preserve-3d;
   perspective: 1000px;
 }
 
-/* 💿 Album Art */
+/* Album Art */
 .album-art {
   width: 200px;
   height: 200px;
@@ -90,7 +90,7 @@ body {
   box-shadow: 0 0 25px rgba(255, 105, 180, 0.5);
 }
 
-/* ✨ Waveform */
+/* Waveform */
 .waveform {
   display: flex;
   justify-content: center;
@@ -116,7 +116,7 @@ body {
   50% { transform: scaleY(1); }
 }
 
-/* 🎶 Song Info */
+/* Song Info */
 .song-info h3 {
   color: #ffcce0;
   font-size: 17px;
@@ -133,7 +133,7 @@ body {
   margin-bottom: 20px;
 }
 
-/* ▶️ Buttons */
+/* Buttons */
 .play-btn {
   background: linear-gradient(135deg, #ff77c9, #ff4fa7);
   border: none;
@@ -154,11 +154,11 @@ body {
   transform: scale(1.05);
 }
 
-/* 💫 Login Side */
+/* Login Side */
 .login-panel {
   align-items: flex-start;
   padding: 80px;
-  text-align: left;
+  text-align: center;
 }
 .login-panel h1 {
   font-size: 48px;
@@ -176,7 +176,6 @@ body {
   color: #ffb6d5;
   font-size: 18px;
   max-width: 420px;
-
 }
 .album-art:hover {
   transform: scale(1.05);
@@ -184,8 +183,7 @@ body {
   transition: all 0.4s ease;
 }
 
-/* 💖 Premium Pink Chrome Buttons (Login & Listen) */
-.spotify-btn,
+/* Premium Pink Chrome Button */
 .spotify-link {
   display: inline-block;
   text-decoration: none;
@@ -214,15 +212,20 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* 🩷 Hover Glow */
-.spotify-btn:hover,
+
+.spotify-btn:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 20px rgba(30,215,96,0.5);
+  filter: brightness(1.1);
+}
+
 .spotify-link:hover {
   transform: scale(1.07);
   box-shadow: 0 0 40px rgba(255, 182, 193, 0.9);
   filter: brightness(1.1);
 }
 
-/* ✨ Animations */
+/* Animations */
 .fade-in { animation: fadeIn 1.2s ease; }
 .slide-in { animation: slideIn 1.2s ease; }
 @keyframes fadeIn {
@@ -234,7 +237,7 @@ body {
   to { opacity: 1; transform: translateX(0); }
 }
 
-/* 🌌 Floating Glow Particles */
+/* Floating Glow Particles */
 .particles {
   position: absolute;
   top: 0;
@@ -289,7 +292,7 @@ body {
 .particles li:nth-child(5) { left: 70%; animation-delay: 3s; animation-duration: 14s; width: 9px; height: 9px; }
 .particles li:nth-child(6) { left: 85%; animation-delay: 5s; animation-duration: 13s; width: 6px; height: 6px; }
 
-/* 🎶 Floating Music Notes */
+/* Floating Music Notes */
 .music-notes {
   position: absolute;
   top: 0;
@@ -324,7 +327,7 @@ body {
 .music-notes li:nth-child(4) { left: 80%; animation-delay: 4s; animation-duration: 14s; font-size: 24px; }
 .music-notes li:nth-child(5) { left: 55%; animation-delay: 6s; animation-duration: 17s; font-size: 26px; }
 
-/* 🌈 Ambient Glow under main area */
+/* Ambient Glow under main area */
 body::after {
   content: "";
   position: fixed;
@@ -344,7 +347,7 @@ body::after {
   pointer-events: none;
 }
 
-/* ✨ Button hover animations */
+/* Button hover animations */
 button,
 .spotify-button {
   transition: all 0.3s ease;
@@ -357,7 +360,7 @@ button:hover,
   box-shadow: 0 0 25px rgba(255, 105, 180, 0.45);
 }
 
-/* 🎵 Floating notes animation (gentle hover wobble) */
+/* Floating notes animation (gentle hover wobble) */
 .music-note {
   animation: floatNotes 8s ease-in-out infinite;
 }
@@ -373,7 +376,7 @@ button:hover,
   }
 }
 
-/* 💗 Album cover hover pop */
+/* Album cover hover pop */
 .sotd-card img {
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
@@ -383,7 +386,7 @@ button:hover,
   box-shadow: 0 0 30px rgba(255, 120, 180, 0.4);
 }
 
-/* 🎶 Floating musical notes */
+/* Floating musical notes */
 #note-container {
   position: fixed;
   top: 0;

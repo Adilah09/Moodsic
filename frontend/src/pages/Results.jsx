@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
 import { motion, AnimatePresence } from "framer-motion";
 import "./Results.css";
@@ -17,6 +17,8 @@ export default function Results() {
   const [showPopup, setShowPopup] = useState(false);
   const [playlistUrl, setPlaylistUrl] = useState("");
   const [error, setError] = useState("");
+  const [lastRemoved, setLastRemoved] = useState(null); // { track, index }
+  const undoTimerRef = useRef(null);
 
   // Helper: split an array into chunks of given size
   const chunkArray = (arr, size) => {
@@ -26,13 +28,73 @@ export default function Results() {
   };
 
   const handleRemove = (indexToRemove) => {
-    setTracks(tracks.filter((_, i) => i !== indexToRemove));
+    setTracks((prev) => {
+      const removedTrack = prev[indexToRemove];
+      const next = prev.filter((_, i) => i !== indexToRemove);
+      setLastRemoved({ track: removedTrack, index: indexToRemove });
+
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+      undoTimerRef.current = setTimeout(() => setLastRemoved(null), 6000);
+
+      return next;
+    });
   };
 
-  const handleSaveMoodsic = () => {
-    console.log("Saved in Moodsic:", tracks);
-    alert("Playlist saved in Moodsic!");
+  const handleUndoRemove = () => {
+    if (!lastRemoved) return;
+    const { track, index } = lastRemoved;
+    setTracks((prev) => {
+      const next = [...prev];
+      next.splice(Math.min(index, next.length), 0, track);
+      return next;
+    });
+    setLastRemoved(null);
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
   };
+
+  useEffect(() => {
+    return () => {
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    };
+  }, []);
+
+  const handleSaveMoodsic = async () => {
+  try {
+    // Prepare the data to send
+    const payload = {
+      email: profile?.email || "guest@example.com", 
+      name: profile?.name || "Guest User",
+      mood: location.state?.mood,
+      selected_words: location.state?.selectedWords,
+      songs: tracks
+    };
+
+    console.log("Saving Moodsic session:", payload);
+
+    // Send POST request to your backend
+    const response = await fetch("http://localhost:8888/save-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log("Session saved:", data);
+      alert("Playlist saved in Moodsic!");
+    } else {
+      console.error("Failed to save session:", data.error);
+      alert("Failed to save session: " + data.error);
+    }
+  } catch (error) {
+    console.error("Error saving session:", error);
+    alert("An error occurred while saving your playlist.");
+  }
+};
+
 
   const handleSaveSpotify = async () => {
     if (!accessToken || !profile?.id) {
@@ -180,6 +242,22 @@ export default function Results() {
           Go to Dashboard
         </button>
       </div>
+
+      {/* Undo Toast */}
+      <AnimatePresence>
+        {lastRemoved && (
+          <motion.div
+            className="undo-toast"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 50, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 250, damping: 22 }}
+          >
+            <span>Track removed</span>
+            <button className="undo-button" onClick={handleUndoRemove}>Undo</button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Animated Popup */}
       <AnimatePresence>

@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@google/genai": "^1.27.0",
+    "@google/genai": "^1.28.0",
     "d3": "^7.9.0",
     "framer-motion": "^12.23.24"
   }
