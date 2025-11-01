@@ -103,7 +103,7 @@ export default function HomeUI({
               setShowMood(false);
             }}
           >
-            Word Cloud
+            Word Vinyl
           </button>
         </div>
 
