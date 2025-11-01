@@ -2,7 +2,7 @@
 .results-container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 60px 20px;
+  padding: 20px 20px;
   text-align: center;
   color: #fff;
 }
@@ -124,6 +124,38 @@
 
 .error-message {
   padding-top: 30px;
+}
+
+/* === UNDO TOAST === */
+.undo-toast {
+  position: fixed;
+  right: 2px;
+  bottom: 24px;
+  transform: none;
+  background: #222;
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  z-index: 1000;
+}
+
+.undo-button {
+  background: transparent;
+  color: #1db954;
+  border: 1px solid #1db954;
+  padding: 6px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.undo-button:hover {
+  background: #1db954;
+  color: #111;
 }
 
 /* === CHART BUTTON === */
@@ -276,6 +308,19 @@
 @media (max-width: 900px) {
   .vibe-title { font-size: 2rem; }
   .track-card { min-width: 260px; }
+}
+
+/* Medium screens: arrange bottom buttons into 2x2 grid */
+@media (max-width: 1000px) and (min-width: 701px) {
+  .results-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    justify-items: stretch;
+  }
+  .results-buttons button {
+    width: 100%;
+  }
 }
 
 @media (max-width: 700px) {

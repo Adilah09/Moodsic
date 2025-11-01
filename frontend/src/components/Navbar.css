@@ -39,7 +39,7 @@
 
 /* links */
 .navbar-links a {
-  margin-left: 16px;
+  margin-left: 24px;
   text-decoration: none;
   color: #fff;
   font-weight: 500;
@@ -83,4 +83,96 @@
   width: 32px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+/* === MOBILE NAV === */
+.navbar-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: 8px;
+}
+
+.navbar-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  margin: 4px 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.navbar-toggle.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.navbar-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+.navbar-toggle.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+@media (max-width: 800px) {
+  .navbar {
+    padding: 6px 12px;
+    justify-content: space-between;
+    background-color: #dc478ad9;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    border-radius: 18px;
+    position: sticky;
+    top: 8px;
+    right: auto;
+    left: auto;
+    width: auto;
+    margin-bottom: 15px;
+  }
+
+  .navbar--visible.scrolled {
+    background-color: #dc478af2;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  }
+
+  /* keep logo visible on mobile */
+  .navbar-left { display: block; }
+  .navbar-profile { display: none; }
+
+  .navbar-links {
+    position: absolute;
+    top: 56px;
+    right: 12px;   /* match navbar horizontal padding */
+    left: 12px;    /* match navbar horizontal padding */
+    background: #dc478af2;
+    border-radius: 14px;
+    padding: 10px 12px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+    min-width: 0;
+    z-index: 200;
+  }
+
+  .navbar-links--open {
+    display: flex;
+  }
+
+  .navbar-links a {
+    margin: 6px 6px 0 6px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+  }
+
+  .navbar-toggle {
+    display: inline-block;
+  }
+}
+
+/* Hidden by default on desktop; shown in mobile menu */
+.mobile-only { display: none; }
+
+@media (max-width: 800px) {
+  .mobile-only { display: block; }
 }

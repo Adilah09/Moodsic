@@ -8,6 +8,7 @@ import { AppContext } from "../context/AppContext";
 function Navbar() {
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const { profile } = useContext(AppContext);
 
   const controlNavbar = () => {
@@ -30,11 +31,32 @@ function Navbar() {
         <Link to="/home"><img src={Logo} alt="Logo" className="logo-img" /></Link>
       </div>
 
-      <div className="navbar-links">
+      <button
+        className={`navbar-toggle ${mobileOpen ? "open" : ""}`}
+        aria-label="Toggle navigation"
+        aria-expanded={mobileOpen}
+        onClick={() => setMobileOpen((v) => !v)}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div className={`navbar-links ${mobileOpen ? "navbar-links--open" : ""}`} onClick={() => setMobileOpen(false)}>
         <Link to="/home">Home</Link>
         <Link to="/game">Personality Quiz</Link>
         <Link to="/playlists">Playlists</Link>
         <Link to="/chart">Dashboard</Link>
+        {/* Mobile-only profile in dropdown */}
+        <Link to="/profile" className="mobile-only">
+          {profile ? (
+            <>
+              <span>{profile.display_name}</span>
+            </>
+          ) : (
+            <span>Profile</span>
+          )}
+        </Link>
       </div>
 
       <div className="navbar-profile">
