@@ -7,7 +7,6 @@ import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
 
 import sotdRouter from "./routes/sotd.js";
-
 import pool from "./database.js";
 
 pool.query("SELECT NOW()", (err, res) => {
@@ -18,7 +17,6 @@ pool.query("SELECT NOW()", (err, res) => {
   }
 });
 
-
 dotenv.config();
 
 const app = express();
@@ -27,6 +25,8 @@ app.use(express.json());
 
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
+// const REDIRECT_URI = process.env.REDIRECT_URI;
+// const FRONTEND_URI = process.env.FRONTEND_URI;
 const REDIRECT_URI = 'http://127.0.0.1:8888/callback';
 const FRONTEND_URI = 'http://localhost:3000';
 
@@ -108,7 +108,6 @@ app.get('/refresh_token', async (req, res) => {
 });
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
 
 // -------------------- Generate Playlist --------------------
 app.post("/api/generatePlaylist", async (req, res) => {
@@ -237,15 +236,13 @@ app.post("/save-session", async (req, res) => {
   }
 });
 
-// 404 handler comes after all other routes
-app.use((req, res) => {
-  res.status(404).json({ error: "Route not found", path: req.path });
-});
-
 // server.js (add after /save-session)
-app.get("/get-session", async (req, res) => {
-  const { email } = req.query;
-  if (!email) return res.status(400).json({ error: "Email required" });
+app.post("/get-session", async (req, res) => {
+  const { email } = req.body || {};
+
+  if (!email) {
+    return res.status(400).json({ success: false, error: "Email required" });
+  }
 
   try {
     const result = await pool.query(
@@ -253,18 +250,43 @@ app.get("/get-session", async (req, res) => {
       [email]
     );
 
-    if (result.rows.length === 0) {
+    if (!result || result.rows.length === 0) {
       return res.json({ success: true, data: null });
     }
 
-    res.json({ success: true, data: result.rows[0] });
+    return res.json({ success: true, data: result.rows[0] });
   } catch (err) {
+    // Postgres error code for "relation does not exist" is 42P01
+    if (err && err.code === "42P01") {
+      console.error("DB error (table missing):", err);
+      return res.status(500).json({
+        success: false,
+        error:
+          "Database table 'sessions' not found. Have you run migrations or created the table?",
+      });
+    }
+
+    // Generic fallback — do NOT leak full error details to clients in production
     console.error("Error fetching session:", err);
-    res.status(500).json({ success: false, error: err.message });
+    return res.status(500).json({
+      success: false,
+      error: "Failed to fetch session. Check server logs for details.",
+    });
   }
 });
 
+// 404 handler comes after all other routes
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found", path: req.path });
+});
 
+//  run the server locally
+if (process.env.NODE_ENV !== "production") {
+  const PORT = 8888;
+  app.listen(PORT, () =>
+    console.log(`✅ Backend running locally on http://127.0.0.1:${PORT}`)
+  );
+}
 
-const PORT = 8888;
-app.listen(PORT, () => console.log(`Backend running on http://127.0.0.1:${PORT}`));
+// export the app for Vercel serverless usage
+export default app;

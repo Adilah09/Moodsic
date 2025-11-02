@@ -1,11 +1,16 @@
 import pkg from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
 const { Pool } = pkg;
 
 const pool = new Pool({
-  user: "aaliyanavas",
-  host: "localhost",
-  database: "moodsic_db",
-  port: 5432,
+  connectionString:
+    process.env.DATABASE_URL,
+  ssl:
+    process.env.NODE_ENV === "production"
+      ? { rejectUnauthorized: false }
+      : false,
 });
 
 export default pool;
