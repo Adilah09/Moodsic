@@ -145,8 +145,8 @@
 
 .undo-button {
   background: transparent;
-  color: #1db954;
-  border: 1px solid #1db954;
+  color: #dc478ad9;
+  border: 1px solid #c93b7bd9;
   padding: 6px 12px;
   border-radius: 16px;
   cursor: pointer;
@@ -154,7 +154,7 @@
 }
 
 .undo-button:hover {
-  background: #1db954;
+  background: #b91d8a;
   color: #111;
 }
 
