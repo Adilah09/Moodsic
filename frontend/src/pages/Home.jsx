@@ -21,7 +21,7 @@ function Home() {
     const [spotifyTopArtists, setSpotifyTopArtists] = useState([]);
     const [spotifyGenres, setSpotifyGenres] = useState([]);
 
-    const { accessToken, profile, setProfile } = useContext(AppContext);
+    const { accessToken, profile, setProfile, setSessionExpired } = useContext(AppContext);
     const [error, setError] = useState(null);
 
     const [vibePhrase, setVibePhrase] = useState("");
@@ -71,7 +71,7 @@ function Home() {
             } catch (err) {
                 console.error("Spotify fetch failed", err);
                 if (err.response?.status === 401) {
-                    setError("Session expired, please log in again.");
+                    setSessionExpired(true);
                 }
                 else {
                     setError("Failed to fetch profile.");
@@ -253,6 +253,8 @@ function Home() {
             mood={mood}
             setMood={setMood}
             error={error}
+            spotifyTopArtists={spotifyTopArtists}
+            spotifyGenres={spotifyGenres}
         />
     );
 }

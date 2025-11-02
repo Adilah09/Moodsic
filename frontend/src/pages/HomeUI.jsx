@@ -19,7 +19,9 @@ export default function HomeUI({
   handleGenerate,
   mood,
   setMood,
-  error
+  error,
+  spotifyTopArtists = [],
+  spotifyGenres = []
 }) {
   const { profile } = useContext(AppContext);
   const modeRef = useRef(null);
@@ -65,10 +67,9 @@ export default function HomeUI({
 
       {/* 🎵 Hero Section */}
       <div className="mood-card welcome-box">
-        <h1>Welcome to Moodsic 🎶</h1>
+        <h1>Welcome to Moodsic!</h1>
         <p>
-          Discover playlists tailored to <b>your vibe</b> — from mood to
-          weather, personality, and Spotify history.
+          Let's create the <b>perfect playlist</b> that matches exactly how you're feeling right now! ✨
         </p>
         {!profile?.product || profile.product !== "premium" ? (
           <p className="profile-warning">
@@ -76,14 +77,14 @@ export default function HomeUI({
           </p>
         ) : null}
         <button className="primary-btn" onClick={scrollToMode}>
-          Figure Out Your Mood 💫
+          Find Your Mood! 🎶
         </button>
       </div>
 
       {/* 💭 Mood + Vibe Section */}
       <div ref={modeRef} className="mode-select-card fade-section">
         <h2 className="subtitle">
-          Choose how you'd like to create your playlist 🎧
+        Tell us how you're feeling! Type your mood and/or spin the word vinyl to pick up to 3 words.
         </h2>
 
         <div className="button-row top">
@@ -110,11 +111,11 @@ export default function HomeUI({
         {/* 💗 Mood Input Card */}
         {showMood && (
           <div className="mini-card expanded-section bounce-in">
-            <h3 className="subtitle">💗 How are you feeling today?</h3>
+            <h3 className="subtitle">💗 What's your vibe right now?</h3>
             <input
               id="mood-input"
               type="text"
-              placeholder="e.g., happy, calm, nostalgic..."
+              placeholder="e.g., happy, calm, nostalgic, pumped up..."
               value={mood}
               onChange={(e) => setMood(e.target.value)}
             />
@@ -124,7 +125,7 @@ export default function HomeUI({
         {/* 🎨 Word Cloud Card */}
         {showVibe && (
           <div className="mini-card expanded-section bounce-in">
-            <h3 className="subtitle">🌈 Select up to 3 words that match your vibe:</h3>
+            <h3 className="subtitle">🌈 Select up to 3 words that capture your energy:</h3>
 
             <div className="ring-container-wrapper">
               <WordVinyl handleSelectedWords={handleWordClick} />
@@ -143,7 +144,7 @@ export default function HomeUI({
 
             {/* Red warning below the box */}
             {wordLimitError && (
-              <p className="word-warning">You can only select up to 3 words.</p>
+              <p className="word-warning">Oops! You can only pick 3 words — choose your favorites!</p>
             )}
           </div>
         )}
@@ -151,7 +152,7 @@ export default function HomeUI({
 
       {/* 🌦️ Personalization Section */}
       <div ref={optionsRef} className="options-card fade-section">
-        <h2 className="subtitle">Add more to personalize your vibe:</h2>
+        <h2 className="subtitle">Personalise your playlist:</h2>
 
         <div className="optional-toggles">
           <label>
@@ -160,7 +161,7 @@ export default function HomeUI({
               checked={useWeather}
               onChange={(e) => setWeather(e.target.checked)}
             />
-            🌤️ Use today's weather
+            🌤️ Use Today's Weather 
           </label>
           <label>
             <input
@@ -168,7 +169,7 @@ export default function HomeUI({
               checked={usePersonality}
               onChange={(e) => setUsePersonality(e.target.checked)}
             />
-            🧠 Include my personality quiz
+            🧠 Include My Personality Quiz
           </label>
           <label>
             <input
@@ -176,18 +177,59 @@ export default function HomeUI({
               checked={useSpotifyHistory}
               onChange={(e) => setUseSpotifyHistory(e.target.checked)}
             />
-            🎧 Use my Spotify listening history
+            🎧 Use My Spotify Listening History
           </label>
         </div>
 
-        {useWeather && weatherData && (
-          <div className="weather-display">
-            <p>🌡️ {weatherData.main.temp}°C</p>
-            <p>{weatherData.weather[0].description}</p>
-            <img
-              src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}
-              alt={weatherData.weather[0].description}
-            />
+        {/* Expandable content area - shows horizontally when multiple are selected */}
+        {(useWeather || usePersonality || useSpotifyHistory) && (
+          <div className="personalization-content">
+            {useWeather && weatherData && (
+              <div className="content-card weather-card">
+                <div className="weather-icon-wrapper">
+                  <img
+                    src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+                    alt={weatherData.weather[0].description}
+                    className="weather-icon"
+                  />
+                </div>
+                <div className="weather-info">
+                  <div className="weather-temp">{Math.round(weatherData.main.temp)}°C</div>
+                  <div className="weather-desc">{weatherData.weather[0].description}</div>
+                  <div className="weather-location">📍 Current Location</div>
+                </div>
+              </div>
+            )}
+
+            {usePersonality && (
+              <div className="content-card personality-card">
+                <div className="personality-icon">🧠</div>
+                <div className="personality-info">
+                  <div className="personality-title">Personality Quiz</div>
+                  <div className="personality-desc">Your dessert personality will be included</div>
+                </div>
+              </div>
+            )}
+
+            {useSpotifyHistory && (spotifyTopArtists.length > 0 || spotifyGenres.length > 0) && (
+              <div className="content-card spotify-card">
+                <div className="spotify-icon">🎧</div>
+                <div className="spotify-info">
+                  <div className="spotify-title">Your Top Genres</div>
+                  <div className="spotify-tags">
+                    {spotifyGenres.slice(0, 5).map((genre, idx) => (
+                      <span key={idx} className="genre-tag">{genre}</span>
+                    ))}
+                  </div>
+                  {spotifyTopArtists.length > 0 && (
+                    <div className="spotify-artists">
+                      <div className="artists-label">Top Artists:</div>
+                      <div className="artists-list">{spotifyTopArtists.slice(0, 3).join(", ")}</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -202,7 +244,7 @@ export default function HomeUI({
           }
           onClick={handleGenerate}
         >
-          Generate My Playlist 🎶
+          Generate My Playlist
         </button>
 
         {error && <p className="error-banner">{error}</p>}

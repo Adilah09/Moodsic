@@ -5,7 +5,7 @@ import "./Profile.css";
 import ProfilePic from "../assets/profile.jpg";
 
 function Profile() {
-  const { accessToken, setAccessToken, profile, setProfile } = useContext(AppContext);
+  const { accessToken, setAccessToken, profile, setProfile, setSessionExpired } = useContext(AppContext);
   const [loading, setLoading] = useState(true);
   const [sessions, setSessions] = useState([]);
 
@@ -32,6 +32,9 @@ function Profile() {
         }
       } catch (err) {
         console.error("Spotify profile fetch failed", err);
+        if (err.response?.status === 401) {
+          setSessionExpired(true);
+        }
       } finally {
         setLoading(false);
       }

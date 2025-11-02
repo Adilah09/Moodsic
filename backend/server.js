@@ -12,9 +12,9 @@ import pool from "./database.js";
 
 pool.query("SELECT NOW()", (err, res) => {
   if (err) {
-    console.error("❌ Database connection failed:", err);
+    console.error("Database connection failed:", err);
   } else {
-    console.log("✅ Connected to PostgreSQL:", res.rows[0].now);
+    console.log("Connected to PostgreSQL:", res.rows[0].now);
   }
 });
 
@@ -123,7 +123,7 @@ app.post("/api/generatePlaylist", async (req, res) => {
       accessToken
     } = req.body;
 
-    // ----- 1️⃣ Generate vibe phrase with Gemini AI -----
+    // ----- Generate vibe phrase with Gemini AI -----
     const aiPrompt = `
 Create a vibe phrase for a playlist. Use the following inputs:
 Mood: ${mood || "N/A"}
@@ -145,7 +145,7 @@ Limit vibe phrase to 10 words max. Do not use words from the input directly.
     const vibePhrase = aiResponse.text?.trim() || "Chill Vibes";
     console.log("AI generated vibe phrase:", vibePhrase);
 
-    // ----- 2️⃣ Search Spotify tracks safely -----
+    // ----- Search Spotify tracks safely -----
     let tracks = [];
 
     if (accessToken) {
@@ -179,7 +179,7 @@ Limit vibe phrase to 10 words max. Do not use words from the input directly.
       }
     }
 
-    // ----- 3️⃣ Return results -----
+    // ----- Return results -----
     res.json({ vibePhrase, tracks });
 
   } catch (err) {

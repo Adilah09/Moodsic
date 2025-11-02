@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
 
@@ -28,7 +29,8 @@ function SpotifyEmbed({ uriOrId }) {
 }
 
 export default function ResultPage({ result, showRestart = false, onRestart }) {
-    const { profile } = useContext(AppContext);
+  const navigate = useNavigate();
+  const { profile } = useContext(AppContext);
   const [lastSession, setLastSession] = useState(null);
 
   // Fetch last session when component mounts
@@ -98,9 +100,14 @@ export default function ResultPage({ result, showRestart = false, onRestart }) {
         </div>
 
         {showRestart && (
-          <button className="btn restart-btn" onClick={onRestart}>
-            Take the Quiz Again
-          </button>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+            <button className="btn restart-btn" onClick={onRestart}>
+              Take the Quiz Again
+            </button>
+            <button className="btn home-btn" onClick={() => navigate('/home')}>
+              Back to Home
+            </button>
+          </div>
         )}
       </div>
     </div>

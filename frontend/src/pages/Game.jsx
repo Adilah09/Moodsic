@@ -231,6 +231,11 @@ export default function PersonalityQuiz() {
     else if (pageIndex === 4) setPageIndex(5);
   };
 
+  const handleRestart = () => {
+    setPageIndex(0);
+    setAnswers([]);
+  };
+
   const selectedForCurrent =
     pageIndex >= 1 && pageIndex <= 4 ? answers[pageIndex - 1] : undefined;
 
@@ -276,7 +281,7 @@ export default function PersonalityQuiz() {
       )}
 
       {pageIndex === 5 && resultType && (
-        <ResultPage result={PERSONALITY_DATA[resultType]} showRestart={false} />
+        <ResultPage result={PERSONALITY_DATA[resultType]} showRestart={true} onRestart={handleRestart} />
       )}
     </div>
   );

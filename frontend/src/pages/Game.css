@@ -11,7 +11,7 @@
 
 /* pages */
 .page {
-  background-color: white;
+  background-color: #faf8f5;
   border-radius: 15px;
   padding: 25px;
   box-shadow: 0 5px 15px rgba(224, 59, 133, 0.2);
@@ -156,6 +156,7 @@ p {
 .btn:disabled { background-color: #cccccc; cursor: not-allowed; }
 
 .restart-btn { margin-top: 15px; width: 100%; }
+.home-btn { margin-top: 0; width: 100%; }
 
 /* progress */
 .progress-bar {
@@ -255,7 +256,7 @@ p {
 
 /* redesigned comment bubbles */
 .comment-bubble {
-  background-color: #ffffff;
+  background-color: #fefbf8;
   padding: 12px 15px;
   border-radius: 15px;
   margin: 10px 0;
@@ -290,7 +291,7 @@ p {
   height: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-right: 10px solid #ffffff;
+  border-right: 10px solid #fefbf8;
 }
 
 .comment-author {

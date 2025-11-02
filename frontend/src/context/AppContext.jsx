@@ -8,11 +8,16 @@ export const AppProvider = ({ children }) => {
     const saved = localStorage.getItem("spotify_profile");
     return saved ? JSON.parse(saved) : null;
   });
+  const [sessionExpired, setSessionExpired] = useState(false);
 
   // sync accessToken to localStorage
   useEffect(() => {
-    if (accessToken) localStorage.setItem("access_token", accessToken);
-    else localStorage.removeItem("access_token");
+    if (accessToken) {
+      localStorage.setItem("access_token", accessToken);
+      setSessionExpired(false); // Reset session expired when token is set
+    } else {
+      localStorage.removeItem("access_token");
+    }
   }, [accessToken]);
 
   // sync profile to localStorage
@@ -21,7 +26,14 @@ export const AppProvider = ({ children }) => {
   }, [profile]);
 
   return (
-    <AppContext.Provider value={{ accessToken, setAccessToken, profile, setProfile }}>
+    <AppContext.Provider value={{ 
+      accessToken, 
+      setAccessToken, 
+      profile, 
+      setProfile,
+      sessionExpired,
+      setSessionExpired
+    }}>
       {children}
     </AppContext.Provider>
   );

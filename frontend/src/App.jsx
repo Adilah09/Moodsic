@@ -10,6 +10,7 @@ import Playlists from './pages/Playlists.jsx';
 import PersonalityQuiz from './pages/Game.jsx';
 import Chart from './pages/Chart.jsx';
 import Profile from './pages/Profile.jsx';
+import SessionExpired from './pages/SessionExpired.jsx';
 
 import './index.css';
 
@@ -17,13 +18,22 @@ import { AppProvider, AppContext } from "./context/AppContext";
 
 function AppWrapper() {
   const location = useLocation();
-  const { accessToken } = useContext(AppContext);
+  const { accessToken, sessionExpired } = useContext(AppContext);
   const showNavbar = location.pathname !== "/";
 
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);  // scroll to top on route change
   }, [pathname]);
+
+  // If session expired, show only the session expired screen
+  if (sessionExpired) {
+    return (
+      <div className="app-container">
+        <SessionExpired />
+      </div>
+    );
+  }
 
   return (
     <div className="app-container">
