@@ -1,4 +1,4 @@
-import express from "express";
+// import express from "express";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
 dotenv.config();
@@ -105,15 +105,22 @@ async function fetchSongOfTheDay() {
   };
 }
 
-router.get("/sotd", async (_req, res) => {
+export default async function handler(req, res) {
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
   console.log("[SOTD] HIT /sotd");
   try {
     const song = await fetchSongOfTheDay();
-    return res.json(song);
+    return res.status(200).json(song);
   } catch (e) {
     console.error("SOTD route error:", e.message);
 
-    // Always return *something* so your frontend never hangs
     return res.status(200).json({
       title: "Daylight",
       artist: "David Kushner",
@@ -123,6 +130,5 @@ router.get("/sotd", async (_req, res) => {
       note: "Fallback song because Spotify fetch failed",
     });
   }
-});
+}
 
-export default router;
