@@ -36,12 +36,12 @@ const Login = () => {
   }, [setAccessToken, navigate]);
 
   const handleLogin = () => {
-    window.location.href = "http://localhost:8888/login";
+    window.location.href = "http://moodsic-backend.vercel.app/login";
   };
 
   // Fetch Song of the Day on mount
   useEffect(() => {
-    fetch("http://127.0.0.1:8888/api/sotd")
+    fetch("http://moodsic-backend.vercel.app/api/sotd")
       .then((res) => res.json())
       .then((data) => setSong(data))
       .catch((err) => console.error("Fetch error:", err))
@@ -78,7 +78,7 @@ const Login = () => {
     try {
       setLoading(true);
       const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-      const res = await fetch(`http://127.0.0.1:8888/api/sotd?d=${today}`, { cache: "no-store" });
+      const res = await fetch(`http://moodsic-backend.vercel.app/api/sotd?d=${today}`, { cache: "no-store" });
       if (!res.ok) throw new Error("SOTD fetch failed");
       const data = await res.json();
       setSong(data);

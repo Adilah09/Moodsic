@@ -25,10 +25,10 @@ app.use(express.json());
 
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
-// const REDIRECT_URI = process.env.REDIRECT_URI;
-// const FRONTEND_URI = process.env.FRONTEND_URI;
-const REDIRECT_URI = 'http://127.0.0.1:8888/callback';
-const FRONTEND_URI = 'http://localhost:3000';
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const FRONTEND_URI = process.env.FRONTEND_URI;
+// const REDIRECT_URI = 'http://127.0.0.1:8888/callback';
+// const FRONTEND_URI = 'http://localhost:3000';
 
 // --- LOGIN STEP ---
 app.get('/login', (req, res) => {
@@ -284,7 +284,7 @@ app.use((req, res) => {
 if (process.env.NODE_ENV !== "production") {
   const PORT = 8888;
   app.listen(PORT, () =>
-    console.log(`✅ Backend running locally on http://127.0.0.1:${PORT}`)
+    console.log(`✅ Backend running locally on http://moodsic-backend/callback.vercel.app:${PORT}`)
   );
 }
 

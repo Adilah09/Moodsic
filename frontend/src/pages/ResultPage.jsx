@@ -39,7 +39,7 @@ export default function ResultPage({ result, showRestart = false, onRestart }) {
       if (!profile?.email) return;
 
       try {
-        const res = await axios.get("http://localhost:8888/get-session", {
+        const res = await axios.get("http://moodsic-backend.vercel.app/get-session", {
           params: { email: profile.email },
         });
 
