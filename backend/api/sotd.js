@@ -105,8 +105,8 @@ async function fetchSongOfTheDay() {
   };
 }
 
-router.get("/api/sotd", async (_req, res) => {
-  console.log("[SOTD] HIT /api/sotd");
+router.get("/sotd", async (_req, res) => {
+  console.log("[SOTD] HIT /sotd");
   try {
     const song = await fetchSongOfTheDay();
     return res.json(song);

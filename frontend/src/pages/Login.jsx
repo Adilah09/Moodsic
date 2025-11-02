@@ -73,22 +73,6 @@ const Login = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // fetch Song of the Day
-  const fetchSOTD = async () => {
-    try {
-      setLoading(true);
-      const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-      const res = await fetch(`https://moodsic-backend.vercel.app/api/sotd?d=${today}`, { cache: "no-store" });
-      if (!res.ok) throw new Error("SOTD fetch failed");
-      const data = await res.json();
-      setSong(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // Floating musical note trail
   useEffect(() => {
     const container = document.createElement("div");

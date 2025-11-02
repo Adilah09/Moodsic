@@ -6,7 +6,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
 
-import sotdRouter from "./routes/sotd.js";
+import sotdRouter from "./api/sotd.js";
 import pool from "./database.js";
 
 pool.query("SELECT NOW()", (err, res) => {
@@ -20,15 +20,13 @@ pool.query("SELECT NOW()", (err, res) => {
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: "https://moodsic-three.vercel.app" }));
 app.use(express.json());
 
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 const FRONTEND_URI = process.env.FRONTEND_URI;
-// const REDIRECT_URI = 'http://127.0.0.1:8888/callback';
-// const FRONTEND_URI = 'http://localhost:3000';
 
 // --- LOGIN STEP ---
 app.get('/login', (req, res) => {
@@ -216,7 +214,7 @@ app.get("/api/weather", async (req, res) => {
   }
 });
 
-app.use(sotdRouter);
+app.use("/api", sotdRouter);
 
 app.post("/save-session", async (req, res) => {
   try {
