@@ -284,7 +284,7 @@ app.use((req, res) => {
 if (process.env.NODE_ENV !== "production") {
   const PORT = 8888;
   app.listen(PORT, () =>
-    console.log(`✅ Backend running locally on http://moodsic-backend/callback.vercel.app:${PORT}`)
+    console.log(`✅ Backend running locally on https://moodsic-backend/callback.vercel.app:${PORT}`)
   );
 }
 

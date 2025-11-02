@@ -72,7 +72,7 @@ export default function Results() {
     console.log("Saving Moodsic session:", payload);
 
     // Send POST request to your backend
-    const response = await fetch("http://moodsic-backend.vercel.app/save-session", {
+    const response = await fetch("https://moodsic-backend.vercel.app/save-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
