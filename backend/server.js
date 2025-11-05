@@ -212,7 +212,7 @@ Limit vibe phrase to 10 words max. Do not use words from the input directly.
 
 
 // --- WEATHER DATA ENDPOINT ---
-app.get("/api/weather", async (req, res) => {
+app.get("/weather", async (req, res) => {
   const { lat, lon } = req.query;
 
   if (!lat || !lon) {
