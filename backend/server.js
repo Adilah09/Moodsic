@@ -312,6 +312,63 @@ app.post("/clear-session", async (req, res) => {
   }
 });
 
+// --- MOOD DATA ENDPOINT ---
+app.post("/get-mood-data", async (req, res) => {
+  const { email } = req.body || {};
+
+  if (!email) {
+    return res.status(400).json({ success: false, error: "Email required" });
+  }
+
+  try {
+    const result = await pool.query(
+      `SELECT selected_words FROM sessions WHERE email = $1`,
+      [email]
+    );
+
+    if (!result.rows.length) {
+      return res.json({ success: true, data: [] });
+    }
+
+    // Flatten all selected_words across sessions
+    const wordCount = {};
+
+    for (const row of result.rows) {
+      if (row.selected_words) {
+        let words = [];
+
+        try {
+          // Parse JSON safely
+          words = JSON.parse(row.selected_words);
+        } catch (err) {
+          console.warn("Invalid JSON in selected_words:", row.selected_words);
+          continue;
+        }
+
+        // Count frequency
+        words.forEach((w) => {
+          const word = w.trim().toLowerCase();
+          if (word) {
+            wordCount[word] = (wordCount[word] || 0) + 1;
+          }
+        });
+      }
+    }
+
+    // Convert to array and sort by frequency
+    const sorted = Object.entries(wordCount)
+      .map(([word, count]) => ({ word, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10); // top 10
+
+    return res.json({ success: true, data: sorted });
+  } catch (err) {
+    console.error("Error fetching mood data:", err);
+    return res.status(500).json({ success: false, error: "Failed to fetch mood data" });
+  }
+});
+
+
 
 // 404 handler comes after all other routes
 app.use((req, res) => {
