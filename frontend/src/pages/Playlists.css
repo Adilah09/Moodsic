@@ -1,0 +1,182 @@
+/* 🌸 Page Layout */
+.playlist-page {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 100vh;
+  padding: 40px 20px;
+  text-align: center;
+  color: #fff;
+  background: radial-gradient(
+    circle at top left,
+    rgba(255, 182, 193, 0.08),
+    rgba(255, 105, 180, 0.1)
+  );
+}
+
+/* 🌸 Heading */
+.playlist-page h2 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #ffe5f2;
+  margin-bottom: 15px;
+}
+
+/* 🌸 Subtitle (vibe phrase) */
+.playlist-subtitle {
+  font-size: 18px;
+  color: #ffb6d5;
+  font-style: italic;
+  margin-bottom: 25px;
+  opacity: 0.9;
+}
+
+/* 🌸 Empty State */
+.empty-state {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 182, 193, 0.18),
+    rgba(255, 105, 180, 0.15)
+  );
+  border-radius: 30px;
+  padding: 40px;
+  max-width: 700px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  color: #ffb6d5;
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.4);
+  transition: all 0.3s ease;
+}
+
+.empty-state:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 40px rgba(255, 182, 193, 0.7);
+}
+
+/* 🌈 Playlist Container */
+.playlist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 90%;
+  max-width: 800px;
+  margin-top: 10px;
+}
+
+/* 🌸 Song Card */
+.playlist-card {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 182, 193, 0.25),
+    rgba(255, 105, 180, 0.18)
+  );
+  border: 1px solid rgba(255, 192, 203, 0.4);
+  box-shadow: 0 6px 20px rgba(255, 105, 180, 0.25);
+  border-radius: 25px;
+  padding: 18px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(15px);
+}
+
+.playlist-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 35px rgba(255, 182, 193, 0.6);
+}
+
+/* 🎵 Image */
+.playlist-card img {
+  width: 70px;
+  height: 70px;
+  border-radius: 15px;
+  margin-right: 18px;
+  box-shadow: 0 0 15px rgba(255, 182, 193, 0.3);
+}
+
+/* 🎶 Song Info */
+.song-info {
+  flex: 1;
+  text-align: left;
+}
+
+.song-info h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 5px 0;
+}
+
+.song-info p {
+  color: #ffb6d5;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.song-info a {
+  color: #ff8ccf;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.song-info a:hover {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 182, 193, 0.8);
+}
+
+/* 💗 Clear Button */
+.clear-btn {
+  background: linear-gradient(135deg, #ff8ccf, #ff4fa7);
+  color: white;
+  border: none;
+  border-radius: 40px;
+  padding: 14px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 25px rgba(255, 105, 180, 0.45);
+  margin-top: 35px;
+}
+
+.clear-btn:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 35px rgba(255, 182, 193, 0.9);
+}
+
+/* 🌸 Loading & Error States */
+.playlist-loading,
+.playlist-error {
+  font-size: 16px;
+  color: #ffb6d5;
+  margin-top: 20px;
+}
+
+.playlist-error {
+  color: #ff4f4f;
+}
+
+/* 🌸 Responsive */
+@media (max-width: 768px) {
+  .playlist-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .playlist-card img {
+    margin-bottom: 10px;
+  }
+
+  .song-info {
+    text-align: center;
+  }
+
+  .clear-btn {
+    width: 80%;
+  }
+}

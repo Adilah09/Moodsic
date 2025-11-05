@@ -70,6 +70,7 @@ function Home() {
                 });
                 console.log("Fetched profile:", res.data);
                 setProfile(res.data);
+                localStorage.setItem("userEmail", res.data.email);
             } catch (err) {
                 console.error("Spotify fetch failed", err);
                 if (err.response?.status === 401) {

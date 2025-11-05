@@ -298,6 +298,21 @@ app.post("/get-session", async (req, res) => {
   }
 });
 
+// --- CLEAR SESSION (delete saved playlists for user) ---
+app.post("/clear-session", async (req, res) => {
+  const { email } = req.body || {};
+  if (!email) return res.status(400).json({ success: false, error: "Email required" });
+
+  try {
+    await pool.query("DELETE FROM sessions WHERE email = $1", [email]);
+    return res.json({ success: true });
+  } catch (err) {
+    console.error("Error clearing sessions:", err);
+    return res.status(500).json({ success: false, error: "Failed to clear sessions" });
+  }
+});
+
+
 // 404 handler comes after all other routes
 app.use((req, res) => {
   res.status(404).json({ error: "Route not found", path: req.path });
