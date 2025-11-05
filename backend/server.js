@@ -133,7 +133,7 @@ app.get('/refresh_token', async (req, res) => {
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 // -------------------- Generate Playlist --------------------
-app.post("/api/generatePlaylist", async (req, res) => {
+app.post("/generatePlaylist", async (req, res) => {
   try {
     const {
       mood = "",

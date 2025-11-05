@@ -186,7 +186,7 @@ function Home() {
 
             // Call backend
             const response = await axios.post(
-                "https://moodsic-backend.vercel.app/api/generatePlaylist",
+                "https://moodsic-backend.vercel.app/generatePlaylist",
                 payload
             );
 
