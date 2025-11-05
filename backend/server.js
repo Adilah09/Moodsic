@@ -20,7 +20,25 @@ pool.query("SELECT NOW()", (err, res) => {
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: "https://moodsic-three.vercel.app" }));
+// app.use(cors({ origin: "https://moodsic-three.vercel.app" }));
+const allowedOrigins = [
+  "https://moodsic-three.vercel.app" 
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed for this origin"));
+    }
+  },
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+}));
+
+app.options("*", cors()); 
 app.use(express.json());
 
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;

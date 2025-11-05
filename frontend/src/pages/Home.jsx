@@ -45,7 +45,7 @@ function Home() {
                     const { latitude, longitude } = position.coords;
                     try {
                         // Call your backend endpoint instead of OpenWeather directly
-                        const res = await axios.get(`htts://moodsic-backend.vercel.app/api/weather?lat=${latitude}&lon=${longitude}`);
+                        const res = await axios.get(`https://moodsic-backend.vercel.app/api/weather?lat=${latitude}&lon=${longitude}`);
                         setWeatherData(res.data);
                     } catch (err) {
                         console.error(err);
@@ -171,7 +171,6 @@ function Home() {
                 weather: useWeather && weatherData
                     ? {
                         temp: weatherData?.main?.temp ?? null,
-                        description: weatherData?.weather?.[0]?.description ?? "",
                     }
                     : null,
                 personalityVector: personalityVector || {},
