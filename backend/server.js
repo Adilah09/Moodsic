@@ -249,7 +249,7 @@ app.post("/save-session", async (req, res) => {
       `INSERT INTO sessions (email, name, mood, selected_words, songs)
        VALUES ($1, $2, $3, $4, $5)
        RETURNING *`,
-      [email, name, mood, selected_words, JSON.stringify(songs)]
+      [email, name, mood, JSON.stringify(selected_words), JSON.stringify(songs)]
     );
 
     res.status(200).json({ success: true, data: result.rows[0] });
