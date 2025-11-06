@@ -305,11 +305,29 @@ app.post("/save-session", async (req, res) => {
   try {
     const { email, name, mood, selected_words, songs } = req.body;
 
+    // Normalize selected_words to a JS array for Postgres text[] columns
+    let selectedWordsArray = [];
+    if (Array.isArray(selected_words)) {
+      selectedWordsArray = selected_words;
+    } else if (typeof selected_words === "string" && selected_words.trim()) {
+      try {
+        const parsed = JSON.parse(selected_words);
+        if (Array.isArray(parsed)) selectedWordsArray = parsed;
+        else selectedWordsArray = [selected_words];
+      } catch {
+        // Fallback: treat as comma-separated or single token
+        selectedWordsArray = selected_words
+          .split(",")
+          .map((w) => w.trim())
+          .filter(Boolean);
+      }
+    }
+
     const result = await pool.query(
       `INSERT INTO sessions (email, name, mood, selected_words, songs)
        VALUES ($1, $2, $3, $4, $5)
        RETURNING *`,
-      [email, name, mood, selected_words, JSON.stringify(songs)]
+      [email, name, mood, selectedWordsArray, JSON.stringify(songs)]
     );
 
     res.status(200).json({ success: true, data: result.rows[0] });

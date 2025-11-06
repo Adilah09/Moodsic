@@ -68,7 +68,7 @@ export default function Results() {
       name: profile?.name || "Guest User",
       mood: vibePhrase,
       selected_words: Array.isArray(location.state?.selectedWords)
-        ? JSON.stringify(location.state.selectedWords)
+        ? location.state.selectedWords
         : location.state?.selectedWords,
       songs: tracks
     };
