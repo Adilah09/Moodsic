@@ -54,6 +54,26 @@ export default function ResultPage({ result, showRestart = false, onRestart }) {
     fetchLastSession();
   }, [profile]);
 
+  // Save personality to database
+  useEffect(() => {
+    const savePersonality = async () => {
+      if (!profile?.email || !result?.title) return;
+
+      try {
+        const response = await axios.post("https://moodsic-backend.vercel.app/save-personality", {
+          email: profile.email,
+          name: profile.name || "Guest",
+          personality_type: result.title,
+        });
+        console.log("✅ Personality saved:", response.data);
+      } catch (error) {
+        console.error("❌ Failed to save personality:", error);
+      }
+    };
+
+    savePersonality();
+  }, [profile, result]);
+
   return (
     <div className="page active">
       <div className="result">

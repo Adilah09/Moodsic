@@ -5,9 +5,10 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
-
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import sotdRouter from "./api/sotd.js";
 import pool from "./database.js";
+
 
 pool.query("SELECT NOW()", (err, res) => {
   if (err) {
@@ -131,6 +132,78 @@ app.get('/refresh_token', async (req, res) => {
 });
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+// ---- Generate words in Vinyl with Gemini AI ----
+let allWords = [];
+const gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+const wordPrompt = `
+Generate 22 unique adjectives and emotive words (positive and negative):
+- 5 words that must be 6 letters or less
+- 7 words that must be 7 letters or less
+- 10 words that must be 8 letters or less
+Return only JSON like this:
+{ "words": ["calm", "bright", "vivid", ...] }
+`;
+
+const systemInstruction = `
+You are a word list generator. Always respond with a valid JSON object 
+containing an array of adjectives under the key "words".
+`;
+
+const responseSchema = {
+  type: "object",
+  properties: {
+    words: { type: "array", items: { type: "string" } },
+  },
+  required: ["words"],
+};
+
+const model = gemini.getGenerativeModel({
+  model: "gemini-2.5-flash-lite",
+  systemInstruction,
+  generationConfig: {
+    responseMimeType: "application/json",
+    responseSchema,
+  },
+});
+
+// --- WORD GENERATION ENDPOINTS ---
+app.post("/generate-words", async (req, res) => {
+  console.log("🧠 Received request to /generate-words...");
+  try {
+    const result = await model.generateContent(wordPrompt);
+    const jsonText = result.response.text();
+    console.log("🔹 Raw Gemini response:", jsonText);
+
+    const parsed = JSON.parse(jsonText);
+    if (parsed.words && Array.isArray(parsed.words)) {
+      allWords = parsed.words;
+      console.log(`✅ Stored ${allWords.length} generated words.`);
+      return res.status(200).json({ allWords });
+    }
+
+    throw new Error("Gemini response did not include a valid 'words' array.");
+  } catch (error) {
+    console.error("❌ Error in /generate-words:", error);
+    res.status(500).json({
+      error: "Failed to generate word list.",
+      details: error.message || error,
+    });
+  }
+});
+
+app.get("/get-words", (req, res) => {
+  if (!allWords.length) {
+    console.log("ℹ️ No words generated yet.");
+    return res.status(200).json({
+      allWords: [],
+      message: "No words generated yet. Call POST /generate-words first.",
+    });
+  }
+  console.log(`📤 Sending ${allWords.length} stored words.`);
+  res.status(200).json({ allWords });
+});
 
 // -------------------- Generate Playlist --------------------
 app.post("/generatePlaylist", async (req, res) => {
@@ -258,6 +331,30 @@ app.post("/save-session", async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
+
+// --- SAVE PERSONALITY RESULT ---
+app.post("/save-personality", async (req, res) => {
+  try {
+    const { email, name, personality_type } = req.body;
+
+    if (!email || !personality_type) {
+      return res.status(400).json({ success: false, error: "Email and personality type required" });
+    }
+
+    const result = await pool.query(
+      `INSERT INTO sessions (email, name, personality_type)
+       VALUES ($1, $2, $3)
+       RETURNING *`,
+      [email, name, personality_type]
+    );
+
+    res.status(200).json({ success: true, data: result.rows[0] });
+  } catch (error) {
+    console.error("Error saving personality:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 
 // server.js (add after /save-session)
 app.post("/get-session", async (req, res) => {
