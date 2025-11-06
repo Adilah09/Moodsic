@@ -342,6 +342,35 @@ app.post("/save-personality", async (req, res) => {
   }
 });
 
+// --- GET LATEST PERSONALITY ---
+app.get("/get-latest-personality", async (req, res) => {
+  const { email } = req.query;
+  if (!email)
+    return res.status(400).json({ success: false, error: "Email required" });
+
+  try {
+    const result = await pool.query(
+      `SELECT personality_type
+       FROM sessions
+       WHERE email = $1
+       AND personality_type IS NOT NULL
+       ORDER BY timestamp DESC
+       LIMIT 1`,
+      [email]
+    );
+
+    if (result.rows.length > 0) {
+      res.json({ success: true, personality_type: result.rows[0].personality_type });
+    } else {
+      res.json({ success: true, personality_type: null });
+    }
+  } catch (err) {
+    console.error("Error fetching personality:", err);
+    res.status(500).json({ success: false, error: "Failed to fetch personality" });
+  }
+});
+
+
 // --- GET LATEST SESSION ---
 app.post("/get-session", async (req, res) => {
   const { email } = req.body || {};

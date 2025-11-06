@@ -140,14 +140,14 @@ export default function HomeUI({
             />
             🌤️ Use Current Weather 
           </label>
-          <label>
+          {/* <label>
             <input
               type="checkbox"
               checked={usePersonality}
               onChange={(e) => setUsePersonality(e.target.checked)}
             />
             🧠 Include My Personality Quiz
-          </label>
+          </label> */}
           <label>
             <input
               type="checkbox"
@@ -178,7 +178,7 @@ export default function HomeUI({
               </div>
             )}
 
-            {usePersonality && (
+            {/* {usePersonality && (
               <div className="content-card personality-card">
                 <div className="personality-icon">🧠</div>
                 <div className="personality-info">
@@ -186,7 +186,7 @@ export default function HomeUI({
                   <div className="personality-desc">Your dessert personality will be included</div>
                 </div>
               </div>
-            )}
+            )} */}
 
             {useSpotifyHistory && (spotifyTopArtists.length > 0 || spotifyGenres.length > 0) && (
               <div className="content-card spotify-card">

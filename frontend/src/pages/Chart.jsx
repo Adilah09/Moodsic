@@ -231,6 +231,7 @@ export default function ChartPage() {
     <div className="chart-mood-wrapper">
       <div className="chart-mood-card">
         <h1>Your Personalized Dashboard</h1>
+        
         <p>
           This dashboard presents a personalized view of your moods and preferences,
           providing insights into how your emotions, music tastes, and weekly mood
