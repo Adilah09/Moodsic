@@ -22,7 +22,7 @@ export default function Playlists() {
         }
 
         const response = await axios.post(
-          "https://moodsic-backend.vercel.app/get-sessions",
+          "https://moodsic-backend-final.vercel.app/get-sessions",
           { email }
         );
 
@@ -67,7 +67,7 @@ export default function Playlists() {
   const handleClearAll = async () => {
     try {
       const response = await axios.post(
-        "https://moodsic-backend.vercel.app/clear-session",
+        "https://moodsic-backend-final.vercel.app/clear-session",
         { email }
       );
       if (response.data.success) {

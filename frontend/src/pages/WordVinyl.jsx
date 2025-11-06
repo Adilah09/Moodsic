@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./WordVinyl.css";
 import Logo from "../assets/logo.svg";
 
-const SERVER_URL = "https://moodsic-backend.vercel.app";
+const SERVER_URL = "https://moodsic-backend-final.vercel.app";
 
 // --- Helper functions ---
 async function triggerWordGeneration() {
