@@ -1,34 +1,41 @@
-/* Container for centering mood cards in a 2x2 grid */
+/* ====================================
+   🌸 Responsive Chart Layout
+   ==================================== */
+
+/* Main grid layout */
 .chart-mood-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Two columns */
-  gap: 30px; /* Space between cards */
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
   justify-items: center;
-  align-items: flex-start; /* Align at the top */
+  align-items: flex-start;
   padding: 20px;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-/* Make the first item span the full row */
+/* Make the first card span full width on larger screens */
 .chart-mood-wrapper > .chart-mood-card:first-child {
-  grid-column: span 2; /* This makes "Your Personalized Dashboard" span across two columns */
+  grid-column: span 2;
 }
 
-/* Mood card with frosted glass effect */
+/* Mood Card */
 .chart-mood-card {
-  background: linear-gradient(180deg, rgba(255, 182, 193, 0.18), rgba(255, 105, 180, 0.15));
+  background: linear-gradient(180deg, rgba(255,182,193,0.18), rgba(255,105,180,0.15));
   backdrop-filter: blur(15px);
-  border-radius: 35px;
+  border-radius: 30px;
   padding: 40px;
   width: 100%;
-  transition: 0.4s ease;
+  transition: all 0.4s ease;
   margin-bottom: 25px;
-  box-shadow: 0 10px 50px rgba(255, 105, 180, 0.4);
+  box-shadow: 0 10px 40px rgba(255,105,180,0.4);
 }
 
 .chart-mood-card:hover {
   transform: scale(1.02);
-  box-shadow: 0 0 20px rgba(255, 182, 193, 0.7);
+  box-shadow: 0 0 20px rgba(255,182,193,0.7);
 }
 
 /* Title Styling */
@@ -37,11 +44,10 @@
   font-size: 28px;
   margin-bottom: 10px;
   color: #ffe5f2;
-  padding-top: 20px;
   text-align: center;
 }
 
-/* Subtitle Styling */
+/* Subtitle */
 .subtitle {
   color: #ffb6d5;
   text-align: center;
@@ -50,29 +56,74 @@
   margin-bottom: 40px;
 }
 
-/* Responsive design: Ensure 1 card per row on smaller screens */
-@media (max-width: 768px) {
-  .chart-mood-wrapper {
-    grid-template-columns: 1fr; /* Stack cards in 1 column on smaller screens */
-  }
-}
-
-/* Explanation Section for each chart */
+/* Explanation Section */
 .chart-explanation {
   font-size: 16px;
   color: #e03b85;
   background-color: #ffe6f2;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 15px;
   margin-top: 20px;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(255, 105, 180, 0.4);
+  box-shadow: 0 4px 20px rgba(255,105,180,0.4);
 }
 
-/* Explanation text for bubble chart and radar chart */
 .chart-explanation h3 {
   font-size: 20px;
   color: #e03b85;
   margin-bottom: 10px;
-  text-align: center;
+}
+
+/* ====================================
+   📱 Responsive Breakpoints
+   ==================================== */
+
+/* Tablets and below */
+@media (max-width: 900px) {
+  .chart-mood-wrapper {
+    grid-template-columns: 1fr;
+    padding: 15px;
+    gap: 20px;
+  }
+
+  .chart-mood-wrapper > .chart-mood-card:first-child {
+    grid-column: span 1;
+  }
+
+  .chart-mood-card {
+    padding: 25px;
+    border-radius: 22px;
+    box-shadow: 0 5px 25px rgba(255,105,180,0.3);
+  }
+
+  .chart-mood-card h1 {
+    font-size: 22px;
+  }
+
+  .chart-explanation {
+    font-size: 15px;
+    padding: 12px;
+  }
+
+  svg {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .chart-mood-card {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .chart-mood-card h1 {
+    font-size: 20px;
+  }
+
+  .chart-explanation {
+    font-size: 14px;
+    padding: 10px;
+  }
 }
