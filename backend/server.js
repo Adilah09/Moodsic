@@ -513,6 +513,52 @@ app.post("/get-mood-data", async (req, res) => {
   }
 });
 
+// --- GET LATEST SELECTED WORDS (LIMIT 10) ---
+app.post("/get-latest-words", async (req, res) => {
+  const { email } = req.body || {};
+  if (!email)
+    return res.status(400).json({ success: false, error: "Email required" });
+
+  try {
+    const result = await pool.query(
+      `SELECT selected_words FROM sessions WHERE email = $1 ORDER BY timestamp DESC LIMIT 1`,
+      [email]
+    );
+
+    if (!result.rows.length || !result.rows[0].selected_words)
+      return res.json({ success: true, data: [] });
+
+    let words = [];
+    const value = result.rows[0].selected_words;
+    if (Array.isArray(value)) {
+      words = value;
+    } else if (typeof value === "string") {
+      try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) words = parsed;
+      } catch {
+        const trimmed = value.trim();
+        if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+          const inner = trimmed.slice(1, -1);
+          const parts = inner.match(/(?:[^,"]+|"[^"]*")+/g) || [];
+          words = parts.map((p) => p.replace(/^"|"$/g, "").trim());
+        } else if (value.includes(",")) {
+          words = value.split(",").map((w) => w.trim());
+        } else if (value) {
+          words = [value];
+        }
+      }
+    }
+
+    return res.json({ success: true, data: words.slice(0, 10) });
+  } catch (err) {
+    console.error("Error fetching latest words:", err);
+    return res
+      .status(500)
+      .json({ success: false, error: "Failed to fetch latest words" });
+  }
+});
+
 // -------------------- FALLBACK & SERVER --------------------
 app.use((req, res) => {
   res.status(404).json({ error: "Route not found", path: req.path });

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Radar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import * as d3 from "d3";
 import "./Chart.css";
+import { AppContext } from "../context/AppContext";
 
 ChartJS.register(
   RadialLinearScale,
@@ -27,31 +28,100 @@ export default function ChartPage() {
 
   // -------------------- Bubble Chart --------------------
   const [bubbleData, setBubbleData] = useState([]);
+  const { accessToken } = useContext(AppContext);
+  const [radarLabels, setRadarLabels] = useState([]);
+  const [radarValues, setRadarValues] = useState([]);
 
   useEffect(() => {
-    const fetchMoodBubbles = async () => {
+    const fetchLatestSessionBits = async () => {
       try {
         const email = localStorage.getItem("userEmail");
         if (!email) return;
-        const resp = await fetch("https://moodsic-backend.vercel.app/get-mood-data", {
+
+        // Latest selected words (limit 10)
+        const wordsResp = await fetch("https://moodsic-backend.vercel.app/get-latest-words", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email }),
         });
-        const json = await resp.json();
-        if (json.success && Array.isArray(json.data)) {
-          const mapped = json.data.map((d) => ({ id: d.word, value: d.count }));
-          setBubbleData(mapped);
+        const wordsJson = await wordsResp.json();
+        if (wordsJson.success && Array.isArray(wordsJson.data)) {
+          const words = wordsJson.data.slice(0, 10);
+          const sized = words.map((w, i) => ({ id: w, value: 10 - i + 5 }));
+          setBubbleData(sized);
         } else {
           setBubbleData([]);
         }
+
+        // Latest session songs for genres
+        const sessionResp = await fetch("https://moodsic-backend.vercel.app/get-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        const sessionJson = await sessionResp.json();
+        if (sessionJson.success && sessionJson.data) {
+          let songs = sessionJson.data.songs;
+          if (typeof songs === "string") {
+            try { songs = JSON.parse(songs); } catch { songs = []; }
+          }
+          if (Array.isArray(songs) && songs.length) {
+            await computeGenresFromSongs(songs);
+          } else {
+            setRadarLabels([]);
+            setRadarValues([]);
+          }
+        }
       } catch (e) {
-        console.error("Failed to load mood data:", e);
-        setBubbleData([]);
+        console.error("Failed to load latest session data:", e);
       }
     };
-    fetchMoodBubbles();
-  }, []);
+
+    fetchLatestSessionBits();
+  }, [accessToken]);
+
+  const computeGenresFromSongs = async (songs) => {
+    try {
+      if (!accessToken) return;
+      const trackIds = songs
+        .map((t) => t.url?.split("/").pop())
+        .filter(Boolean)
+        .slice(0, 50);
+      if (!trackIds.length) return;
+
+      // Get tracks -> artist IDs
+      const tracksResp = await fetch(`https://api.spotify.com/v1/tracks?ids=${encodeURIComponent(trackIds.join(","))}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      if (!tracksResp.ok) return;
+      const tracksJson = await tracksResp.json();
+      const artistIds = Array.from(new Set((tracksJson.tracks || [])
+        .flatMap((t) => (t.artists || []).map((a) => a.id)))).slice(0, 50);
+      if (!artistIds.length) return;
+
+      // Get artists -> genres
+      const artistsResp = await fetch(`https://api.spotify.com/v1/artists?ids=${encodeURIComponent(artistIds.join(","))}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      if (!artistsResp.ok) return;
+      const artistsJson = await artistsResp.json();
+      const genreCount = {};
+      (artistsJson.artists || []).forEach((a) => {
+        (a.genres || []).forEach((g) => {
+          const key = g.toLowerCase();
+          genreCount[key] = (genreCount[key] || 0) + 1;
+        });
+      });
+
+      const top = Object.entries(genreCount)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 8);
+      setRadarLabels(top.map(([g]) => g));
+      setRadarValues(top.map(([, c]) => c));
+    } catch (e) {
+      console.error("Failed to compute genres:", e);
+    }
+  };
 
   useEffect(() => {
     const width = 400;
@@ -109,7 +179,7 @@ export default function ChartPage() {
   }, [bubbleData]);
 
 
-    const [personalityType, setPersonalityType] = useState("");
+  const [personalityType, setPersonalityType] = useState("");
 
   useEffect(() => {
     const fetchPersonality = async () => {
@@ -238,23 +308,12 @@ export default function ChartPage() {
   }, []);
 
   // -------------------- Radar Chart --------------------
-  const [userStats] = useState({
-    Pop: 80,
-    Metal: 60,
-    Rock: 70,
-    Jazz: 40,
-    Classical: 50,
-    Rap: 90,
-    Reggae: 65,
-  });
-
-  const radarLabels = Object.keys(userStats);
   const radarData = {
     labels: radarLabels,
     datasets: [
       {
         label: "Your Music Genre Preferences",
-        data: Object.values(userStats),
+        data: radarValues,
         backgroundColor: "rgba(255, 105, 180, 0.25)",
         borderColor: "#ff6fa8",
         borderWidth: 2,
@@ -295,6 +354,23 @@ export default function ChartPage() {
         <h2 style={{ color: "#ff6fa8", marginTop: "10px" }}>
           {personalityType || "Loading..."}
         </h2>
+        {/* Personality image based on hardcoded mapping */}
+        {(() => {
+          const t = (personalityType || "").toLowerCase();
+          // Map 4 personalities to static images in public/assets/game
+          let img = "";
+          if (t.includes("choc") || t.includes("cookie")) img = "/assets/game/choctart.jpeg";
+          else if (t.includes("vanilla")) img = "/assets/game/vanillabean.jpg";
+          else if (t.includes("lemon")) img = "/assets/game/lemon.jpeg";
+          else if (t.includes("pepper") || t.includes("ghost")) img = "/assets/game/ghostpepper.jpg";
+          return img ? (
+            <img
+              src={img}
+              alt={personalityType}
+              className="personality-image"
+            />
+          ) : null;
+        })()}
         <div className="chart-explanation">
           <h3>What Does This Mean?</h3>
           <p>
