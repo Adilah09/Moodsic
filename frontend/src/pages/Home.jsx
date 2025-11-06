@@ -115,24 +115,45 @@ function Home() {
             if (!profile?.email) return;
 
             try {
-                const res = await axios.get("https://moodsic-backend.vercel.app/get-session", {
-                    params: { email: profile.email },
+                const res = await axios.post("https://moodsic-backend.vercel.app/get-session", {
+                    email: profile.email,
                 });
 
                 if (res.data.success && res.data.data) {
                     const session = res.data.data;
-                    setMood(session.mood);
-                    setSelectedWords(session.selected_words);
+                    setMood(session.mood || "");
+                    // Parse selected_words if it's a string
+                    let words = session.selected_words;
+                    if (typeof words === "string") {
+                        try {
+                            words = JSON.parse(words);
+                        } catch {
+                            // If parsing fails, try Postgres array format or comma-separated
+                            if (words.startsWith("{") && words.endsWith("}")) {
+                                const inner = words.slice(1, -1);
+                                const parts = inner.match(/(?:[^,"]+|"[^"]*")+/g) || [];
+                                words = parts.map((p) => p.replace(/^"|"$/g, "").trim());
+                            } else if (words.includes(",")) {
+                                words = words.split(",").map((w) => w.trim());
+                            } else {
+                                words = words ? [words] : [];
+                            }
+                        }
+                    }
+                    setSelectedWords(Array.isArray(words) ? words : []);
                     // Optionally store playlist tracks for Spotify history
                     setPlaylist(session.songs || []);
                 }
             } catch (err) {
-                console.error("Failed to fetch last session:", err);
+                // First time login - no session exists yet, that's okay
+                if (err.response?.status !== 404) {
+                    console.error("Failed to fetch last session:", err);
+                }
             }
         };
 
         fetchLastSession();
-    }, []);
+    }, [profile?.email]);
 
     // Word Cloud selection
     const handleWordClick = (word) => {

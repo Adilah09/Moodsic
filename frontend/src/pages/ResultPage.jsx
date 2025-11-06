@@ -39,20 +39,23 @@ export default function ResultPage({ result, showRestart = false, onRestart }) {
       if (!profile?.email) return;
 
       try {
-        const res = await axios.get("https://moodsic-backend.vercel.app/get-session", {
-          params: { email: profile.email },
+        const res = await axios.post("https://moodsic-backend.vercel.app/get-session", {
+          email: profile.email,
         });
 
         if (res.data.success && res.data.data) {
           setLastSession(res.data.data);
         }
       } catch (err) {
-        console.error("Failed to fetch last session:", err);
+        // First time login - no session exists yet, that's okay
+        if (err.response?.status !== 404) {
+          console.error("Failed to fetch last session:", err);
+        }
       }
     };
 
     fetchLastSession();
-  }, [profile]);
+  }, [profile?.email]);
 
   // Save personality to database
   useEffect(() => {
