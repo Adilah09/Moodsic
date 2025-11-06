@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Playlists.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Playlists() {
   const [playlistData, setPlaylistData] = useState(null);
@@ -40,6 +42,7 @@ export default function Playlists() {
       } catch (err) {
         console.error("Error fetching saved playlist:", err);
         setError("Failed to load playlist.");
+        toast.error("⚠️ Failed to load playlist.");
       } finally {
         setLoading(false);
       }
@@ -55,14 +58,14 @@ export default function Playlists() {
         { email }
       );
       if (response.data.success) {
-        alert("✨ Playlist cleared successfully!");
+        toast.success("✨ Playlist cleared successfully!");
         setPlaylistData(null);
       } else {
-        alert("Failed to clear playlist.");
+        toast.error("Failed to clear playlist.");
       }
     } catch (err) {
       console.error("Error clearing playlist:", err);
-      alert("Something went wrong while clearing your playlist.");
+      toast.error("Something went wrong while clearing your playlist.");
     }
   };
 
@@ -105,6 +108,9 @@ export default function Playlists() {
       <button className="clear-btn" onClick={handleClearAll}>
         Clear All Songs
       </button>
+
+      {/* Toast container goes at the bottom of your page */}
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </div>
   );
 }
