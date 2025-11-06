@@ -18,10 +18,29 @@ body {
 }
 
 .app-container {
-  max-width: 1300px;  /* or adjust to desired width */
-  margin: 0 auto;     /* centers horizontally */
-  padding: 0 40px;    /* ~5cm padding left & right */
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 40px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+/* Responsive padding adjustments */
+@media (max-width: 1024px) {
+  .app-container {
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 375px) {
+  .app-container {
+    padding: 0 12px;
+  }
 }

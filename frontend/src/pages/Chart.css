@@ -123,15 +123,15 @@
 
 
 /* ====================================
-   Responsive Breakpoints
+   📱 Responsive Breakpoints
    ==================================== */
 
 /* Tablets and below */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .chart-mood-wrapper {
     grid-template-columns: 1fr;
-    padding: 15px;
-    gap: 20px;
+    padding: 12px 14px;
+    gap: 16px;
   }
 
   .chart-mood-wrapper > .chart-mood-card:first-child {
@@ -139,18 +139,21 @@
   }
 
   .chart-mood-card {
-    padding: 25px;
-    border-radius: 22px;
-    box-shadow: 0 5px 25px rgba(255,105,180,0.3);
+    padding: 24px;
+    margin-bottom: 8px;
   }
 
   .chart-mood-card h1 {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .chart-explanation {
     font-size: 15px;
     padding: 12px;
+  }
+
+  .radar-wrapper {
+    height: 350px;
   }
 
   svg {
@@ -159,11 +162,49 @@
   }
 }
 
-/* Small phones */
-@media (max-width: 480px) {
+/* Small tablets and phones */
+@media (max-width: 768px) {
+  .chart-mood-wrapper {
+    padding: 10px 12px;
+    gap: 14px;
+  }
+
   .chart-mood-card {
     padding: 20px;
+    border-radius: 22px;
+    margin-bottom: 6px;
+  }
+
+  .chart-mood-card h1 {
+    font-size: 22px;
+  }
+
+  .chart-explanation {
+    font-size: 14px;
+    padding: 11px;
+    margin-top: 16px;
+  }
+
+  .radar-wrapper {
+    height: 300px;
+  }
+
+  .personality-image {
+    max-width: 280px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .chart-mood-wrapper {
+    padding: 8px 10px;
+    gap: 12px;
+  }
+
+  .chart-mood-card {
+    padding: 18px;
     border-radius: 18px;
+    margin-bottom: 5px;
   }
 
   .chart-mood-card h1 {
@@ -171,7 +212,46 @@
   }
 
   .chart-explanation {
-    font-size: 14px;
+    font-size: 13px;
     padding: 10px;
+    margin-top: 14px;
+  }
+
+  .radar-wrapper {
+    height: 280px;
+  }
+
+  .personality-image {
+    max-width: 240px;
+  }
+}
+
+/* iPhone 6 and smaller */
+@media (max-width: 375px) {
+  .chart-mood-wrapper {
+    padding: 6px 8px;
+    gap: 10px;
+  }
+
+  .chart-mood-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .chart-mood-card h1 {
+    font-size: 18px;
+  }
+
+  .chart-explanation {
+    font-size: 12px;
+    padding: 9px;
+  }
+
+  .radar-wrapper {
+    height: 250px;
+  }
+
+  .personality-image {
+    max-width: 200px;
   }
 }

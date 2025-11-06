@@ -305,9 +305,19 @@
 }
 
 /* === RESPONSIVE === */
-@media (max-width: 900px) {
-  .vibe-title { font-size: 2rem; }
-  .track-card { min-width: 260px; }
+@media (max-width: 1024px) {
+  .results-container {
+    padding: 20px 16px;
+  }
+
+  .vibe-title {
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+  }
+
+  .track-card {
+    min-width: 280px;
+  }
 }
 
 /* Medium screens: arrange bottom buttons into 2x2 grid */
@@ -323,18 +333,130 @@
   }
 }
 
-@media (max-width: 700px) {
-  .vibe-title { font-size: 1.8rem; }
-  .track-wrapper { flex-direction: column; gap: 15px; }
-  .results-buttons { flex-direction: column; gap: 18px; align-items: stretch; }
-  .track-card { width: 100%; }
+@media (max-width: 768px) {
+  .results-container {
+    padding: 15px 12px;
+  }
+
+  .vibe-title {
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+  }
+
+  .track-wrapper {
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .track-card {
+    width: 100%;
+    min-width: unset;
+    padding: 15px;
+  }
+
+  .spotify-embed {
+    height: 80px;
+  }
+
+  .results-buttons {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+    margin-top: 40px;
+  }
+
+  .results-buttons button {
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+
+  .remove-button {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .popup-card {
+    max-width: 90%;
+    padding: 30px 20px;
+    gap: 16px;
+  }
+
+  .popup-title {
+    font-size: 1.2rem;
+  }
+
+  .popup-text {
+    font-size: 0.9rem;
+    line-height: 1.5rem;
+  }
+
+  .go-button {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+  }
 }
 
-@media (max-width: 700px) {
-  .vibe-title { font-size: 1.6rem; }
-  .popup-card { max-width: 90%; padding: 35px 25px; gap: 18px; }
-  .popup-title { font-size: 1.3rem; }
-  .popup-text { font-size: 0.95rem; line-height: 1.5rem; }
-  .go-button { padding: 12px 24px; font-size: 0.95rem; }
-  .remove-button { width: 28px; height: 28px; font-size: 16px; }
+@media (max-width: 480px) {
+  .results-container {
+    padding: 12px 10px;
+  }
+
+  .vibe-title {
+    font-size: 1.4rem;
+    margin-bottom: 25px;
+  }
+
+  .track-card {
+    padding: 12px;
+  }
+
+  .spotify-embed {
+    height: 75px;
+  }
+
+  .results-buttons {
+    margin-top: 30px;
+    gap: 12px;
+  }
+
+  .results-buttons button {
+    padding: 11px 20px;
+    font-size: 13px;
+  }
+
+  .popup-card {
+    padding: 25px 18px;
+    gap: 14px;
+  }
+
+  .popup-title {
+    font-size: 1.1rem;
+  }
+
+  .popup-text {
+    font-size: 0.85rem;
+  }
+
+  .go-button {
+    padding: 11px 20px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .vibe-title {
+    font-size: 1.3rem;
+  }
+
+  .track-card {
+    padding: 10px;
+  }
+
+  .results-buttons button {
+    padding: 10px 18px;
+    font-size: 12px;
+  }
 }

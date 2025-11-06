@@ -114,6 +114,17 @@
   transform: translateY(-6px) rotate(-45deg);
 }
 
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 6px 14px;
+  }
+
+  .navbar-links a {
+    margin-left: 20px;
+    font-size: 15px;
+  }
+}
+
 @media (max-width: 800px) {
   .navbar {
     padding: 6px 12px;
@@ -134,6 +145,10 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   }
 
+  .navbar-left .logo-img {
+    height: 26px;
+  }
+
   /* keep logo visible on mobile */
   .navbar-left { display: block; }
   .navbar-profile { display: none; }
@@ -141,8 +156,8 @@
   .navbar-links {
     position: absolute;
     top: 56px;
-    right: 12px;   /* match navbar horizontal padding */
-    left: 12px;    /* match navbar horizontal padding */
+    right: 12px;
+    left: 12px;
     background: #dc478af2;
     border-radius: 14px;
     padding: 10px 12px;
@@ -163,10 +178,44 @@
     padding: 10px 12px;
     background: rgba(255,255,255,0.08);
     border-radius: 10px;
+    font-size: 14px;
   }
 
   .navbar-toggle {
     display: inline-block;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 5px 10px;
+    border-radius: 16px;
+  }
+
+  .navbar-left .logo-img {
+    height: 24px;
+  }
+
+  .navbar-links {
+    top: 54px;
+    right: 10px;
+    left: 10px;
+    padding: 8px 10px;
+  }
+
+  .navbar-links a {
+    padding: 9px 10px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 375px) {
+  .navbar {
+    padding: 4px 8px;
+  }
+
+  .navbar-left .logo-img {
+    height: 22px;
   }
 }
 

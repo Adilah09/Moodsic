@@ -526,29 +526,167 @@
   opacity: 1;
 }
 
-/* Responsive */
+/* Responsive - iPhone 6 and up */
+@media (max-width: 1024px) {
+  .mood-card,
+  .mode-select-card,
+  .options-card {
+    padding: 35px 25px;
+    border-radius: 25px;
+  }
+
+  .mood-card h1,
+  .mode-select-card h1,
+  .options-card h1 {
+    font-size: 24px;
+  }
+}
+
 @media (max-width: 768px) {
   .mood-wrapper {
+    padding: 15px 10px;
     padding-top: 10px;
   }
 
   .mood-card,
   .mode-select-card,
   .options-card {
-    padding: 60px 30px;
+    padding: 30px 20px;
+    margin-bottom: 20px;
+  }
+
+  .mood-card h1,
+  .mode-select-card h1,
+  .options-card h1 {
+    font-size: 22px;
+  }
+
+  .msg {
+    font-size: 15px;
   }
 
   #mood-input {
     width: 90%;
+    padding: 15px 20px;
+    font-size: 15px;
   }
 
-  .feature-button {
+  .feature-button,
+  .primary-btn,
+  #submit-btn {
+    padding: 12px 30px;
+    font-size: 15px;
     width: 100%;
+    max-width: 300px;
+  }
+
+  .button-row.top {
+    gap: 12px;
+  }
+
+  .mini-card {
+    width: 95%;
+    padding: 20px 20px;
+  }
+
+  .word-display-box {
+    width: 95%;
+    padding: 15px 15px;
+  }
+
+  .word-line {
+    font-size: 15px;
+  }
+
+  .personalization-content {
+    gap: 15px;
+  }
+
+  .content-card {
+    min-width: 100%;
+    max-width: 100%;
   }
 
   .back-to-top {
-    left: 20px;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    right: 20px;
     bottom: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mood-wrapper {
+    padding: 10px 8px;
+  }
+
+  .mood-card,
+  .mode-select-card,
+  .options-card {
+    padding: 25px 16px;
+    border-radius: 20px;
+  }
+
+  .mood-card h1,
+  .mode-select-card h1,
+  .options-card h1 {
+    font-size: 20px;
+  }
+
+  .msg {
+    font-size: 14px;
+  }
+
+  #mood-input {
+    width: 95%;
+    padding: 14px 18px;
+    font-size: 14px;
+  }
+
+  .feature-button,
+  .primary-btn,
+  #submit-btn {
+    padding: 11px 25px;
+    font-size: 14px;
+  }
+
+  .mini-card {
+    padding: 18px 16px;
+  }
+
+  .word-display-box {
+    padding: 14px 12px;
+  }
+
+  .word-line {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 375px) {
+  .mood-card,
+  .mode-select-card,
+  .options-card {
+    padding: 20px 14px;
+  }
+
+  .mood-card h1,
+  .mode-select-card h1,
+  .options-card h1 {
+    font-size: 18px;
+  }
+
+  #mood-input {
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+
+  .feature-button,
+  .primary-btn,
+  #submit-btn {
+    padding: 10px 22px;
+    font-size: 13px;
   }
 }
 

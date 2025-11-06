@@ -52,25 +52,47 @@
 }
 
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 1024px) {
   .vinyl {
-    width: 350px;
-    height: 350px;
+    width: 400px;
+    height: 400px;
   }
   .ring-container {
-    width: 350px;
-    height: 350px;
+    width: 400px;
+    height: 400px;
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
   .vinyl {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
   }
   .ring-container {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .vinyl {
+    width: 250px;
+    height: 250px;
+  }
+  .ring-container {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .vinyl {
+    width: 220px;
+    height: 220px;
+  }
+  .ring-container {
+    width: 220px;
+    height: 220px;
   }
 }
 
