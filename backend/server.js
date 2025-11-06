@@ -465,18 +465,38 @@ app.post("/get-mood-data", async (req, res) => {
 
     const wordCount = {};
     for (const row of result.rows) {
-      if (row.selected_words) {
-        let words = [];
+      if (!row.selected_words) continue;
+
+      let words = [];
+      const value = row.selected_words;
+
+      if (Array.isArray(value)) {
+        words = value;
+      } else if (typeof value === "string") {
+        // Try JSON first
         try {
-          words = JSON.parse(row.selected_words);
+          const parsed = JSON.parse(value);
+          if (Array.isArray(parsed)) words = parsed;
         } catch {
-          continue;
+          // Try Postgres array string format: {mad,gloomy,"very sad"}
+          const trimmed = value.trim();
+          if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+            const inner = trimmed.slice(1, -1);
+            // Split respecting quotes
+            const parts = inner.match(/(?:[^,"]+|"[^"]*")+/g) || [];
+            words = parts.map((p) => p.replace(/^"|"$/g, "").trim());
+          } else if (value.includes(",")) {
+            words = value.split(",").map((w) => w.trim());
+          } else if (value) {
+            words = [value];
+          }
         }
-        words.forEach((w) => {
-          const word = w.trim().toLowerCase();
-          if (word) wordCount[word] = (wordCount[word] || 0) + 1;
-        });
       }
+
+      words.forEach((w) => {
+        const word = String(w || "").trim().toLowerCase();
+        if (word) wordCount[word] = (wordCount[word] || 0) + 1;
+      });
     }
 
     const sorted = Object.entries(wordCount)
