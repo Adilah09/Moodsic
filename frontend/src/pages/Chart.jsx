@@ -330,15 +330,21 @@ export default function ChartPage() {
     scales: {
       r: {
         grid: { color: "#666" },
+        angleLines: { color: "#555" },
         pointLabels: { color: "#ffb6d5", font: { size: 14 } },
-        ticks: { color: "#aaa", backdropColor: "transparent" },
+        ticks: { color: "#aaa", backdropColor: "transparent", showLabelBackdrop: false },
         min: 0,
-        max: 100,
+        max: Math.max(5, ...(radarValues.length ? radarValues : [1])) + 1,
       },
     },
     plugins: {
       legend: { labels: { color: "#ffb6d5" } },
     },
+    elements: {
+      line: { borderWidth: 2 },
+      point: { radius: 3 },
+    },
+    maintainAspectRatio: false,
   };
 
   // -------------------- Render Layout --------------------

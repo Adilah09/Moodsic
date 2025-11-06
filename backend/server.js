@@ -521,38 +521,48 @@ app.post("/get-latest-words", async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT selected_words FROM sessions WHERE email = $1 ORDER BY timestamp DESC LIMIT 1`,
+      `SELECT selected_words FROM sessions WHERE email = $1 ORDER BY timestamp DESC LIMIT 25`,
       [email]
     );
 
-    if (!result.rows.length || !result.rows[0].selected_words)
+    if (!result.rows.length)
       return res.json({ success: true, data: [] });
 
-    let words = [];
-    const value = result.rows[0].selected_words;
-    if (Array.isArray(value)) {
-      words = value;
-    } else if (typeof value === "string") {
-      try {
-        const parsed = JSON.parse(value);
-        if (Array.isArray(parsed)) words = parsed;
-      } catch {
-        const trimmed = value.trim();
-        if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
-          const inner = trimmed.slice(1, -1);
-          const parts = inner.match(/(?:[^,"]+|"[^"]*")+/g) || [];
-          words = parts.map((p) => p.replace(/^"|"$/g, "").trim());
-        } else if (value.includes(",")) {
-          words = value.split(",").map((w) => w.trim());
-        } else if (value) {
-          words = [value];
+    const collected = [];
+    const takeUpTo = (arr) => {
+      for (const w of arr) {
+        if (collected.length < 10) collected.push(String(w).trim());
+      }
+    };
+
+    for (const row of result.rows) {
+      if (!row.selected_words) continue;
+      let words = [];
+      const value = row.selected_words;
+      if (Array.isArray(value)) {
+        words = value;
+      } else if (typeof value === "string") {
+        try {
+          const parsed = JSON.parse(value);
+          if (Array.isArray(parsed)) words = parsed;
+        } catch {
+          const trimmed = value.trim();
+          if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+            const inner = trimmed.slice(1, -1);
+            const parts = inner.match(/(?:[^,"]+|"[^"]*")+/g) || [];
+            words = parts.map((p) => p.replace(/^"|"$/g, "").trim());
+          } else if (value.includes(",")) {
+            words = value.split(",").map((w) => w.trim());
+          } else if (value) {
+            words = [value];
+          }
         }
       }
+      if (words.length) takeUpTo(words);
+      if (collected.length >= 10) break;
     }
 
-    // Return the last 10 words in order (most recent at the end)
-    const lastTen = words.slice(-10);
-    return res.json({ success: true, data: lastTen });
+    return res.json({ success: true, data: collected.slice(0, 10) });
   } catch (err) {
     console.error("Error fetching latest words:", err);
     return res
