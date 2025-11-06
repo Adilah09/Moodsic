@@ -550,7 +550,9 @@ app.post("/get-latest-words", async (req, res) => {
       }
     }
 
-    return res.json({ success: true, data: words.slice(0, 10) });
+    // Return the last 10 words in order (most recent at the end)
+    const lastTen = words.slice(-10);
+    return res.json({ success: true, data: lastTen });
   } catch (err) {
     console.error("Error fetching latest words:", err);
     return res

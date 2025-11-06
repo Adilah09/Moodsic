@@ -46,8 +46,8 @@ export default function ChartPage() {
         });
         const wordsJson = await wordsResp.json();
         if (wordsJson.success && Array.isArray(wordsJson.data)) {
-          const words = wordsJson.data.slice(0, 10);
-          const sized = words.map((w, i) => ({ id: w, value: 10 - i + 5 }));
+          const words = wordsJson.data; // already last 10 from backend
+          const sized = words.map((w) => ({ id: w, value: 20 }));
           setBubbleData(sized);
         } else {
           setBubbleData([]);
@@ -116,8 +116,10 @@ export default function ChartPage() {
       const top = Object.entries(genreCount)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 8);
-      setRadarLabels(top.map(([g]) => g));
-      setRadarValues(top.map(([, c]) => c));
+      const labels = top.map(([g]) => g);
+      const values = top.map(([, c]) => c);
+      setRadarLabels(labels);
+      setRadarValues(values);
     } catch (e) {
       console.error("Failed to compute genres:", e);
     }
@@ -308,12 +310,14 @@ export default function ChartPage() {
   }, []);
 
   // -------------------- Radar Chart --------------------
+  const fallbackLabels = ["pop", "rock", "jazz", "hip hop", "electronic", "classical"];
+  const fallbackValues = [0, 0, 0, 0, 0, 0];
   const radarData = {
-    labels: radarLabels,
+    labels: radarLabels.length ? radarLabels : fallbackLabels,
     datasets: [
       {
         label: "Your Music Genre Preferences",
-        data: radarValues,
+        data: radarValues.length ? radarValues : fallbackValues,
         backgroundColor: "rgba(255, 105, 180, 0.25)",
         borderColor: "#ff6fa8",
         borderWidth: 2,
