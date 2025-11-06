@@ -5,7 +5,7 @@ import WordVinyl from "./WordVinyl"; // vinyl component
 
 export default function HomeUI({
   words,
-  selectedWords = [], // ✅ ensures it’s never null
+  selectedWords = [],
   wordLimitError,
   handleWordClick,
   useWeather,
@@ -111,6 +111,7 @@ export default function HomeUI({
               <WordVinyl handleSelectedWords={handleWordClick} />
             </div>
 
+            {/* Box only when words exist */}
             {selectedWords && selectedWords.length > 0 && (
               <div
                 className={`word-display-box ${wordLimitError ? "pulse" : ""}`}
@@ -118,55 +119,113 @@ export default function HomeUI({
                 <p className="word-line">{selectedWords.join("  ")}</p>
               </div>
             )}
+            {/* Red warning below the box */}
+            {wordLimitError && (
+              <p className="word-warning">Oops! You can only pick 3 words — choose your favorites!</p>
+            )}
           </div>
         )}
       </div>
+      
+      {/* Personalization Section */}
+      <div ref={optionsRef} className="options-card fade-section">
+        <h2 className="msg">Personalise your playlist here!</h2>
 
-      {/* Options Section */}
-      <div className="mode-select-card fade-section">
-        <h2 className="msg">Enhance your playlist experience 🎧</h2>
-
-        <div className="button-row">
-          <button
-            className={`feature-button ${useWeather ? "selected" : ""}`}
-            onClick={() => setWeather(!useWeather)}
-          >
-            🌦 Use Weather
-          </button>
-
-          <button
-            className={`feature-button ${usePersonality ? "selected" : ""}`}
-            onClick={() => setUsePersonality(!usePersonality)}
-          >
-            🧠 Use Personality
-          </button>
-
-          <button
-            className={`feature-button ${useSpotifyHistory ? "selected" : ""}`}
-            onClick={() => setUseSpotifyHistory(!useSpotifyHistory)}
-          >
-            🎵 Use Spotify History
-          </button>
+        <div className="optional-toggles">
+          <label>
+            <input
+              type="checkbox"
+              checked={useWeather}
+              onChange={(e) => setWeather(e.target.checked)}
+            />
+            🌤️ Use Current Weather 
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={usePersonality}
+              onChange={(e) => setUsePersonality(e.target.checked)}
+            />
+            🧠 Include My Personality Quiz
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={useSpotifyHistory}
+              onChange={(e) => setUseSpotifyHistory(e.target.checked)}
+            />
+            🎧 Use My Spotify Listening History
+          </label>
         </div>
 
-        {locationError && <p className="error">{locationError}</p>}
-        {error && <p className="error">{error}</p>}
-      </div>
+        {/* Expandable content area - shows horizontally when multiple are selected */}
+        {(useWeather || usePersonality  || useSpotifyHistory) && (
+          <div className="personalization-content">
+            {useWeather && weatherData && (
+              <div className="content-card weather-card">
+                <div className="weather-icon-wrapper">
+                  <img
+                    src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+                    alt={weatherData.weather[0].description}
+                    className="weather-icon"
+                  />
+                </div>
+                <div className="weather-info">
+                  <div className="weather-temp">{Math.round(weatherData.main.temp)}°C</div>
+                  <div className="weather-desc">{weatherData.weather[0].description}</div>
+                  <div className="weather-location">📍 {weatherData.name || "Current Location"}</div>
+                </div>
+              </div>
+            )}
 
-      {/* Generate Button */}
-      <div className="generate-section fade-section">
+            {usePersonality && (
+              <div className="content-card personality-card">
+                <div className="personality-icon">🧠</div>
+                <div className="personality-info">
+                  <div className="personality-title">Personality Quiz</div>
+                  <div className="personality-desc">Your dessert personality will be included</div>
+                </div>
+              </div>
+            )}
+
+            {useSpotifyHistory && (spotifyTopArtists.length > 0 || spotifyGenres.length > 0) && (
+              <div className="content-card spotify-card">
+                <div className="spotify-icon">🎧</div>
+                <div className="spotify-info">
+                  <div className="spotify-title">Your Top Genres</div>
+                  <div className="spotify-tags">
+                    {spotifyGenres.slice(0, 5).map((genre, idx) => (
+                      <span key={idx} className="genre-tag">{genre}</span>
+                    ))}
+                  </div>
+                  {spotifyTopArtists.length > 0 && (
+                    <div className="spotify-artists">
+                      <div className="artists-label">Top Artists:</div>
+                      <div className="artists-list">{spotifyTopArtists.slice(0, 3).join(", ")}</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         <button
-          className="generate-btn"
+          id="submit-btn"
           onClick={handleGenerate}
-          disabled={!mood && (!selectedWords || selectedWords.length === 0)}
         >
-          Generate My Playlist
+          🫰 Generate My Playlist
         </button>
+
+        {error && <p className="error-banner">{error}</p>}
+        {locationError && <p className="error-banner">{locationError}</p>}
       </div>
 
+
+{/* Back to Top */}
       {showTopButton && (
-        <button onClick={scrollToTop} className="scroll-top-btn">
-          ↑ Back to Top
+        <button className="back-to-top" onClick={scrollToTop}>
+          ↑
         </button>
       )}
     </div>
