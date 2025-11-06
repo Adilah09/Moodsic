@@ -89,6 +89,39 @@ export default function ChartPage() {
       .text(d => `${d.data.id}: ${format(d.data.value)}`);
   }, [bubbleData]);
 
+
+    const [personalityType, setPersonalityType] = useState("");
+
+  useEffect(() => {
+    const fetchPersonality = async () => {
+      try {
+        // Get user email from Clerk or localStorage (depends on your app)
+        const email = localStorage.getItem("userEmail");
+        if (!email) {
+          console.warn("No email found for personality fetch");
+          return;
+        }
+
+        const response = await fetch(
+          `https://moodsic-backend.vercel.app/get-latest-personality?email=${encodeURIComponent(email)}`
+        );
+        const data = await response.json();
+
+        if (data.success && data.personality_type) {
+          setPersonalityType(data.personality_type);
+        } else {
+          setPersonalityType("No personality result yet 😅");
+        }
+      } catch (error) {
+        console.error("Error fetching personality:", error);
+        setPersonalityType("Error loading personality");
+      }
+    };
+
+    fetchPersonality();
+  }, []);
+
+
   // -------------------- Diverging Bar Chart --------------------
   useEffect(() => {
     const emotionData = [
@@ -231,6 +264,9 @@ export default function ChartPage() {
     <div className="chart-mood-wrapper">
       <div className="chart-mood-card">
         <h1>Your Personalized Dashboard</h1>
+        <h2 style={{ color: "#ff6fa8", marginTop: "10px" }}>
+          {personalityType || "Loading..."}
+        </h2>
         
         <p>
           This dashboard presents a personalized view of your moods and preferences,
