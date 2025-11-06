@@ -375,16 +375,21 @@ export default function ChartPage() {
 
       <div className="chart-mood-card">
         <h1>Your Mood Bubble Chart!</h1>
-        <svg ref={chartRef}></svg>
+        {bubbleData.length > 0 ? (
+          <svg ref={chartRef}></svg>
+        ) : (
+          <p className="no-data-text">No mood selected</p>
+        )}
         <div className="chart-explanation">
           <h3>What Does This Show?</h3>
           <p>
-            Each bubble represents one of your latest 10 moods that you have selected in Moodsic. 
-            The chart gives a quick, visual overview of the moods you have been exploring or feeling recently, 
+            Each bubble represents one of your latest 10 moods that you have selected in Moodsic.
+            The chart gives a quick, visual overview of the moods you have been exploring or feeling recently,
             letting you see all your emotional choices together in one vibrant display.
           </p>
         </div>
       </div>
+
 
       <div className="chart-mood-card">
         <h1>Your Music Genre Preferences</h1>
@@ -394,8 +399,9 @@ export default function ChartPage() {
         <div className="chart-explanation">
           <h3>What Does This Mean?</h3>
           <p>
-            This radar chart compares how much you enjoy different genres.
-            Each axis represents a genre, and a wider area shows higher preference.
+            This radar chart is your personal sonic mood map — showing the genres that define your latest playlist vibe. 
+            Each line represents a different genre and the wider the shape spreads, the stronger your current pull toward those sounds. 
+            It’s a quick glimpse into the rhythm of what you’ve been feeling lately.
           </p>
         </div>
       </div>
