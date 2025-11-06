@@ -4,6 +4,9 @@ import HomeUI from "./HomeUI";
 import "./Home.css";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AppContext } from "../context/AppContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 function Home() {
     const [weatherData, setWeatherData] = useState(null);
@@ -217,9 +220,7 @@ function Home() {
                 "Failed to generate vibe & playlist:",
                 err.response?.data || err
             );
-            alert(
-                "Oops! Something went wrong while generating your vibe. Please try again."
-            );
+            toast.error("❌ Something went wrong while generating your vibe. Try again!");
         }
     });
 
@@ -235,6 +236,7 @@ function Home() {
 
 
     return (
+        <>
         <HomeUI
             words={words}
             selectedWords={selectedWords}
@@ -255,6 +257,10 @@ function Home() {
             spotifyTopArtists={spotifyTopArtists}
             spotifyGenres={spotifyGenres}
         />
+
+        {/* Toast container for global notifications */}
+        <ToastContainer position="bottom-right" autoClose={3000} theme="dark" />
+        </>
     );
 }
 

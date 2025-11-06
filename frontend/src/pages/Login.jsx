@@ -2,6 +2,9 @@ import React, { useEffect, useState, useContext, useRef } from "react";
 import { AppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 //Login to Spotify
 const Login = () => {
@@ -22,7 +25,7 @@ const Login = () => {
     const refreshToken = params.get("refresh_token");
 
     if (error === "access_denied") {
-      alert("You cancelled Spotify login. Please try again!");
+      toast.warn("🚫 You cancelled Spotify login. Please try again!");
       window.history.replaceState({}, document.title, "/");
       return;
     }
@@ -302,6 +305,7 @@ const Login = () => {
           </button>
         </div>
       </div>
+      <ToastContainer position="bottom-right" autoClose={3000} theme="dark" />
     </div>
   );
 };
