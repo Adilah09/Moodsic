@@ -3,6 +3,8 @@ import { useState, useContext, useRef, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
 import { motion, AnimatePresence } from "framer-motion";
 import "./Results.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Results() {
   const location = useLocation();
@@ -84,25 +86,25 @@ export default function Results() {
 
     if (response.ok) {
       console.log("Session saved:", data);
-      alert("Playlist saved in Moodsic!");
+      toast.success("🎶 Playlist saved in Moodsic!");
     } else {
       console.error("Failed to save session:", data.error);
-      alert("Failed to save session: " + data.error);
+      toast.error("⚠️ Failed to save session: " + data.error);
     }
   } catch (error) {
     console.error("Error saving session:", error);
-    alert("An error occurred while saving your playlist.");
+    toast.error("❌ An error occurred while saving your playlist.");
   }
 };
 
 
   const handleSaveSpotify = async () => {
     if (!accessToken || !profile?.id) {
-      alert("Please log in with Spotify first!");
+      toast.warn("🔒 Please log in with Spotify first!");
       return;
     }
     if (!tracks.length) {
-      alert("No tracks to save!");
+      toast.info("🎵 No tracks to save!");
       return;
     }
 
@@ -163,9 +165,11 @@ export default function Results() {
       // Show popup
       setPlaylistUrl(playlistData.external_urls.spotify);
       setShowPopup(true);
+      toast.success("🎧 Playlist added to Spotify!");
     } catch (err) {
       console.error("Save error:", err);
       setError(err.message || "Something went wrong saving to Spotify.");
+      toast.error("❌ " + (err.message || "Error saving to Spotify."));
     } finally {
       setIsSaving(false);
     }
@@ -300,6 +304,9 @@ export default function Results() {
       </AnimatePresence>
 
       {error && <div className="error-message">{error}</div>}
+
+      {/* Toast container */}
+      <ToastContainer position="bottom-right" autoClose={3000} theme="dark" />
     </div>
   );
 }
