@@ -45,7 +45,7 @@ export default function HomeUI({
   useEffect(() => {
     let step = 0;
     if (useWeather || usePersonality || useSpotifyHistory) step += 1;
-    if (mood || selectedWords.length > 0) step += 1;
+    if (mood || selectedWords && selectedWords.length > 0) step += 1;
     setProgress(step);
   }, [useWeather, usePersonality, useSpotifyHistory, mood, selectedWords]);
 
