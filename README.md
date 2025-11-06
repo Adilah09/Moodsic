@@ -88,7 +88,9 @@ Provide screenshots and captions showing how users interact with your app.
    <img src="screenshots/input4.png" width="600">  
    - Users are prompted to choose their mood by selecting from a word cloud, vinyl and a facial mood detector. This input helps generate a playlist based on their current emotional state, with additional options like weather and Spotify history.
 
+
 3. **Playlist Generation**
+<br>
    <img src="screenshots/playlist.png" width="600">
    - A playlist of 15 songs pop up based on their mood, weather and/or past Spotify listening history.
 
@@ -151,18 +153,9 @@ GEMINI_API_KEY=<your_gemini_api_key>
 
 ---
 
-### 3) Backend / Cloud Service Setup
+### 3) Backend
 
-#### Firebase
-1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Create a new project.
-3. Enable the following:
-   - **Authentication** → Email/Password sign-in
-   - **Firestore Database** or **Realtime Database**
-   - **Hosting (optional)** if you plan to deploy your web app
-4. Copy the Firebase configuration into your `.env` file.
-
-5. Start the backend:
+1. Start the backend:
    ```bash
    cd backend
    npm install
@@ -202,7 +195,6 @@ Perform the following checks before submission:
 | Issue | Cause | Fix |
 |:--|:--|:--|
 | `Module not found` | Missing dependencies | Run `npm install 'that missing dependency'` |
-| `Firebase: permission-denied` | Firestore security rules not set | Check rules under Firestore → Rules |
 | `CORS policy error` | Backend not allowing requests | Enable your domain in CORS settings |
 
 ---
@@ -229,6 +221,6 @@ As a team, reflect on:
 - Challenges faced and how they were resolved  
 - Insights on teamwork, project management, and problem-solving 
 
-> - As a team, working with real-world frameworks like React, Firebase, and Chart.js gave us valuable experience to build a functional and interactive website. We quickly learned the importance of choosing the right framework for specific tasks, such as using React for state management and Firebase for backend services. The frameworks helped streamline our workflow and kept the code organized, making it easier to scale and maintain the project as it progressed. A key takeaway was realizing how powerful and time-saving these frameworks can be when used correctly, but also how they require a solid understanding of their core concepts to avoid issues down the road.
+> - As a team, working with real-world frameworks like React, Vercel and Chart.js gave us valuable hands-on experience in building a functional and interactive website. We quickly learned the importance of choosing the right framework for each task—for example, using React for state management and Vercel for backend services. These frameworks streamlined our workflow and kept the code organized, making it easier to scale and maintain the project as it grew. A key takeaway was realizing how powerful and time-saving these tools can be when used effectively, but also how they require a strong understanding of their core concepts to prevent issues in the long run.
 
 > - Throughout the project, we encountered challenges such as integrating multiple libraries, managing complex states, and ensuring cross-component compatibility. These were resolved through strong communication and collaborative problem-solving. For example, we divided tasks effectively and regularly checked in with each other to ensure we were aligned. In terms of teamwork, we learned the value of trust and constructive feedback, with everyone contributing their strengths and being open to suggestions. Project management skills were crucial in keeping us on track, with clear deadlines and responsibility sharing helping us stay organized and meet milestones.
