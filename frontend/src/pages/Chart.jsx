@@ -401,7 +401,7 @@ export default function ChartPage() {
           <p>
             This radar chart is your personal sonic mood map — showing the genres that define your latest playlist vibe. 
             Each line represents a different genre and the wider the shape spreads, the stronger your current pull toward those sounds. 
-            It’s a quick glimpse into the rhythm of what you’ve been feeling lately.
+            Here is a quick glimpse into the rhythm of what you have been feeling lately.
           </p>
         </div>
       </div>
