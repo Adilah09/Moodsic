@@ -162,7 +162,7 @@ const Login = () => {
               <h1>
                 Welcome to <span className="highlight">Moodsic</span>
               </h1>
-              <p className="subtitle">Your mood. Your music. Curated just for you.</p>
+              <p className="subtitle">Feel the rhythm of your mood, your personality and the weather — discover music that moves with you.</p>
               <button className="spotify-btn" onClick={handleLogin}>
                 Login with Spotify
               </button>
@@ -299,7 +299,7 @@ const Login = () => {
           <h1>
             Welcome to <span className="highlight">Moodsic</span>
           </h1>
-          <p className="subtitle">Feel the rhythm of your mood, your personality, and the weather — discover music that moves with you. With Moodsic.</p>
+          <p className="subtitle">Feel the rhythm of your mood, your personality and the weather — discover music that moves with you.</p>
           <button className="spotify-btn" onClick={handleLogin}>
             Login with Spotify
           </button>
