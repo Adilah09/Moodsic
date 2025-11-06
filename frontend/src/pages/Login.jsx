@@ -39,7 +39,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    fetch("http://moodsic-backend.vercel.app/api/sotd")
+    fetch("https://moodsic-backend.vercel.app/api/sotd")
       .then((res) => res.json())
       .then((data) => setSong(data))
       .catch((err) => console.error("Fetch error:", err))
