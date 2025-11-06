@@ -5,28 +5,32 @@
 /* Grid Layout */
 .chart-mood-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 30px;
   justify-items: center;
   align-items: flex-start;
   padding: 20px;
   width: 100%;
-  max-width: 1200px;
+  max-width: min(1200px, 100%);
   margin: 0 auto;
   box-sizing: border-box;
 }
 
-/* First card spans full width (only on wide screens) */
+/* First card spans full width (only when enough space) */
 .chart-mood-wrapper > .chart-mood-card:first-child {
   grid-column: span 2;
 }
 
 /* Mood Card */
 .chart-mood-card {
-  background: linear-gradient(180deg, rgba(255, 182, 193, 0.18), rgba(255, 105, 180, 0.15));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 182, 193, 0.18),
+    rgba(255, 105, 180, 0.15)
+  );
   backdrop-filter: blur(15px);
   border-radius: 30px;
-  padding: 40px;
+  padding: clamp(20px, 4vw, 40px);
   width: 100%;
   transition: all 0.3s ease;
   margin-bottom: 25px;
@@ -80,14 +84,61 @@
    📱 RESPONSIVE BREAKPOINT
    ==================================== */
 
-/* One column layout on smaller screens */
+/* One-column layout on smaller screens */
 @media (max-width: 900px) {
   .chart-mood-wrapper {
     grid-template-columns: 1fr;
   }
 
-  /* reset the span so it doesn't break layout */
+  /* reset span for first card */
   .chart-mood-wrapper > .chart-mood-card:first-child {
     grid-column: span 1;
+  }
+
+  .chart-mood-card {
+    padding: 30px 25px;
+    border-radius: 25px;
+  }
+
+  .chart-mood-card h1 {
+    font-size: 24px;
+  }
+
+  .chart-explanation {
+    font-size: 15px;
+    padding: 15px;
+  }
+
+  svg {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* Even smaller devices (≤480px) */
+@media (max-width: 480px) {
+  .chart-mood-wrapper {
+    padding: 15px 10px;
+    gap: 20px;
+  }
+
+  .chart-mood-card {
+    padding: 22px 18px;
+    border-radius: 20px;
+  }
+
+  .chart-mood-card h1 {
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+  .subtitle {
+    font-size: 15px;
+  }
+
+  .chart-explanation {
+    font-size: 14px;
+    padding: 12px;
+    border-radius: 10px;
   }
 }
