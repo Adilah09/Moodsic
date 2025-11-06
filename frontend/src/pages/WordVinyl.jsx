@@ -66,8 +66,12 @@ function WordVinyl({ handleSelectedWords }) {
   // Create the circular layout once words are ready
   useEffect(() => {
     if (!allWords.length || loading) return;
-    const container = containerRef.current;
+    if (!containerRef.current) {
+      console.warn("containerRef not ready — skipping layout render");
+      return;
+    }
 
+    const container = containerRef.current;
     container.querySelectorAll(".ring").forEach(ring => ring.remove());
 
     ringSpecs.forEach((ring, ringIndex) => {
@@ -112,6 +116,35 @@ function WordVinyl({ handleSelectedWords }) {
     if (newWords.length) setAllWords(newWords);
     setLoading(false);
   };
+
+  // ✅ Your version of the return block
+  return (
+    <div className="ring-container-wrapper">
+      {loading ? (
+        <>
+          <p>Generating your word vinyl...</p>
+          <div className="vinyl fast">
+            <div className="ring-container" ref={containerRef}></div>
+            <div className="center-label">
+              <img src={Logo} alt="Logo" className="logo-img" />
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="vinyl">
+            <div className="ring-container" ref={containerRef}></div>
+            <div className="center-label">
+              <img src={Logo} alt="Logo" className="logo-img" />
+            </div>
+          </div>
+          <div className="refresh" onClick={handleRefresh}>
+            Refresh my words
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 
 export default WordVinyl;
