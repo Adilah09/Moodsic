@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useContext } from "react";
 import "./Home.css";
 import { AppContext } from "../context/AppContext";
-import WordVinyl from "./WordVinyl"; // vinyl component
+import WordVinyl from "./WordVinyl"; // Vinyl component
 
 export default function HomeUI({
   words,
@@ -21,7 +21,7 @@ export default function HomeUI({
   setMood,
   error,
   spotifyTopArtists = [],
-  spotifyGenres = []
+  spotifyGenres = [],
 }) {
   const { profile } = useContext(AppContext);
   const modeRef = useRef(null);
@@ -32,17 +32,16 @@ export default function HomeUI({
   const [showMood, setShowMood] = useState(false);
   const [showVibe, setShowVibe] = useState(false);
 
-  // 🧭 Scroll & progress
+  // Scroll and show "back to top" button
   useEffect(() => {
     const handleScroll = () => setShowTopButton(window.scrollY > 200);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToMode = () => modeRef.current?.scrollIntoView({ behavior: "smooth" });
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-  
 
+  // Update progress indicator (2 steps)
   useEffect(() => {
     let step = 0;
     if (useWeather || usePersonality || useSpotifyHistory) step += 1;
@@ -52,39 +51,25 @@ export default function HomeUI({
 
   return (
     <div className="mood-wrapper">
-      {/* 🌈 Progress Bar */}
-      <div className="progress-bar-container">
-        <div
-          className="progress-bar-fill"
-          style={{ width: `${(progress / 2) * 100}%` }}
-        ></div>
-        <div className="progress-steps">
-          <span className={progress >= 0 ? "active-step" : ""}>① Start</span>
-          <span className={progress >= 1 ? "active-step" : ""}>② Mood</span>
-          <span className={progress === 2 ? "active-step" : ""}>③ Personalize</span>
-        </div>
-      </div>
-
-      {/* 🎵 Hero Section */}
+      {/* ---------- HERO SECTION ---------- */}
       <div className="mood-card welcome-box">
         <h1>Welcome to Moodsic!</h1>
         <p>
-          Let's create the <b>perfect playlist</b> that matches exactly how you're feeling right now! ✨
+          Let's create the <b>perfect playlist</b> that matches exactly how
+          you're feeling right now! ✨
         </p>
         {!profile?.product || profile.product !== "premium" ? (
           <p className="profile-warning">
             ⚠️ Some features require Spotify Premium.
           </p>
         ) : null}
-        <button className="primary-btn" onClick={scrollToMode}>
-          Find Your Mood! 🎶
-        </button>
       </div>
 
-      {/* 💭 Mood + Vibe Section */}
-      <div ref={modeRef} className="mode-select-card fade-section">
-        <h2 className="subtitle">
-        Tell us how you're feeling! Type your mood and/or spin the word vinyl to pick up to 3 words.
+      {/* ---------- MOOD + VIBE SELECTION ---------- */}
+      <div className="mode-select-card fade-section">
+        <h2 className="msg">
+          Tell us how you're feeling! Type your mood and/or spin the word vinyl
+          to pick up to 3 words.
         </h2>
 
         <div className="button-row top">
@@ -108,10 +93,10 @@ export default function HomeUI({
           </button>
         </div>
 
-        {/* 💗 Mood Input Card */}
+        {/* ---------- MOOD INPUT ---------- */}
         {showMood && (
           <div className="mini-card expanded-section bounce-in">
-            <h3 className="subtitle">💗 What's your vibe right now?</h3>
+            <h3 className="msg">💗 What's your vibe right now?</h3>
             <input
               id="mood-input"
               type="text"
@@ -122,139 +107,85 @@ export default function HomeUI({
           </div>
         )}
 
-        {/* 🎨 Word Cloud Card */}
+        {/* ---------- WORD VINYL ---------- */}
         {showVibe && (
           <div className="mini-card expanded-section bounce-in">
-            <h3 className="subtitle">🌈 Select up to 3 words that capture your energy:</h3>
+            <h3 className="msg">💿 Select up to 3 words that capture your energy:</h3>
 
+            {/* Word vinyl spinner */}
             <div className="ring-container-wrapper">
               <WordVinyl handleSelectedWords={handleWordClick} />
             </div>
 
-            {/* Box only when words exist */}
+            {/* Selected words box */}
             {selectedWords && selectedWords.length > 0 && (
               <div
-                className={`word-display-box ${
-                  wordLimitError ? "pulse" : ""
-                }`}
+                className={`word-display-box ${wordLimitError ? "pulse" : ""}`}
               >
                 <p className="word-line">{selectedWords.join("  ")}</p>
               </div>
             )}
-
-            {/* Red warning below the box */}
-            {wordLimitError && (
-              <p className="word-warning">Oops! You can only pick 3 words — choose your favorites!</p>
-            )}
           </div>
         )}
       </div>
 
-      {/* 🌦️ Personalization Section */}
-      <div ref={optionsRef} className="options-card fade-section">
-        <h2 className="subtitle">Personalise your playlist:</h2>
-
-        <div className="optional-toggles">
-          <label>
-            <input
-              type="checkbox"
-              checked={useWeather}
-              onChange={(e) => setWeather(e.target.checked)}
-            />
-            🌤️ Use Today's Weather 
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={usePersonality}
-              onChange={(e) => setUsePersonality(e.target.checked)}
-            />
-            🧠 Include My Personality Quiz
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={useSpotifyHistory}
-              onChange={(e) => setUseSpotifyHistory(e.target.checked)}
-            />
-            🎧 Use My Spotify Listening History
-          </label>
+      {/* ---------- OPTIONS / FEATURES SECTION ---------- */}
+      <div className="mode-select-card fade-section">
+        <h2 className="msg">Enhance your playlist with optional features</h2>
+        <div className="feature-toggles">
+          <button
+            className={`feature-button ${useWeather ? "selected" : ""}`}
+            onClick={() => setWeather(!useWeather)}
+          >
+            🌤 Include Current Weather
+          </button>
+          <button
+            className={`feature-button ${usePersonality ? "selected" : ""}`}
+            onClick={() => setUsePersonality(!usePersonality)}
+          >
+            🧠 Use Personality Insights
+          </button>
+          <button
+            className={`feature-button ${useSpotifyHistory ? "selected" : ""}`}
+            onClick={() => setUseSpotifyHistory(!useSpotifyHistory)}
+          >
+            🎧 Use Spotify Listening History
+          </button>
         </div>
 
-        {/* Expandable content area - shows horizontally when multiple are selected */}
-        {(useWeather || usePersonality || useSpotifyHistory) && (
-          <div className="personalization-content">
-            {useWeather && weatherData && (
-              <div className="content-card weather-card">
-                <div className="weather-icon-wrapper">
-                  <img
-                    src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
-                    alt={weatherData.weather[0].description}
-                    className="weather-icon"
-                  />
-                </div>
-                <div className="weather-info">
-                  <div className="weather-temp">{Math.round(weatherData.main.temp)}°C</div>
-                  <div className="weather-desc">{weatherData.weather[0].description}</div>
-                  <div className="weather-location">📍 Current Location</div>
-                </div>
-              </div>
-            )}
-
-            {usePersonality && (
-              <div className="content-card personality-card">
-                <div className="personality-icon">🧠</div>
-                <div className="personality-info">
-                  <div className="personality-title">Personality Quiz</div>
-                  <div className="personality-desc">Your dessert personality will be included</div>
-                </div>
-              </div>
-            )}
-
-            {useSpotifyHistory && (spotifyTopArtists.length > 0 || spotifyGenres.length > 0) && (
-              <div className="content-card spotify-card">
-                <div className="spotify-icon">🎧</div>
-                <div className="spotify-info">
-                  <div className="spotify-title">Your Top Genres</div>
-                  <div className="spotify-tags">
-                    {spotifyGenres.slice(0, 5).map((genre, idx) => (
-                      <span key={idx} className="genre-tag">{genre}</span>
-                    ))}
-                  </div>
-                  {spotifyTopArtists.length > 0 && (
-                    <div className="spotify-artists">
-                      <div className="artists-label">Top Artists:</div>
-                      <div className="artists-list">{spotifyTopArtists.slice(0, 3).join(", ")}</div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
+        {locationError && (
+          <p className="error-msg">⚠️ Unable to get location data.</p>
         )}
-
-        <button
-          id="submit-btn"
-          disabled={
-            !mood &&
-            selectedWords.length === 0 &&
-            !useWeather &&
-            !usePersonality &&
-            !useSpotifyHistory
-          }
-          onClick={handleGenerate}
-        >
-          Generate My Playlist
-        </button>
-
-        {error && <p className="error-banner">{error}</p>}
-        {locationError && <p className="error-banner">{locationError}</p>}
       </div>
 
-      {/* ⬆️ Back to Top */}
+      {/* ---------- GENERATE PLAYLIST BUTTON ---------- */}
+      <div className="generate-card fade-section">
+        <h2>You're ready to vibe 🎶</h2>
+        <p>Select your options and tap below to generate your custom playlist!</p>
+
+        {error && <p className="error-msg">⚠️ {error}</p>}
+
+        <button
+          className="generate-btn"
+          onClick={handleGenerate}
+          disabled={!mood && selectedWords.length === 0}
+        >
+          Generate Playlist
+        </button>
+
+        {/* Progress bar (optional visual feedback) */}
+        <div className="progress-bar">
+          <div
+            className="progress-fill"
+            style={{ width: `${(progress / 2) * 100}%` }}
+          ></div>
+        </div>
+      </div>
+
+      {/* ---------- BACK TO TOP BUTTON ---------- */}
       {showTopButton && (
         <button className="back-to-top" onClick={scrollToTop}>
-          ↑
+          ⬆️ Top
         </button>
       )}
     </div>
