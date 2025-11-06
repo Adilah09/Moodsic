@@ -26,13 +26,32 @@ export default function ChartPage() {
   const barChartRef = useRef();
 
   // -------------------- Bubble Chart --------------------
-  const bubbleData = [
-    { id: "Happiness", value: 40 },
-    { id: "Calm", value: 30 },
-    { id: "Energy", value: 50 },
-    { id: "Joy", value: 20 },
-    { id: "Sadness", value: 15 },
-  ];
+  const [bubbleData, setBubbleData] = useState([]);
+
+  useEffect(() => {
+    const fetchMoodBubbles = async () => {
+      try {
+        const email = localStorage.getItem("userEmail");
+        if (!email) return;
+        const resp = await fetch("https://moodsic-backend.vercel.app/get-mood-data", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        const json = await resp.json();
+        if (json.success && Array.isArray(json.data)) {
+          const mapped = json.data.map((d) => ({ id: d.word, value: d.count }));
+          setBubbleData(mapped);
+        } else {
+          setBubbleData([]);
+        }
+      } catch (e) {
+        console.error("Failed to load mood data:", e);
+        setBubbleData([]);
+      }
+    };
+    fetchMoodBubbles();
+  }, []);
 
   useEffect(() => {
     const width = 400;

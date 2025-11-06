@@ -97,6 +97,63 @@
   margin-top: 10px;
 }
 
+/* Playlist Group (each saved playlist wrapper) */
+.playlist-group {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 8px 26px rgba(255, 105, 180, 0.18);
+  overflow: hidden;
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Toggle header */
+.playlist-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+  background: linear-gradient(135deg, rgba(255, 159, 220, 0.25), rgba(255, 79, 167, 0.25));
+  color: #ffd9e9;
+  border: none;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.playlist-toggle:hover {
+  filter: brightness(1.05);
+}
+
+.playlist-title {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.playlist-toggle .playlist-subtitle {
+  font-style: italic;
+  font-size: 14px;
+  color: #ffcce0;
+  opacity: 0.9;
+  margin-left: 10px;
+}
+
+.playlist-toggle .chev {
+  margin-left: auto;
+  color: #ffb6d5;
+}
+
+/* Tracks list inside a group */
+.playlist-tracks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px 18px 16px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
 /* Song Card */
 .playlist-card {
   display: flex;
