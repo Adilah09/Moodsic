@@ -22,25 +22,67 @@ ChartJS.register(
 );
 
 export default function ChartPage() {
-  const chartRef = useRef();
-  const barChartRef = useRef();
+  // const chartRef = useRef();
+  // const barChartRef = useRef();
 
+  const chartRef = useRef();
+  const [bubbleData, setBubbleData] = useState([]);
   // -------------------- Bubble Chart --------------------
-  const bubbleData = [
-    { id: "Happiness", value: 40 },
-    { id: "Calm", value: 30 },
-    { id: "Energy", value: 50 },
-    { id: "Joy", value: 20 },
-    { id: "Sadness", value: 15 },
-  ];
+  // const bubbleData = [
+  //   { id: "Happiness", value: 40 },
+  //   { id: "Calm", value: 30 },
+  //   { id: "Energy", value: 50 },
+  //   { id: "Joy", value: 20 },
+  //   { id: "Sadness", value: 15 },
+  // ];
+
+ 
 
   useEffect(() => {
+    const fetchMoodData = async () => {
+      try {
+        const email = localStorage.getItem("userEmail");
+        if (!email) {
+          console.warn("No email found for mood data fetch");
+          return;
+        }
+
+        const response = await fetch("https://moodsic-backend.vercel.app/get-mood-data", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await response.json();
+        if (data.success && data.data.length > 0) {
+          // Transform backend result into bubble-friendly format
+          const bubbles = data.data.map((item) => ({
+            id: item.word,
+            value: 20 + item.count * 10, // base size 20, increase for repeats
+          }));
+          setBubbleData(bubbles);
+        } else {
+          setBubbleData([]);
+        }
+      } catch (err) {
+        console.error("Error fetching mood data:", err);
+        setBubbleData([]);
+      }
+    };
+
+    fetchMoodData();
+  }, []);
+
+    useEffect(() => {
+    if (!bubbleData.length) return; // wait for data
+
     const width = 400;
     const height = 400;
     const margin = 1;
     const color = d3.scaleOrdinal(d3.schemeTableau10);
     const format = d3.format(",d");
 
+    // Clear old chart
     d3.select(chartRef.current).selectAll("*").remove();
 
     const pack = d3.pack()
@@ -88,6 +130,8 @@ export default function ChartPage() {
     node.append("title")
       .text(d => `${d.data.id}: ${format(d.data.value)}`);
   }, [bubbleData]);
+
+
 
 
     const [personalityType, setPersonalityType] = useState("");
@@ -264,10 +308,6 @@ export default function ChartPage() {
     <div className="chart-mood-wrapper">
       <div className="chart-mood-card">
         <h1>Your Personalized Dashboard</h1>
-        <h2 style={{ color: "#ff6fa8", marginTop: "10px" }}>
-          {personalityType || "Loading..."}
-        </h2>
-        
         <p>
           This dashboard presents a personalized view of your moods and preferences,
           providing insights into how your emotions, music tastes, and weekly mood
@@ -277,6 +317,9 @@ export default function ChartPage() {
 
       <div className="chart-mood-card">
         <h1>Your Personality Result!</h1>
+        <h2 style={{ color: "#ff6fa8", marginTop: "10px" }}>
+          {personalityType || "Loading..."}
+        </h2>
         <div className="chart-explanation">
           <h3>What Does This Mean?</h3>
           <p>
