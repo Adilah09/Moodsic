@@ -124,6 +124,7 @@
   gap: 20px;
   flex-wrap: wrap;
   margin-top: 15px;
+  margin-bottom: 8px;
 }
 
 /* Mini Frosted Cards */
@@ -142,11 +143,21 @@
   margin: 25px auto 0 auto;
   transition: all 0.3s ease;
   backdrop-filter: blur(15px);
+  position: relative;
 }
 
 .mini-card:hover {
   transform: scale(1.02);
   box-shadow: 0 0 35px rgba(255, 182, 193, 0.6);
+}
+
+/* Subtle spacing for Face Mood actions */
+.mini-card .feature-button.lock-btn {
+  margin-top: 12px;
+}
+
+.mini-card .feature-button.retry {
+  margin-top: 10px;
 }
 
 /* Smooth expand animation */
@@ -169,7 +180,7 @@
   }
 }
 
-/* 🌸 Mood Input Box */
+/* Mood Input Box */
 #mood-input {
   width: 85%;
   padding: 18px 25px;
@@ -261,6 +272,15 @@
   margin-top: 10px;
 }
 
+/* Tighten text spacing inside Personalise box */
+.options-card {
+  letter-spacing: 0;
+  word-spacing: 0;
+}
+.options-card .msg {
+  letter-spacing: 0;
+}
+
 .options-card h2 {
   color: #ffb6d5;
   margin-bottom: 10px;
@@ -275,9 +295,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 8px;
+  gap: 6px;
   margin: 8px auto 20px auto;
-  font-size: 15px;
+  font-size: 14px;
   color: #ffb6d5;
   width: fit-content;
   text-align: left;
@@ -431,7 +451,7 @@
 .spotify-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 4px;
   justify-content: center;
   margin-bottom: 12px;
 }
@@ -439,9 +459,9 @@
 .genre-tag {
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 12px;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
@@ -463,6 +483,7 @@
   color: #ffe5f2;
   font-weight: 500;
 }
+
 
 /* Responsive: Stack vertically on mobile */
 @media (max-width: 768px) {

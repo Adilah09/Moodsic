@@ -1,17 +1,15 @@
 import React, { useRef, useEffect, useState, useContext } from "react";
 import "./Home.css";
 import { AppContext } from "../context/AppContext";
-import WordVinyl from "./WordVinyl"; // vinyl component
+import WordVinyl from "./WordVinyl";
+import FaceMood from "./FaceMood.jsx"
 
 export default function HomeUI({
-  words,
-  selectedWords = [],
+  selectedWords,
   wordLimitError,
   handleWordClick,
   useWeather,
   setWeather,
-  usePersonality,
-  setUsePersonality,
   useSpotifyHistory,
   setUseSpotifyHistory,
   locationError,
@@ -19,17 +17,24 @@ export default function HomeUI({
   handleGenerate,
   mood,
   setMood,
+  faceMood,
+  setFaceMood,
   error,
   spotifyTopArtists = [],
-  spotifyGenres = [],
+  spotifyGenres = []
 }) {
   const { profile } = useContext(AppContext);
-  const modeRef = useRef(null);
   const optionsRef = useRef(null);
-  const [progress, setProgress] = useState(0);
   const [showTopButton, setShowTopButton] = useState(false);
+
   const [showMood, setShowMood] = useState(false);
   const [showVibe, setShowVibe] = useState(false);
+
+  const [showFace, setShowFace] = useState(false);
+  const [faceDetected, setFaceDetected] = useState(false);
+  const [locked, setLocked] = useState(false);
+  const [faceMoodLocal, setFaceMoodLocal] = useState(null);
+
 
   // Scroll & progress
   useEffect(() => {
@@ -40,14 +45,6 @@ export default function HomeUI({
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // Progress stepper logic
-  useEffect(() => {
-    let step = 0;
-    if (useWeather || usePersonality || useSpotifyHistory) step += 1;
-    if (mood || (selectedWords && selectedWords.length > 0)) step += 1; // ✅ crash-proof
-    setProgress(step);
-  }, [useWeather, usePersonality, useSpotifyHistory, mood, selectedWords]);
-
   return (
     <div className="mood-wrapper">
       {/* Hero Section */}
@@ -57,14 +54,16 @@ export default function HomeUI({
           Let's create the <b>perfect playlist</b> that matches exactly how you're feeling right now! ✨
         </p>
         {!profile?.product || profile.product !== "premium" ? (
-          <p className="profile-warning">⚠️ Some features require Spotify Premium.</p>
+          <p className="profile-warning">
+            ⚠️ Some features require Spotify Premium.
+          </p>
         ) : null}
       </div>
 
       {/* Mood + Vibe Section */}
       <div className="mode-select-card fade-section">
         <h2 className="msg">
-          Tell us how you're feeling! Type your mood and/or spin the word vinyl to pick up to 3 words.
+          Choose your preferred feature or do all!
         </h2>
 
         <div className="button-row top">
@@ -73,6 +72,7 @@ export default function HomeUI({
             onClick={() => {
               setShowMood(!showMood);
               setShowVibe(false);
+              setShowFace(false);
             }}
           >
             Mood Input
@@ -82,9 +82,20 @@ export default function HomeUI({
             onClick={() => {
               setShowVibe(!showVibe);
               setShowMood(false);
+              setShowFace(false);
             }}
           >
             Word Vinyl
+          </button>
+          <button
+            className={`feature-button ${showFace ? "selected" : ""}`}
+            onClick={() => {
+              setShowFace(!showFace);
+              setShowMood(false);
+              setShowVibe(false);
+            }}
+          >
+            Face Mood
           </button>
         </div>
 
@@ -102,7 +113,7 @@ export default function HomeUI({
           </div>
         )}
 
-        {/* Word Vinyl Section */}
+        {/* Word Cloud Card */}
         {showVibe && (
           <div className="mini-card expanded-section bounce-in">
             <h3 className="msg">💿 Select up to 3 words that capture your energy:</h3>
@@ -114,19 +125,62 @@ export default function HomeUI({
             {/* Box only when words exist */}
             {selectedWords && selectedWords.length > 0 && (
               <div
-                className={`word-display-box ${wordLimitError ? "pulse" : ""}`}
+                className={`word-display-box ${wordLimitError ? "pulse" : ""
+                  }`}
               >
                 <p className="word-line">{selectedWords.join("  ")}</p>
               </div>
             )}
+
             {/* Red warning below the box */}
             {wordLimitError && (
               <p className="word-warning">Oops! You can only pick 3 words — choose your favorites!</p>
             )}
           </div>
         )}
+        {/* Face Mood Card */}
+        {showFace && (
+          <div className="mini-card expanded-section bounce-in">
+            <h3 className="msg">😎 Let us detect your mood from your face!</h3>
+
+            <FaceMood
+              isActive={showFace}
+              paused={locked}
+              onFaceDetected={setFaceDetected}
+              onMoodCalculated={setFaceMoodLocal}
+            />
+
+            {!locked && (
+              <button
+                className="feature-button lock-btn"
+                onClick={() => {
+                  setLocked(true);
+                  setFaceMood(faceMoodLocal || "neutral");
+                }}
+                disabled={!faceDetected}
+              >
+                Lock In Mood
+              </button>
+            )}
+
+            {locked && (
+              <>
+                <div className="word-line">Detected Mood: {faceMoodLocal}</div>
+                <button
+                  className="feature-button retry"
+                  onClick={() => {
+                    setLocked(false);
+                    setFaceMoodLocal(null);
+                  }}
+                >
+                  Retry
+                </button>
+              </>
+            )}
+          </div>
+        )}
       </div>
-      
+
       {/* Personalization Section */}
       <div ref={optionsRef} className="options-card fade-section">
         <h2 className="msg">Personalise your playlist here!</h2>
@@ -138,16 +192,8 @@ export default function HomeUI({
               checked={useWeather}
               onChange={(e) => setWeather(e.target.checked)}
             />
-            🌤️ Use Current Weather 
+            🌤️ Use Current Weather
           </label>
-          {/* <label>
-            <input
-              type="checkbox"
-              checked={usePersonality}
-              onChange={(e) => setUsePersonality(e.target.checked)}
-            />
-            🧠 Include My Personality Quiz
-          </label> */}
           <label>
             <input
               type="checkbox"
@@ -159,7 +205,7 @@ export default function HomeUI({
         </div>
 
         {/* Expandable content area - shows horizontally when multiple are selected */}
-        {(useWeather || usePersonality  || useSpotifyHistory) && (
+        {(useWeather || useSpotifyHistory) && (
           <div className="personalization-content">
             {useWeather && weatherData && (
               <div className="content-card weather-card">
@@ -177,16 +223,6 @@ export default function HomeUI({
                 </div>
               </div>
             )}
-
-            {/* {usePersonality && (
-              <div className="content-card personality-card">
-                <div className="personality-icon">🧠</div>
-                <div className="personality-info">
-                  <div className="personality-title">Personality Quiz</div>
-                  <div className="personality-desc">Your dessert personality will be included</div>
-                </div>
-              </div>
-            )} */}
 
             {useSpotifyHistory && (spotifyTopArtists.length > 0 || spotifyGenres.length > 0) && (
               <div className="content-card spotify-card">
@@ -221,8 +257,7 @@ export default function HomeUI({
         {locationError && <p className="error-banner">{locationError}</p>}
       </div>
 
-
-{/* Back to Top */}
+      {/* Back to Top */}
       {showTopButton && (
         <button className="back-to-top" onClick={scrollToTop}>
           ↑

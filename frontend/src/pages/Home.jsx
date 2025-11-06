@@ -4,21 +4,23 @@ import HomeUI from "./HomeUI";
 import "./Home.css";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AppContext } from "../context/AppContext";
+import FaceMood from "./FaceMood.jsx";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 
 function Home() {
     const [weatherData, setWeatherData] = useState(null);
     const [useWeather, setWeather] = useState(false);
     const [locationError, setLocationError] = useState(null);
 
-    const [usePersonality, setUsePersonality] = useState(false);
-    const [personalityVector, setPersonalityVector] = useState(null); // Will be filled later
-
     const [selectedWords, setSelectedWords] = useState([]);
     const [wordLimitError, setWordLimitError] = useState(false);
     const [mood, setMood] = useState("");
+    const [faceMood, setFaceMood] = useState("");
+    const handleFaceMoodDetected = (detectedMood) => {
+        console.log("Face mood detected:", detectedMood);
+        setFaceMood(detectedMood);
+    };
 
     const [useSpotifyHistory, setUseSpotifyHistory] = useState(false);
     const [spotifyTopArtists, setSpotifyTopArtists] = useState([]);
@@ -27,18 +29,10 @@ function Home() {
     const { accessToken, profile, setProfile, setSessionExpired } = useContext(AppContext);
     const [error, setError] = useState(null);
 
-    const [vibePhrase, setVibePhrase] = useState("");
-    const [playlist, setPlaylist] = useState([]); // array of track objects
+    const [playlist, setPlaylist] = useState([]);
 
     const location = useLocation();
     const navigate = useNavigate();
-
-    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
-    const words = [
-        "Joy", "Sadness", "Excitement", "Chill", "Energy", "Peace", "Anger", "Happiness",
-        "Motivation", "Relax", "Adventure", "Calm", "Fun", "Vibes", "Love", "Surprise", "Surreal"
-    ];
 
     // Fetch weather data if useWeather is true
     useEffect(() => {
@@ -48,7 +42,7 @@ function Home() {
                     const { latitude, longitude } = position.coords;
                     try {
                         // Call your backend endpoint instead of OpenWeather directly
-                        const res = await axios.get(`https://moodsic-backend.vercel.app/weather?lat=${latitude}&lon=${longitude}`);
+                        const res = await axios.get(`http://moodsic-backend.vercel.app/weather?lat=${latitude}&lon=${longitude}`);
                         setWeatherData(res.data);
                     } catch (err) {
                         console.error(err);
@@ -73,7 +67,6 @@ function Home() {
                 });
                 console.log("Fetched profile:", res.data);
                 setProfile(res.data);
-                localStorage.setItem("userEmail", res.data.email);
             } catch (err) {
                 console.error("Spotify fetch failed", err);
                 if (err.response?.status === 401) {
@@ -115,32 +108,34 @@ function Home() {
         fetchSpotifyData();
     }, [useSpotifyHistory, accessToken]);
 
+
+    //Last Session
     useEffect(() => {
         const fetchLastSession = async () => {
             if (!profile?.email) return;
 
             try {
-            console.log(profile.email);
-            const res = await axios.post("https://moodsic-backend.vercel.app/get-session", {
-                email: profile.email
-            });
+                const res = await axios.get("http://moodsic-backend.vercel.app/get-session", {
+                    params: { email: profile.email },
+                });
 
-            if (res.data.success && res.data.data) {
-                const session = res.data.data;
-                setMood(session.mood);
-                setSelectedWords(session.selected_words);
-                setPlaylist(session.songs || []);
-            }
+                if (res.data.success && res.data.data) {
+                    const session = res.data.data;
+                    setMood(session.mood);
+                    setSelectedWords(session.selected_words);
+                    // Optionally store playlist tracks for Spotify history
+                    setPlaylist(session.songs || []);
+                }
             } catch (err) {
                 console.error("Failed to fetch last session:", err);
             }
         };
 
         fetchLastSession();
-    }, [profile]);
+    }, []);
 
     // Word Cloud selection
-   const handleWordClick = (word) => {
+    const handleWordClick = (word) => {
         setWordLimitError(false); // reset previous error
 
         if (selectedWords.includes(word)) {
@@ -161,6 +156,7 @@ function Home() {
         try {
             console.log("Mood:", mood);
             console.log("Selected Words:", selectedWords);
+            console.log("Face Mood:", faceMood);
             if (useWeather && weatherData) console.log("Weather Data:", weatherData);
             if (useSpotifyHistory) {
                 console.log("Spotify Genres:", spotifyGenres);
@@ -172,12 +168,13 @@ function Home() {
             const payload = {
                 mood: mood || "",
                 selectedWords: selectedWords || [],
+                faceMood: faceMood || "",
                 weather: useWeather && weatherData
                     ? {
                         temp: weatherData?.main?.temp ?? null,
+                        description: weatherData?.weather?.[0]?.description ?? "",
                     }
                     : null,
-                personalityVector: personalityVector || {},
 
                 // Make Spotify data safe
                 spotifyGenres: useSpotifyHistory ? spotifyGenres || [] : [],
@@ -190,7 +187,7 @@ function Home() {
 
             // Call backend
             const response = await axios.post(
-                "https://moodsic-backend.vercel.app/generatePlaylist",
+                "http://moodsic-backend.vercel.app/generatePlaylist",
                 payload
             );
 
@@ -203,9 +200,9 @@ function Home() {
                 state: {
                     vibePhrase,
                     mood,
+                    faceMood,
                     selectedWords,
                     usedWeather: !!weatherData,
-                    usedPersonality: !!personalityVector,
                     usedSpotify: useSpotifyHistory,
                     tracks: tracks.length ? tracks : [{
                         name: "No tracks found",
@@ -229,7 +226,6 @@ function Home() {
             if (location.state.mood) setMood(location.state.mood);
             if (location.state.selectedWords) setSelectedWords(location.state.selectedWords);
             if (location.state.usedWeather) setWeather(true);
-            if (location.state.usedPersonality) setUsePersonality(true);
             if (location.state.usedSpotify) setUseSpotifyHistory(true);
         }
     }, [location.state]);
@@ -237,29 +233,29 @@ function Home() {
 
     return (
         <>
-        <HomeUI
-            words={words}
-            selectedWords={selectedWords}
-            wordLimitError={wordLimitError}
-            handleWordClick={handleWordClick}
-            useWeather={useWeather}
-            setWeather={setWeather}
-            usePersonality={usePersonality}
-            setUsePersonality={setUsePersonality}
-            useSpotifyHistory={useSpotifyHistory}
-            setUseSpotifyHistory={setUseSpotifyHistory}
-            locationError={locationError}
-            weatherData={weatherData}
-            handleGenerate={handleGenerate}
-            mood={mood}
-            setMood={setMood}
-            error={error}
-            spotifyTopArtists={spotifyTopArtists}
-            spotifyGenres={spotifyGenres}
-        />
+            <FaceMood onMoodDetected={handleFaceMoodDetected} />
+            <HomeUI
+                selectedWords={selectedWords}
+                wordLimitError={wordLimitError}
+                handleWordClick={handleWordClick}
+                useWeather={useWeather}
+                setWeather={setWeather}
+                useSpotifyHistory={useSpotifyHistory}
+                setUseSpotifyHistory={setUseSpotifyHistory}
+                locationError={locationError}
+                weatherData={weatherData}
+                handleGenerate={handleGenerate}
+                mood={mood}
+                setMood={setMood}
+                faceMood={faceMood}
+                setFaceMood={setFaceMood}
+                error={error}
+                spotifyTopArtists={spotifyTopArtists}
+                spotifyGenres={spotifyGenres}
+            />
 
-        {/* Toast container for global notifications */}
-        <ToastContainer position="bottom-right" autoClose={3000} theme="dark" />
+            {/* Toast container for global notifications */}
+            <ToastContainer position="bottom-right" autoClose={3000} theme="dark" />
         </>
     );
 }
