@@ -72,7 +72,8 @@ export default function Playlists() {
       );
       if (response.data.success) {
         toast.success("✨ Playlist cleared successfully!");
-        setPlaylistData(null);
+        setPlaylists([]);
+        setExpandedIds({});
       } else {
         toast.error("Failed to clear playlist.");
       }
