@@ -101,11 +101,6 @@ export default function Playlists() {
         {playlists.map((p) => {
           const isExpanded = !!expandedIds[p.id];
           const title = p.mood || "Untitled Playlist";
-          const subtitle = Array.isArray(p.selected_words)
-            ? `"${p.selected_words.join(", ")}"`
-            : typeof p.selected_words === "string" && p.selected_words
-            ? `"${p.selected_words}"`
-            : "";
 
         return (
             <div key={p.id} className="playlist-group">
@@ -119,9 +114,6 @@ export default function Playlists() {
                 }
               >
                 <span className="playlist-title">{title}</span>
-                {subtitle && (
-                  <span className="playlist-subtitle"> {subtitle}</span>
-                )}
                 <span className="chev">{isExpanded ? "▲" : "▼"}</span>
               </button>
 
