@@ -35,9 +35,8 @@ export default function ChartPage() {
   ];
 
   useEffect(() => {
-    const container = chartRef.current?.parentElement || document.body;
-    const width = container.clientWidth;
-    const height = Math.min(width, 400);
+    const width = 400;
+    const height = 400;
     const margin = 1;
     const color = d3.scaleOrdinal(d3.schemeTableau10);
     const format = d3.format(",d");
@@ -54,11 +53,7 @@ export default function ChartPage() {
       .attr("width", width)
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
-      .attr("preserveAspectRatio", "xMidYMid meet")
-      .style("width", "100%")
-      .style("height", "auto")
-      .style("font", "10px sans-serif");
-      // .attr("style", "max-width: 100%; height: auto; font: 10px sans-serif;");
+      .attr("style", "max-width: 100%; height: auto; font: 10px sans-serif;");
 
     const node = svg.append("g")
       .selectAll()
@@ -94,39 +89,6 @@ export default function ChartPage() {
       .text(d => `${d.data.id}: ${format(d.data.value)}`);
   }, [bubbleData]);
 
-
-    const [personalityType, setPersonalityType] = useState("");
-
-  useEffect(() => {
-    const fetchPersonality = async () => {
-      try {
-        // Get user email from Clerk or localStorage (depends on your app)
-        const email = localStorage.getItem("userEmail");
-        if (!email) {
-          console.warn("No email found for personality fetch");
-          return;
-        }
-
-        const response = await fetch(
-          `https://moodsic-backend.vercel.app/get-latest-personality?email=${encodeURIComponent(email)}`
-        );
-        const data = await response.json();
-
-        if (data.success && data.personality_type) {
-          setPersonalityType(data.personality_type);
-        } else {
-          setPersonalityType("No personality result yet 😅");
-        }
-      } catch (error) {
-        console.error("Error fetching personality:", error);
-        setPersonalityType("Error loading personality");
-      }
-    };
-
-    fetchPersonality();
-  }, []);
-
-
   // -------------------- Diverging Bar Chart --------------------
   useEffect(() => {
     const emotionData = [
@@ -139,10 +101,8 @@ export default function ChartPage() {
       { emotion: "Sun", value: -35 },
     ];
 
-    const container = chartRef.current?.parentElement || document.body;
-    const width = container.clientWidth;
-    const height = Math.min(width, 400);
-
+    const width = 400;
+    const height = 400;
     const margin = { top: 40, right: 40, bottom: 60, left: 60 };
 
     d3.select(barChartRef.current).selectAll("*").remove();
@@ -151,11 +111,7 @@ export default function ChartPage() {
       .attr("width", width)
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
-      .attr("preserveAspectRatio", "xMidYMid meet")
-      .style("width", "100%")
-      .style("height", "auto")
-      .style("font", "12px sans-serif");
-      // .attr("style", "max-width: 100%; height: auto; font: 12px sans-serif;");
+      .attr("style", "max-width: 100%; height: auto; font: 12px sans-serif;");
 
     const x = d3.scaleBand()
       .domain(emotionData.map(d => d.emotion))
@@ -284,9 +240,6 @@ export default function ChartPage() {
 
       <div className="chart-mood-card">
         <h1>Your Personality Result!</h1>
-        <h2 style={{ color: "#ff6fa8", marginTop: "10px" }}>
-          {personalityType || "Loading..."}
-        </h2>
         <div className="chart-explanation">
           <h3>What Does This Mean?</h3>
           <p>
