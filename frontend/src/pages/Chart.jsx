@@ -214,100 +214,100 @@ export default function ChartPage() {
 
 
   // -------------------- Diverging Bar Chart --------------------
-  useEffect(() => {
-    const emotionData = [
-      { emotion: "Mon", value: 60 },
-      { emotion: "Tues", value: 40 },
-      { emotion: "Wed", value: 30 },
-      { emotion: "Thurs", value: -20 },
-      { emotion: "Fri", value: -50 },
-      { emotion: "Sat", value: -35 },
-      { emotion: "Sun", value: -35 },
-    ];
+  // useEffect(() => {
+  //   const emotionData = [
+  //     { emotion: "Mon", value: 60 },
+  //     { emotion: "Tues", value: 40 },
+  //     { emotion: "Wed", value: 30 },
+  //     { emotion: "Thurs", value: -20 },
+  //     { emotion: "Fri", value: -50 },
+  //     { emotion: "Sat", value: -35 },
+  //     { emotion: "Sun", value: -35 },
+  //   ];
 
-    const width = 400;
-    const height = 400;
-    const margin = { top: 40, right: 40, bottom: 60, left: 60 };
+  //   const width = 400;
+  //   const height = 400;
+  //   const margin = { top: 40, right: 40, bottom: 60, left: 60 };
 
-    d3.select(barChartRef.current).selectAll("*").remove();
+  //   d3.select(barChartRef.current).selectAll("*").remove();
 
-    const svg = d3.select(barChartRef.current)
-      .attr("width", width)
-      .attr("height", height)
-      .attr("viewBox", [0, 0, width, height])
-      .attr("style", "max-width: 100%; height: auto; font: 12px sans-serif;");
+  //   const svg = d3.select(barChartRef.current)
+  //     .attr("width", width)
+  //     .attr("height", height)
+  //     .attr("viewBox", [0, 0, width, height])
+  //     .attr("style", "max-width: 100%; height: auto; font: 12px sans-serif;");
 
-    const x = d3.scaleBand()
-      .domain(emotionData.map(d => d.emotion))
-      .range([margin.left, width - margin.right])
-      .padding(0.3);
+  //   const x = d3.scaleBand()
+  //     .domain(emotionData.map(d => d.emotion))
+  //     .range([margin.left, width - margin.right])
+  //     .padding(0.3);
 
-    const y = d3.scaleLinear()
-      .domain([-100, 100])
-      .range([height - margin.bottom, margin.top]);
+  //   const y = d3.scaleLinear()
+  //     .domain([-100, 100])
+  //     .range([height - margin.bottom, margin.top]);
 
-    const color = d3.scaleDiverging()
-      .domain([-100, 0, 100])
-      .interpolator(d3.interpolateRdYlBu);
+  //   const color = d3.scaleDiverging()
+  //     .domain([-100, 0, 100])
+  //     .interpolator(d3.interpolateRdYlBu);
 
-    svg.append("g")
-      .selectAll("rect")
-      .data(emotionData)
-      .join("rect")
-      .attr("x", d => x(d.emotion))
-      .attr("y", d => y(Math.max(0, d.value)))
-      .attr("height", d => Math.abs(y(d.value) - y(0)))
-      .attr("width", x.bandwidth())
-      .attr("fill", d => color(d.value))
-      .attr("rx", 6)
-      .attr("ry", 6)
-      .attr("opacity", 0.85);
+  //   svg.append("g")
+  //     .selectAll("rect")
+  //     .data(emotionData)
+  //     .join("rect")
+  //     .attr("x", d => x(d.emotion))
+  //     .attr("y", d => y(Math.max(0, d.value)))
+  //     .attr("height", d => Math.abs(y(d.value) - y(0)))
+  //     .attr("width", x.bandwidth())
+  //     .attr("fill", d => color(d.value))
+  //     .attr("rx", 6)
+  //     .attr("ry", 6)
+  //     .attr("opacity", 0.85);
 
-    svg.append("g")
-      .attr("transform", `translate(0,${y(0)})`)
-      .call(d3.axisBottom(x))
-      .selectAll("text")
-      .attr("dy", "1.5em")
-      .attr("font-size", "12px");
+  //   svg.append("g")
+  //     .attr("transform", `translate(0,${y(0)})`)
+  //     .call(d3.axisBottom(x))
+  //     .selectAll("text")
+  //     .attr("dy", "1.5em")
+  //     .attr("font-size", "12px");
 
-    svg.append("g")
-      .attr("transform", `translate(${margin.left},0)`)
-      .call(d3.axisLeft(y).ticks(5).tickFormat(d => d > 0 ? `+${d}` : d))
-      .call(g => g.select(".domain").remove());
+  //   svg.append("g")
+  //     .attr("transform", `translate(${margin.left},0)`)
+  //     .call(d3.axisLeft(y).ticks(5).tickFormat(d => d > 0 ? `+${d}` : d))
+  //     .call(g => g.select(".domain").remove());
 
-    svg.append("line")
-      .attr("x1", margin.left)
-      .attr("x2", width - margin.right)
-      .attr("y1", y(0))
-      .attr("y2", y(0))
-      .attr("stroke", "#ffb6d5")
-      .attr("stroke-width", 2)
-      .attr("opacity", 0.6);
+  //   svg.append("line")
+  //     .attr("x1", margin.left)
+  //     .attr("x2", width - margin.right)
+  //     .attr("y1", y(0))
+  //     .attr("y2", y(0))
+  //     .attr("stroke", "#ffb6d5")
+  //     .attr("stroke-width", 2)
+  //     .attr("opacity", 0.6);
 
-    svg.append("text")
-      .attr("x", width - margin.right + 5)
-      .attr("y", margin.top)
-      .attr("text-anchor", "start")
-      .attr("font-size", "20px")
-      .text("😊");
+  //   svg.append("text")
+  //     .attr("x", width - margin.right + 5)
+  //     .attr("y", margin.top)
+  //     .attr("text-anchor", "start")
+  //     .attr("font-size", "20px")
+  //     .text("😊");
 
-    svg.append("text")
-      .attr("x", width - margin.right + 5)
-      .attr("y", height - margin.bottom)
-      .attr("text-anchor", "start")
-      .attr("font-size", "20px")
-      .text("😢");
+  //   svg.append("text")
+  //     .attr("x", width - margin.right + 5)
+  //     .attr("y", height - margin.bottom)
+  //     .attr("text-anchor", "start")
+  //     .attr("font-size", "20px")
+  //     .text("😢");
 
-    svg.append("text")
-      .attr("x", width / 2)
-      .attr("y", margin.top / 2)
-      .attr("text-anchor", "middle")
-      .attr("font-size", "16px")
-      .attr("font-weight", "bold")
-      .attr("fill", "#ffb6d5")
-      .text("Emotional Balance Chart");
+  //   svg.append("text")
+  //     .attr("x", width / 2)
+  //     .attr("y", margin.top / 2)
+  //     .attr("text-anchor", "middle")
+  //     .attr("font-size", "16px")
+  //     .attr("font-weight", "bold")
+  //     .attr("fill", "#ffb6d5")
+  //     .text("Emotional Balance Chart");
 
-  }, []);
+  // }, []);
 
   // -------------------- Radar Chart --------------------
   const fallbackLabels = ["pop", "rock", "jazz", "hip hop", "electronic", "classical"];
@@ -359,6 +359,47 @@ export default function ChartPage() {
         </p>
       </div>
 
+
+      {/* <div className="chart-mood-card">
+        <h1>Your Emotional Balance</h1>
+        <svg ref={barChartRef}></svg>
+        <div className="chart-explanation">
+          <h3>What Does This Show?</h3>
+          <p>
+            This diverging bar chart visualizes the balance between your positive and negative emotions.
+            Bars going upward represent positive emotions like happiness and calmness,
+            while downward bars reflect negative emotions such as sadness or tiredness.
+          </p>
+        </div>
+      </div> */}
+
+      <div className="chart-mood-card">
+        <h1>Your Mood Bubble Chart!</h1>
+        <svg ref={chartRef}></svg>
+        <div className="chart-explanation">
+          <h3>What Does This Show?</h3>
+          <p>
+            Each bubble represents one of your latest 10 moods that you have selected in Moodsic. 
+            The chart gives a quick, visual overview of the moods you have been exploring or feeling recently, 
+            letting you see all your emotional choices together in one vibrant display.
+          </p>
+        </div>
+      </div>
+
+      <div className="chart-mood-card">
+        <h1>Your Music Genre Preferences</h1>
+        <div className="radar-wrapper">
+          <Radar data={radarData} options={radarOptions} />
+        </div>
+        <div className="chart-explanation">
+          <h3>What Does This Mean?</h3>
+          <p>
+            This radar chart compares how much you enjoy different genres.
+            Each axis represents a genre, and a wider area shows higher preference.
+          </p>
+        </div>
+      </div>
+
       <div className="chart-mood-card">
         <h1>Your Personality Result!</h1>
         <h2 style={{ color: "#ff6fa8", marginTop: "10px" }}>
@@ -386,45 +427,6 @@ export default function ChartPage() {
           <p>
             This section provides insight into your overall personality trends based on
             your quiz results. It reflects how your emotions and preferences shape your unique vibe.
-          </p>
-        </div>
-      </div>
-
-      <div className="chart-mood-card">
-        <h1>Your Emotional Balance</h1>
-        <svg ref={barChartRef}></svg>
-        <div className="chart-explanation">
-          <h3>What Does This Show?</h3>
-          <p>
-            This diverging bar chart visualizes the balance between your positive and negative emotions.
-            Bars going upward represent positive emotions like happiness and calmness,
-            while downward bars reflect negative emotions such as sadness or tiredness.
-          </p>
-        </div>
-      </div>
-
-      <div className="chart-mood-card">
-        <h1>Your Mood Bubble Chart!</h1>
-        <svg ref={chartRef}></svg>
-        <div className="chart-explanation">
-          <h3>What Does This Show?</h3>
-          <p>
-            Each bubble represents one of your moods, such as happiness, calm, or energy.
-            The larger the bubble, the stronger that mood has been recently. Hover over a bubble to see its details.
-          </p>
-        </div>
-      </div>
-
-      <div className="chart-mood-card">
-        <h1>Your Music Genre Preferences</h1>
-        <div className="radar-wrapper">
-          <Radar data={radarData} options={radarOptions} />
-        </div>
-        <div className="chart-explanation">
-          <h3>What Does This Mean?</h3>
-          <p>
-            This radar chart compares how much you enjoy different genres.
-            Each axis represents a genre, and a wider area shows higher preference.
           </p>
         </div>
       </div>
