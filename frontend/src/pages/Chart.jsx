@@ -35,8 +35,9 @@ export default function ChartPage() {
   ];
 
   useEffect(() => {
-    const width = 400;
-    const height = 400;
+    const container = chartRef.current?.parentElement || document.body;
+    const width = container.clientWidth;
+    const height = Math.min(width, 400);
     const margin = 1;
     const color = d3.scaleOrdinal(d3.schemeTableau10);
     const format = d3.format(",d");
@@ -53,7 +54,11 @@ export default function ChartPage() {
       .attr("width", width)
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
-      .attr("style", "max-width: 100%; height: auto; font: 10px sans-serif;");
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .style("width", "100%")
+      .style("height", "auto")
+      .style("font", "10px sans-serif");
+      // .attr("style", "max-width: 100%; height: auto; font: 10px sans-serif;");
 
     const node = svg.append("g")
       .selectAll()
@@ -134,8 +139,10 @@ export default function ChartPage() {
       { emotion: "Sun", value: -35 },
     ];
 
-    const width = 400;
-    const height = 400;
+    const container = chartRef.current?.parentElement || document.body;
+    const width = container.clientWidth;
+    const height = Math.min(width, 400);
+
     const margin = { top: 40, right: 40, bottom: 60, left: 60 };
 
     d3.select(barChartRef.current).selectAll("*").remove();
@@ -144,7 +151,11 @@ export default function ChartPage() {
       .attr("width", width)
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
-      .attr("style", "max-width: 100%; height: auto; font: 12px sans-serif;");
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .style("width", "100%")
+      .style("height", "auto")
+      .style("font", "12px sans-serif");
+      // .attr("style", "max-width: 100%; height: auto; font: 12px sans-serif;");
 
     const x = d3.scaleBand()
       .domain(emotionData.map(d => d.emotion))
