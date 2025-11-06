@@ -85,7 +85,7 @@ function AppWrapper() {
           />
         </Routes>
       </div>
-      <Footer />
+      {location.pathname!== '/' && <Footer />}
     </div>
   );
 }
