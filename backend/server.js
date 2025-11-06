@@ -393,6 +393,27 @@ app.post("/get-session", async (req, res) => {
   }
 });
 
+// --- GET ALL SESSIONS FOR USER ---
+app.post("/get-sessions", async (req, res) => {
+  const { email } = req.body || {};
+  if (!email)
+    return res.status(400).json({ success: false, error: "Email required" });
+
+  try {
+    const result = await pool.query(
+      `SELECT * FROM sessions WHERE email = $1 ORDER BY timestamp DESC`,
+      [email]
+    );
+
+    return res.json({ success: true, data: result.rows || [] });
+  } catch (err) {
+    console.error("Error fetching sessions:", err);
+    return res
+      .status(500)
+      .json({ success: false, error: "Failed to fetch sessions" });
+  }
+});
+
 // --- CLEAR SESSION ---
 app.post("/clear-session", async (req, res) => {
   const { email } = req.body || {};

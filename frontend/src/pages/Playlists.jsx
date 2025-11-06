@@ -5,14 +5,15 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Playlists() {
-  const [playlistData, setPlaylistData] = useState(null);
+  const [playlists, setPlaylists] = useState([]);
+  const [expandedIds, setExpandedIds] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const email = localStorage.getItem("userEmail");
 
   useEffect(() => {
-    async function fetchPlaylist() {
+    async function fetchPlaylists() {
       try {
         if (!email) {
           setError("No user email found.");
@@ -21,34 +22,46 @@ export default function Playlists() {
         }
 
         const response = await axios.post(
-          "https://moodsic-backend.vercel.app/get-session",
+          "https://moodsic-backend.vercel.app/get-sessions",
           { email }
         );
 
-        if (response.data.success && response.data.data) {
-          let data = response.data.data;
-          // Ensure songs are parsed if stored as text in DB
-          if (typeof data.songs === "string") {
-            try {
-              data.songs = JSON.parse(data.songs);
-            } catch {
-              data.songs = [];
+        if (response.data.success && Array.isArray(response.data.data)) {
+          const list = response.data.data.map((row) => {
+            let songs = row.songs;
+            if (typeof songs === "string") {
+              try {
+                songs = JSON.parse(songs);
+              } catch {
+                songs = [];
+              }
             }
-          }
-          setPlaylistData(data);
+
+            let selectedWords = row.selected_words;
+            if (typeof selectedWords === "string") {
+              try {
+                selectedWords = JSON.parse(selectedWords);
+              } catch {
+                // leave as raw string
+              }
+            }
+
+            return { ...row, songs, selected_words: selectedWords };
+          });
+          setPlaylists(list);
         } else {
-          setPlaylistData(null);
+          setPlaylists([]);
         }
       } catch (err) {
-        console.error("Error fetching saved playlist:", err);
-        setError("Failed to load playlist.");
-        toast.error("⚠️ Failed to load playlist.");
+        console.error("Error fetching saved playlists:", err);
+        setError("Failed to load playlists.");
+        toast.error("⚠️ Failed to load playlists.");
       } finally {
         setLoading(false);
       }
     }
 
-    fetchPlaylist();
+    fetchPlaylists();
   }, [email]);
 
   const handleClearAll = async () => {
@@ -70,9 +83,9 @@ export default function Playlists() {
   };
 
   if (loading)
-    return <div className="playlist-loading">Loading your playlist...</div>;
+    return <div className="playlist-loading">Loading your playlists...</div>;
   if (error) return <div className="playlist-error">{error}</div>;
-  if (!playlistData)
+  if (!playlists.length)
     return (
       <div className="empty-state">
         You haven’t saved any playlists yet.
@@ -81,32 +94,59 @@ export default function Playlists() {
 
   return (
     <div className="playlist-page">
-      <h2>
-        {playlistData.mood
-          ? `${playlistData.mood} vibes 🎶`
-          : "Your Saved Playlist"}
-      </h2>
-      <p className="playlist-subtitle">
-        "{playlistData.selected_words?.join(", ")}"
-      </p>
+      <h2>Your Saved Playlists</h2>
 
       <div className="playlist-container">
-        {playlistData.songs.map((song, index) => (
-          <div key={index} className="playlist-card">
-            <img src={song.image} alt={song.name} />
-            <div className="song-info">
-              <h3>{song.name}</h3>
-              <p>{song.artist}</p>
-              <a href={song.url} target="_blank" rel="noopener noreferrer">
-                Listen on Spotify
-              </a>
+        {playlists.map((p) => {
+          const isExpanded = !!expandedIds[p.id];
+          const title = p.mood || "Untitled Playlist";
+          const subtitle = Array.isArray(p.selected_words)
+            ? `"${p.selected_words.join(", ")}"`
+            : typeof p.selected_words === "string" && p.selected_words
+            ? `"${p.selected_words}"`
+            : "";
+
+        return (
+            <div key={p.id} className="playlist-group">
+              <button
+                className="playlist-toggle"
+                onClick={() =>
+                  setExpandedIds((prev) => ({
+                    ...prev,
+                    [p.id]: !prev[p.id],
+                  }))
+                }
+              >
+                <span className="playlist-title">{title}</span>
+                {subtitle && (
+                  <span className="playlist-subtitle"> {subtitle}</span>
+                )}
+                <span className="chev">{isExpanded ? "▲" : "▼"}</span>
+              </button>
+
+              {isExpanded && (
+                <div className="playlist-tracks">
+                  {(p.songs || []).map((song, index) => (
+                    <div key={index} className="playlist-card">
+                      <img src={song.image} alt={song.name} />
+                      <div className="song-info">
+                        <h3>{song.name}</h3>
+                        <p>{song.artist}</p>
+                        <a href={song.url} target="_blank" rel="noopener noreferrer">
+                          Listen on Spotify
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <button className="clear-btn" onClick={handleClearAll}>
-        Clear All Songs
+        Clear All Playlists
       </button>
 
       {/* Toast container goes at the bottom of your page */}
