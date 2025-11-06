@@ -417,7 +417,9 @@ export default function ChartPage() {
 
       <div className="chart-mood-card">
         <h1>Your Music Genre Preferences</h1>
-        <Radar data={radarData} options={radarOptions} />
+        <div className="radar-wrapper">
+          <Radar data={radarData} options={radarOptions} />
+        </div>
         <div className="chart-explanation">
           <h3>What Does This Mean?</h3>
           <p>
