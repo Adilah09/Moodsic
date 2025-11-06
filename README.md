@@ -11,12 +11,13 @@
 
 | Photo | Full Name | Role / Features Responsible For |
 |:--:|:--|:--|
-| <img src="photos/member1.jpg" width="80"> | Siti Adilah Binte Selamat | Frontend Developer - Weather API Development, Charts, Project Manager|
-| <img src="photos/member2.jpg" width="80"> | (Eryn) Ei Ngon Phoo Pwint | Backend Developer - Spotify API & Account Integration, Playlist Generation, UI Design |
-| <img src="photos/member3.jpeg" width="80"> | Aaliya Navas | Database & Auth - Firebase Integration |
+| <img src="photos/member1.jpg" width="80"> | Siti Adilah Binte Selamat | Frontend Developer - Weather API Development, Chart for results |
+| <img src="photos/member2.jpg" width="80"> | Ei Ngon Phoo Pwint | Backend Developer - Spotify API Integration & Login |
+| <img src="photos/member3.jpeg" width="80"> | Aaliya Navas | Backend Developer - Database & Authentication, Vercel Integration |
 | <img src="photos/member4.jpg" width="80"> | Sreya Mohan Doss | Frontend Developer – Word Cloud Interaction |
-| <img src="photos/member5.jpg" width="80"> | Kushala Kanakesh | UI/UX Designer - Layout & Color Themes, Page Design |
+| <img src="photos/member5.jpg" width="80"> | Kushala Kanakesh | Frontend Developer - UI/UX Designer, Song Of The Day |
 | <img src="photos/member6.png" width="80"> | Etienne Wong Ai Ting | Frontend Developer - Personality Quiz Development |
+
 
 <!-- > Place all headshot thumbnails in the `/photos` folder (JPEG or PNG). -->
 
@@ -58,13 +59,16 @@ Explain the core features and the benefit each provides.
 | <img src="https://raw.githubusercontent.com/github/explore/main/topics/html/html.png" width="40"> | **HTML5** | Structure and content |
 | <img src="https://raw.githubusercontent.com/github/explore/main/topics/css/css.png" width="40"> | **CSS3 / Bootstrap** | Styling and responsiveness |
 | <img src="https://raw.githubusercontent.com/github/explore/main/topics/javascript/javascript.png" width="40"> | **JavaScript (ES6)** | Client-side logic and interactivity |
-| <img src="https://firebase.google.com/downloads/brand-guidelines/PNG/logo-logomark.png" width="40"> | **Firebase** | Authentication and database services |
-| <img src="https://raw.githubusercontent.com/github/explore/main/topics/react/react.png" width="40"> | **React** | Building user interfaces with components |
+| <img src="https://raw.githubusercontent.com/github/explore/main/topics/react/react.png" width="40"> | **React.js** | Building user interfaces with components |
 | <img src="photos/d3-js-icon.png" width="40"> | **D3.js** | Data visualisation |
-| <img src="https://raw.githubusercontent.com/github/explore/main/topics/framer-motion/framer-motion.png" width="40">| **Framer Motion** |  Animations |
 | <img src="photos/chart-js-seeklogo.png" width="40"> | **Chart.js / react-chartjs-2** | Mood chart |
-| <img src="https://raw.githubusercontent.com/github/explore/main/topics/spotify/spotify.png" width="40"> | **Spotify for Developers** | Spotify API |
-| <img src="photos/aistudio.png" width="40"> | **Google GenAI** | Generating vibe phrases |
+| <img src="photos/framer-motion-seeklogo.png" width="40">| **Framer Motion** |  Animations |
+| <img src="photos/njsejs.png" width="40">| **Node.js + Express.js** | Organize the backend routes and logic efficiently |
+| <img src="photos/vercel.png" width="40">| **Vercel** |  Website Hosting |
+| <img src="photos/neon.png" width="40"> | **NeonDb** | Authentication and database services |
+| <img src="https://raw.githubusercontent.com/github/explore/main/topics/spotify/spotify.png" width="40"> | **Spotify for Developers API** | Spotify API |
+| <img src="photos/openweatherapp.png" width="40"> | **OpenWeatherMap API** | Weather API |
+| <img src="photos/gemini.jpeg" width="40"> | **Google GenAI API** | Generating vibe phrases |
 
 ---
 
@@ -72,8 +76,9 @@ Explain the core features and the benefit each provides.
 
 Provide screenshots and captions showing how users interact with your app.
 
-1. **Landing Page**  
+1. **Landing Page & Spotify Login**  
    <img src="screenshots/landing.png" width="600">  
+   <img src="screenshots/spotifylogin.png" width="600">
    - The landing page displays the main entry point to the app, where users can log in using their Spotify credentials. It provides a welcoming introduction to the personalized music experience.
 
 2. **Mood Input**  
@@ -81,17 +86,20 @@ Provide screenshots and captions showing how users interact with your app.
    <img src="screenshots/input2.png" width="600"> 
    <img src="screenshots/input3.png" width="600"> 
    <img src="screenshots/input4.png" width="600">  
-   - Users are prompted to choose their mood by selecting from a word cloud. This input helps generate a playlist based on their current emotional state, with additional options like weather and Spotify history.
+   - Users are prompted to choose their mood by selecting from a word cloud, vinyl and a facial mood detector. This input helps generate a playlist based on their current emotional state, with additional options like weather and Spotify history.
 
-3. **User Dashboard**  
+3. **Playlist Generation**
+   <img src="screenshots/playlist.png" width="600">
+   - A playlist of 15 songs pop up based on their mood, weather and/or past Spotify listening history.
+
+4. **User Dashboard**  
    <img src="screenshots/dashboard1.png" width="600">
    <img src="screenshots/dashboard2.png" width="600">    
    - The user dashboard provides a personalized view of the user's moods and preferences. It includes a breakdown of their music tastes, mood fluctuations, and the impact of those moods on the playlists generated.
 
-4. **Personality Quiz**  
+5. **Personality Quiz**  
    <img src="screenshots/personality1.png" width="600">
    <img src="screenshots/personality2.png" width="600">  
-   <img src="screenshots/personality3.png" width="600">    
    - The personality quiz helps users discover how their personality influences their music preferences. This fun and engaging activity contributes to generating a more accurate playlist tailored to their unique traits.
 
 > Save screenshots inside `/screenshots` with clear filenames.
@@ -207,7 +215,7 @@ Each member should contribute 2–3 sentences on their learning and project expe
 
 > - Eryn: I gained practical experience working with real-world frameworks and authentication systems. I discovered how APIs function in production settings, including the challenges of permissions and paid access. One major challenge was handling Spotify’s authentication and token flow, which I resolved through documentation study and iterative testing. Collaborating closely with the frontend team improved my communication and project management skills, while reinforcing the importance of structured problem-solving and teamwork in a development environment.
 
-> - Aaliya: Making the backend using Firebase has been an amazing experience as it simplified the authentication and data storage process. The seamless integration with services like Firestore allowed for real-time updates and quick deployment. It gave me a deeper understanding of cloud-based solutions and how easily they can scale to meet user demands. 
+> - Aaliya: Developing the backend for Moodsic using Express.js and PostgreSQL (Neon) has been a great learning experience. It taught me how to handle authentication, data storage and server-side logic efficiently. Deploying it on Vercel gave me a better understanding of full-stack integration, API routing and connecting cloud databases to web apps. Overall, it deepened my knowledge of backend architecture and how to scale web applications smoothly.
 
 > - Sreya: By sharing my word cloud designs with my group mates and getting their feedback, I could design the word cloud feature so that it matched the theme of the application better, and make it more usable for the users as well. I also explored different libraries like D3.js and other frameworks like Tailwind. Although I did not use them, it was a good opportunity to learn about the available resources. All in all, this learning experience has definitely been valuable, and has reinforced my learning in this module.
 
