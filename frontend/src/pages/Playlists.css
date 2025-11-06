@@ -1,4 +1,4 @@
-/* 🌸 Page Layout */
+/* Page Layout */
 .playlist-page {
   flex-grow: 1;
   display: flex;
@@ -10,19 +10,57 @@
   padding: 60px 20px;
   text-align: center;
   color: #fff;
-  background: linear-gradient(180deg, #3a002b 0%, #5b0044 40%, #200015 100%);
-  /* ✨ no hard separation */
+
+  /* Dark maroon background */
+  background: radial-gradient(
+    circle at 45% 50%,
+    #5b0b2a 0%,  
+    #2a0014 48%,  
+    #0b0005 92%  
+  );
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
 }
 
-/* 🌸 Heading */
+/* Subtle pink spotlight glow */
+.playlist-page::before {
+  content: "";
+  position: absolute;
+  left: -25vw;
+  top: -25vh;
+  width: 150vw;
+  height: 150vh;
+  background: radial-gradient(
+    circle at 42% 50%,
+    rgba(255, 105, 180, 0.18) 0%,
+    rgba(255, 105, 180, 0.10) 35%,
+    rgba(255, 105, 180, 0.00) 80%
+  );
+  filter: blur(240px);
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Keep content above glow */
+.playlist-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Heading */
 .playlist-page h2 {
   font-size: 32px;
   font-weight: 700;
-  color: #ffe5f2;
+  color: #ffcce0;
   margin-bottom: 10px;
+  text-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
 }
 
-/* 🌸 Subtitle (vibe phrase) */
+/* Subtitle (vibe phrase) */
 .playlist-subtitle {
   font-size: 18px;
   color: #ffb6d5;
@@ -31,25 +69,25 @@
   opacity: 0.9;
 }
 
-/* 🌸 Empty State */
+/* Empty State */
 .empty-state {
-  background: rgba(255, 182, 193, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 30px;
   padding: 40px;
   max-width: 700px;
   text-align: center;
   backdrop-filter: blur(15px);
   color: #ffb6d5;
-  box-shadow: 0 0 30px rgba(255, 182, 193, 0.3);
+  box-shadow: 0 0 30px rgba(255, 105, 180, 0.25);
   transition: all 0.3s ease;
 }
 
 .empty-state:hover {
   transform: scale(1.02);
-  box-shadow: 0 0 40px rgba(255, 182, 193, 0.6);
+  box-shadow: 0 0 45px rgba(255, 105, 180, 0.45);
 }
 
-/* 🌈 Playlist Container */
+/* Playlist Container */
 .playlist-container {
   display: flex;
   flex-direction: column;
@@ -59,17 +97,17 @@
   margin-top: 10px;
 }
 
-/* 🌸 Song Card */
+/* Song Card */
 .playlist-card {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
   border: none;
-  box-shadow: 0 4px 18px rgba(255, 105, 180, 0.15);
   border-radius: 22px;
   padding: 18px 22px;
+  box-shadow: 0 4px 18px rgba(255, 105, 180, 0.15);
   transition: all 0.3s ease;
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(20px);
 }
 
 .playlist-card:hover {
@@ -78,16 +116,16 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* 🎵 Image */
+/* Image */
 .playlist-card img {
   width: 70px;
   height: 70px;
   border-radius: 14px;
   margin-right: 18px;
-  box-shadow: 0 0 15px rgba(255, 182, 193, 0.25);
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.35);
 }
 
-/* 🎶 Song Info */
+/* Song Info */
 .song-info {
   flex: 1;
   text-align: left;
@@ -107,7 +145,7 @@
 }
 
 .song-info a {
-  color: #ff8ccf;
+  color: #ff77c9;
   font-size: 14px;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -118,9 +156,10 @@
   text-shadow: 0 0 8px rgba(255, 182, 193, 0.8);
 }
 
-/* 💗 Clear Button */
+/* Clear Button — same chrome-pink as Login */
 .clear-btn {
-  background: linear-gradient(135deg, #ff8ccf, #ff4fa7);
+  background: linear-gradient(135deg, #ff9fdc, #ff4fa7, #ff85c1);
+  background-size: 200% 200%;
   color: white;
   border: none;
   border-radius: 40px;
@@ -128,17 +167,34 @@
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 25px rgba(255, 105, 180, 0.45);
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+  animation: chromeShift 6s ease infinite;
   margin-top: 45px;
 }
 
 .clear-btn:hover {
   transform: scale(1.07);
-  box-shadow: 0 0 35px rgba(255, 182, 193, 0.9);
+  box-shadow: 0 0 40px rgba(255, 182, 193, 0.9);
+  filter: brightness(1.1);
 }
 
-/* 🌸 Loading & Error States */
+/* Animated Gradient Shine */
+@keyframes chromeShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Toast Container adjustments */
+.Toastify__toast-theme--colored.Toastify__toast--success {
+  background: linear-gradient(135deg, #ff77c9, #ff4fa7);
+}
+.Toastify__toast-theme--colored.Toastify__toast--error {
+  background: linear-gradient(135deg, #ff4f4f, #c4004f);
+}
+
+/* Loading & Error States */
 .playlist-loading,
 .playlist-error {
   font-size: 16px;
@@ -150,7 +206,7 @@
   color: #ff4f4f;
 }
 
-/* 🌸 Responsive */
+/* Responsive */
 @media (max-width: 768px) {
   .playlist-card {
     flex-direction: column;
