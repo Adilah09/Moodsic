@@ -55,7 +55,7 @@ body {
   z-index: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center;        /* ✅ center vertically on right side */
   flex-direction: column;
 }
 
@@ -64,7 +64,7 @@ body {
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(25px);
   border-radius: 30px;
-  padding: 60px 50px;
+  padding: 80px 50px;
   text-align: center;
   width: 400px;
   box-shadow: 0 0 50px rgba(255, 105, 180, 0.25);
@@ -84,8 +84,8 @@ body {
 
 /* Album Art */
 .album-art {
-  width: 200px;
-  height: 200px;
+  width: 190px;
+  height: 190px;
   border-radius: 20px;
   box-shadow: 0 0 25px rgba(255, 105, 180, 0.5);
 }
@@ -123,8 +123,8 @@ body {
   margin-bottom: 7px;
 }
 .song-info h1 {
-  font-size: 25px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 60;
   color: #fff;
   margin-bottom: 7px;
 }
@@ -190,9 +190,10 @@ body {
 
 /* Login Side */
 .login-panel {
-  align-items: flex-start;
+  align-items: center;          /* ✅ center everything */
   padding: 80px;
   text-align: center;
+  background: transparent;      /* stays transparent on desktop */
 }
 .login-panel h1 {
   font-size: 48px;
@@ -209,8 +210,9 @@ body {
   margin-bottom: 40px;
   color: #ffb6d5;
   font-size: 18px;
-  max-width: 420px;
-  margin-left: 50px;
+  max-width: 520px;
+  margin-left: 0;               /* ✅ remove left shift */
+  margin-right: 0;
 }
 .album-art:hover {
   transform: scale(1.05);
@@ -236,7 +238,6 @@ body {
   animation: chromeShift 6s ease infinite;
 }
 
-/* 🎵 Animated Gradient Shine */
 /* Login Button */
 .spotify-btn {
   display: inline-block;
@@ -253,16 +254,8 @@ body {
   transition: all 0.4s ease;
   box-shadow: 0 0 12px rgba(29,185,84,0.35);
   animation: chromeShift 6s ease infinite;
-  margin-left: 110px;
+  margin-left: 0;               /* ✅ remove 110px offset */
 }
-
-/* Animated Gradient Shine */
-@keyframes chromeShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 
 .spotify-btn:hover {
   transform: scale(1.07);
@@ -436,6 +429,25 @@ button:hover,
   transform: scale(1.03);
   box-shadow: 0 0 30px rgba(255, 120, 180, 0.4);
 }
+/* 💿 3D Tilt Hover Restoration */
+.song-card {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.song-card:hover {
+  transform: rotateY(8deg) rotateX(6deg) scale(1.03);
+  box-shadow: 0 0 45px rgba(255, 105, 180, 0.4);
+}
+
+/* smooth reset */
+.song-card:active,
+.song-card:focus,
+.song-card:not(:hover) {
+  transform: rotateY(0) rotateX(0) scale(1);
+}
+
 
 /* Floating musical notes */
 #note-container {
@@ -455,11 +467,11 @@ button:hover,
   color: #ffaad5;
   text-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
   opacity: 0.9;
-  animation: floatUp 2s ease-out forwards;
+  animation: floatUpTrail 2s ease-out forwards;
   filter: drop-shadow(0 0 6px rgba(255, 192, 203, 0.9));
 }
 
-@keyframes floatUp {
+@keyframes floatUpTrail {
   0% {
     transform: translateY(0) scale(1);
     opacity: 0.9;
@@ -472,3 +484,468 @@ button:hover,
     opacity: 0;
   }
 }
+/* 🎧 Spotify Embedded Player Styling */
+.spotify-embed {
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(255, 105, 180, 0.35);
+  margin-top: 10px;
+  transition: all 0.4s ease;
+}
+
+.spotify-embed:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 40px rgba(255, 182, 193, 0.6);
+}
+/* Prevent duplication spacing when embed is shown */
+.spotify-embed {
+  margin-top: 12px;
+}
+
+/* Tighten spacing between album art and text */
+.song-info {
+  margin-top: 1rem;
+}
+
+/* Keep everything centered neatly */
+.song-card .album-art {
+  display: block;
+  margin-inline: auto;
+}
+/* ✨ Floating "Song of the Day" label */
+.floating-label {
+  position: relative;
+  top: -12px;
+  font-size: 0.95rem;
+  color: #ffcce0;
+  letter-spacing: 0.3px;
+  text-shadow: 0 0 8px rgba(255, 105, 180, 0.4);
+  animation: fadeIn 1.2s ease;
+}
+
+/* Wrap album neatly */
+.album-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.8rem;
+}
+
+/* Song title and artist spacing */
+.song-info h1 {
+  margin-top: 0.3rem;
+  margin-bottom: 0.2rem;
+  font-weight: 700;
+  font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+}
+.song-info p {
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  color: #ffb6d5;
+  margin-bottom: 1rem;
+}
+
+/* Tighten layout spacing */
+.spotify-embed {
+  margin-top: 0.5rem;
+}
+
+/* ========================================
+   MOBILE CAROUSEL STYLES
+   ======================================== */
+
+/* Hide mobile carousel by default (show on mobile only) */
+.mobile-carousel {
+  display: none;
+}
+
+/* Show desktop layout by default */
+.desktop-layout {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6vw;                 /* ✅ give breathing room between columns */
+  padding: 0 5vw;
+}
+
+/* Carousel track for mobile */
+.carousel-track {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 200%;
+  height: 100%;
+}
+
+.carousel-slide {
+  min-width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.carousel-track.slide-right {
+  transform: translateX(-100vw);
+}
+
+/* Pagination Dots */
+.carousel-dots {
+  position: absolute;
+  bottom: 90px; /* ⬆ lifted from 40px */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+  pointer-events: auto; /* makes them always clickable */
+}
+
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+}
+
+.dot.active {
+  background: linear-gradient(135deg, #ff77c9, #ff4fa7);
+  width: 12px;
+  height: 12px;
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+}
+
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+/* ========================================
+   RESPONSIVE BREAKPOINTS — CLEANED
+   ======================================== */
+
+/* 🌸 MOBILE LAYOUT (≤600px) */
+@media (max-width: 600px) {
+  /* Center & tighten login panel */
+  .carousel-slide .login-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -52%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    padding: 0 1rem;
+  }
+
+  /* Stack heading beautifully */
+  .carousel-slide .login-panel h1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+
+  /* Pink gradient “Moodsic” */
+  .carousel-slide .login-panel .highlight {
+    display: block;
+    font-size: 54px;
+    background: linear-gradient(135deg, #ff77c9, #ff4fa7, #ffb6d5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 25px rgba(255, 105, 180, 0.45);
+    margin-top: 6px;
+  }
+
+  /* Subtitle */
+  .carousel-slide .subtitle {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #ffb6d5;
+    margin: 10px auto 30px;
+    max-width: 85%;
+  }
+
+  /* Button */
+  .carousel-slide .spotify-btn {
+    padding: 12px 34px;
+    font-size: 15px;
+    border-radius: 45px;
+    box-shadow: 0 0 25px rgba(255, 105, 180, 0.45);
+    margin-bottom: 24px;
+  }
+
+  /* Dots & footer placement */
+  .carousel-dots { bottom: 80px; }
+  footer {
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Song card adjustments */
+  .song-card {
+    width: 85%;
+    max-width: 350px;
+    padding: 40px 30px;
+    margin: 0 auto;
+  }
+
+  .album-art {
+    width: 150px;
+    height: 150px;
+  }
+
+  .song-info h3 { font-size: 15px; }
+  .song-info h1 { font-size: 18px; }
+  .song-info p { font-size: 14px; margin-bottom: 15px; }
+
+  .play-btn, .spotify-link {
+    padding: 10px 28px;
+    font-size: 15px;
+  }
+}
+
+/* 📱 TABLET / SMALL LAPTOP (769px – 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .desktop-layout {
+    display: flex !important;
+    gap: 5vw;
+    padding: 0 4vw;
+  }
+
+  .song-card {
+    width: 90%;
+    max-width: 360px;
+    padding: 50px 35px;
+  }
+
+  .album-art {
+    width: 160px;
+    height: 160px;
+  }
+
+  .login-panel {
+    padding: 60px 40px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 24px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 40px rgba(255, 105, 180, 0.14);
+  }
+
+  .login-panel h1 { font-size: 40px; }
+  .subtitle { font-size: 16px; max-width: 520px; margin: 12px auto 30px; }
+  .spotify-btn { margin-left: 0 !important; }
+}
+
+/* 📲 SWITCH TO CAROUSEL BELOW 980px */
+@media (max-width: 980px) {
+  .desktop-layout { display: none !important; }
+  .mobile-carousel {
+    display: block !important;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+/* 💻 DESKTOP AGAIN ABOVE 980px */
+@media (min-width: 981px) {
+  .desktop-layout { display: flex !important; }
+  .mobile-carousel { display: none !important; }
+}
+
+/* 📱 VERY SMALL PHONES (≤375px) */
+@media (max-width: 375px) {
+  .carousel-slide .login-panel h1 { font-size: 30px; }
+  .carousel-slide .login-panel .highlight { font-size: 38px; }
+  .carousel-slide .subtitle { font-size: 14px; }
+  .spotify-btn, .spotify-link { font-size: 14px; padding: 10px 25px; }
+  .play-btn { font-size: 14px; padding: 8px 20px; }
+  .carousel-dots { bottom: 40px; }
+}
+/* 🩷 Fix overlapping layout for mobile screens */
+@media (max-width: 600px) {
+  /* let mobile carousel stack naturally instead of absolute center */
+  .carousel-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: auto;             /* stop forcing full viewport height */
+    min-height: 100vh;
+    padding-top: 60px;        /* push content down a bit */
+    padding-bottom: 100px;    /* breathing space above footer */
+    position: relative;
+  }
+
+  /* make sure login panel sits below SOTD instead of overlapping */
+  .carousel-slide .login-panel {
+    position: static !important;
+    transform: none !important;
+    margin-top: 30px;
+    width: 90%;
+  }
+
+  /* resize elements slightly to fit mobile flow */
+  .carousel-slide .login-panel h1 {
+    font-size: 40px;
+    line-height: 1.1;
+  }
+  .carousel-slide .login-panel .highlight {
+    font-size: 48px;
+  }
+
+  .carousel-slide .subtitle {
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 12px auto 24px;
+  }
+
+  .carousel-slide .spotify-btn {
+    margin-top: 10px;
+  }
+
+  /* adjust dots further down */
+  .carousel-dots {
+    position: relative;
+    bottom: 0;
+    margin-top: 40px;
+  }
+}
+/* 💫 restore dots visibility and placement for mobile */
+@media (max-width: 600px) {
+  .carousel-dots {
+    position: fixed;                /* keep visible on screen */
+    bottom: 90px;                   /* above the footer */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .dot.active {
+    background: linear-gradient(135deg, #ff77c9, #ff4fa7);
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+    width: 12px;
+    height: 12px;
+  }
+}
+/* Add these new styles to your existing Login.css file */
+/* These create the Option 1 layout without changing your existing styles */
+
+/* Hero section for album art and title */
+.hero-section {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.sotd-badge {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1em;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+/* Player section - integrated at bottom */
+.player-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.player-section .play-btn {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.player-section .spotify-link {
+  display: block;
+  text-align: center;
+}
+
+/* Adjust song-info to be centered */
+.song-card .song-info {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.song-card .song-info h1 {
+  margin-bottom: 8px;
+}
+
+.song-card .song-info p {
+  margin-bottom: 0;
+}
+/* 👆 Swipe hint under login button */
+.swipe-hint {
+  font-size: 14px;
+  color: #ffb6d5;
+  margin-top: 20px;
+  opacity: 0.8;
+  animation: fadeIn 1.5s ease;
+}
+/* 🎵 Swipe hint alignment */
+.swipe-hint {
+  font-size: 14px;
+  color: #ffb6d5;
+  margin-top: 40px; /* ⬆ was 20px — gives more breathing room */
+  opacity: 0.8;
+  animation: fadeIn 1.5s ease;
+}
+
+/* 🩷 Footer refinement */
+/* 🩷 Welcome footer — subtle and small */
+.welcome-slide footer {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 11.5px;  /* ⬇ smaller text */
+  color: #ffb6d5;
+  opacity: 0.7;
+  line-height: 1.4;
+  letter-spacing: 0.3px;
+}
+
+.welcome-slide footer p {
+  margin: 2px 0; /* tighten the two lines */
+}
+
+
+/* 🌸 Adjust dot placement for symmetry */
+.carousel-dots {
+  bottom: 110px; /* lifted from 90px */
+}
+/* 📱 Ultra small screen refinement (≤480px) */
+@media (max-width: 480px) {
+  /* make swipe hint a bit smaller and closer */
+  .swipe-hint {
+    font-size: 12.5px;
+    margin-top: 28px;  /* slightly tighter gap below the button */
+    opacity: 0.75;
+  }
+}
+
