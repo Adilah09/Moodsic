@@ -238,7 +238,7 @@ function Home() {
                 "Failed to generate vibe & playlist:",
                 err.response?.data || err
             );
-            toast.error("❌ Something went wrong while generating your vibe. Try again!");
+            toast.error("Something went wrong while generating your vibe. Try again!");
         }
     });
 

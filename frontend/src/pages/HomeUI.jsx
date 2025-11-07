@@ -107,7 +107,7 @@ export default function HomeUI({
               id="mood-input"
               type="text"
               placeholder="e.g., happy, calm, nostalgic, pumped up..."
-              value={mood}
+              // value={mood}
               onChange={(e) => setMood(e.target.value)}
             />
           </div>

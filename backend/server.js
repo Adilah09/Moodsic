@@ -156,7 +156,7 @@ const model = gemini.getGenerativeModel({
 
 // --- WORD ENDPOINTS ---
 app.post("/generate-words", async (req, res) => {
-  console.log("🧠 Received request to /generate-words...");
+  console.log("Received request to /generate-words...");
   try {
     const result = await model.generateContent(wordPrompt);
     const jsonText = result.response.text();
@@ -165,13 +165,13 @@ app.post("/generate-words", async (req, res) => {
     const parsed = JSON.parse(jsonText);
     if (parsed.words && Array.isArray(parsed.words)) {
       allWords = parsed.words;
-      console.log(`✅ Stored ${allWords.length} generated words.`);
+      console.log(`Stored ${allWords.length} generated words.`);
       return res.status(200).json({ allWords });
     }
 
     throw new Error("Gemini response did not include a valid 'words' array.");
   } catch (error) {
-    console.error("❌ Error in /generate-words:", error);
+    console.error("Error in /generate-words:", error);
     res.status(500).json({
       error: "Failed to generate word list.",
       details: error.message || error,

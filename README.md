@@ -8,6 +8,10 @@ G4 Group 15
 ## Website Link
 http://moodsic-three.vercel.app
 
+Without Spotify premium, the following will not work: 
+1) Use My Spotify Learning History
+2) Preview Function during Playlist Generation
+
 ---
 
 ## Group Members
