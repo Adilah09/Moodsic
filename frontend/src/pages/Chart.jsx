@@ -39,7 +39,7 @@ export default function ChartPage() {
         if (!email) return;
 
         // Latest selected words (limit 10)
-        const wordsResp = await fetch("https://-final.vercel.app/get-latest-words", {
+        const wordsResp = await fetch("https://moodsic-backend.vercel.app/get-latest-words", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email }),
