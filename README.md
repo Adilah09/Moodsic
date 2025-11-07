@@ -102,8 +102,7 @@ Provide screenshots and captions showing how users interact with your app.
    - A playlist of 15 songs pop up based on their mood, weather and/or past Spotify listening history.
 
 4. **User Dashboard**  
-   <img src="screenshots/dashboard1.png" width="600">
-   <img src="screenshots/dashboard2.png" width="600">    
+   <img src="screenshots/dashboard1.png" width="600">    
    - The user dashboard provides a personalized view of the user's moods and preferences. It includes a breakdown of their music tastes, mood fluctuations, and the impact of those moods on the playlists generated.
 
 5. **Personality Quiz**  
