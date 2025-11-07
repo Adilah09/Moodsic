@@ -194,7 +194,7 @@ export default function ChartPage() {
         }
 
         const response = await fetch(
-          `https://moodsic-backend-final.vercel.app/get-latest-personality?email=${encodeURIComponent(email)}`
+          `https://moodsic-backend.vercel.app/get-latest-personality?email=${encodeURIComponent(email)}`
         );
         const data = await response.json();
 

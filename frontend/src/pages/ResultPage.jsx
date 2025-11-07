@@ -39,7 +39,7 @@ export default function ResultPage({ result, showRestart = false, onRestart }) {
       if (!profile?.email) return;
 
       try {
-        const res = await axios.post("https://moodsic-backend-final.vercel.app/get-session", {
+        const res = await axios.post("https://moodsic-backend.vercel.app/get-session", {
           email: profile.email,
         });
 
@@ -63,7 +63,7 @@ export default function ResultPage({ result, showRestart = false, onRestart }) {
       if (!profile?.email || !result?.title) return;
 
       try {
-        const response = await axios.post("https://moodsic-backend-final.vercel.app/save-personality", {
+        const response = await axios.post("https://moodsic-backend.vercel.app/save-personality", {
           email: profile.email,
           name: profile.name || "Guest",
           personality_type: result.title,

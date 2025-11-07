@@ -38,11 +38,11 @@ const Login = () => {
   }, [setAccessToken, navigate]);
 
   const handleLogin = () => {
-    window.location.href = "http://moodsic-backend-final.vercel.app/login";
+    window.location.href = "http://moodsic-backend.vercel.app/login";
   };
 
   useEffect(() => {
-    fetch("https://moodsic-backend-final.vercel.app/api/sotd")
+    fetch("https://moodsic-backend.vercel.app/api/sotd")
       .then((res) => res.json())
       .then((data) => setSong(data))
       .catch((err) => console.error("Fetch error:", err))

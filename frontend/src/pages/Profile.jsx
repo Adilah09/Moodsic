@@ -49,7 +49,7 @@ function Profile() {
       if (!profile?.email) return;
 
       try {
-        const res = await axios.get("https://moodsic-backend-final.vercel.app/get-all-sessions", {
+        const res = await axios.get("https://moodsic-backend.vercel.app/get-all-sessions", {
           params: { email: profile.email },
         });
         setSessions(res.data.data || []);

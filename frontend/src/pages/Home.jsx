@@ -42,7 +42,7 @@ function Home() {
                     const { latitude, longitude } = position.coords;
                     try {
                         // Call your backend endpoint instead of OpenWeather directly
-                        const res = await axios.get(`https://moodsic-backend-final.vercel.app/weather?lat=${latitude}&lon=${longitude}`);
+                        const res = await axios.get(`https://moodsic-backend.vercel.app/weather?lat=${latitude}&lon=${longitude}`);
                         setWeatherData(res.data);
                     } catch (err) {
                         console.error(err);
@@ -115,7 +115,7 @@ function Home() {
             if (!profile?.email) return;
 
             try {
-                const res = await axios.post("https://moodsic-backend-final.vercel.app/get-session", {
+                const res = await axios.post("https://moodsic-backend.vercel.app/get-session", {
                     email: profile.email,
                 });
 
@@ -208,7 +208,7 @@ function Home() {
 
             // Call backend
             const response = await axios.post(
-                "https://moodsic-backend-final.vercel.app/generatePlaylist",
+                "https://moodsic-backend.vercel.app/generatePlaylist",
                 payload
             );
 
