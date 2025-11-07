@@ -13,7 +13,9 @@ Without Spotify premium, the following will not work:
 2) Preview Function during Playlist Generation
 
 Spotify Account (Non-premium account)
+
 Username: 31frrdydgtfe6p2z6v6nbtctq4ci
+
 Login with password: testing123#
 
 ---
