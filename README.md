@@ -18,6 +18,19 @@ Username: 31frrdydgtfe6p2z6v6nbtctq4ci
 
 Login with password: testing123#
 
+## Use of AI/LLMs
+| Task | Yes/No | Description |
+|:--|:--|:--|
+| Information search | Yes | Used to gather additional ideas and explore potential features we could implement in our website. |
+| Generating website concepts, layouts, or themes | No | Our concepts, layouts, and themes were planned beforehand, and we developed the website based on our own initial design direction. |
+| Exploring UI/UX design inspirations | Yes | Used to explore styling variations and gain inspiration to make the website more visually appealing and engaging. |
+| Explaining coding errors / debugging hints | Yes | Helpful when debugging became challenging or when certain issues were hard to identify manually. |
+| Boilerplate code generation | Yes | - |
+| Generating unit tests, sample inputs, or mock data | No | - |
+| Core implementation tasks | No | Some references and small hints were taken from the web or LLMs, but implementation was primarily done by us. |
+| Major business logic, backend endpoints, or critical frontend interactivity | Yes | Supported us in understanding complex logic or structuring certain components, but final implementation was still done manually. |
+| Solving significant implementation issues | Yes | Used to help identify the root cause of problems, though all fixes were applied manually by the team. |
+
 ---
 
 ## Group Members
