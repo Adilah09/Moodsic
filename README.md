@@ -35,10 +35,9 @@ Login with password: testing123#
 
 ## Acknowledgments
 This project uses **face-api.js** (by justadudewhohacks) for face detection and recognition.  
-The pre-trained model weights (e.g. SSD Mobilenet, face landmarks, recognition etc.) are used under the MIT license. :contentReference[oaicite:0]{index=0}  
+The pre-trained model weights are used under the MIT license.
 
 - Repository: https://github.com/justadudewhohacks/face-api.js  
-- License: MIT :contentReference[oaicite:1]{index=1}
 
 ---
 
